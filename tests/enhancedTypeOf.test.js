@@ -93,8 +93,8 @@ test('getType of generatorfunction', () => {
 });
 
 test('getType of asyncfunction', () => {
-    let theAsyncFunction = async function() {};
-    expect(enhancedTypeOf( theAsyncFunction )).toBe('asyncfunction');
+    let myAsyncFunction = async function() {};
+    expect(enhancedTypeOf( myAsyncFunction )).toBe('asyncfunction');
 });
 
 // ------ array types -----
@@ -138,9 +138,12 @@ test('getType of sharedarraybuffer', () => {
 // ------- user-defined types -------
 
 test('getType of user-defined object instance', () => {
-    function MyObj() {}
-    let myObjInstance = new MyObj();
-    expect(enhancedTypeOf(myObjInstance)).toBe('object');
+    let myObj = {
+        name: 'John',
+        age: 30,
+    }
+    let myObjCopy = { ... myObj };
+    expect(enhancedTypeOf(myObjCopy)).toBe('object');
 });
 
 test('getType of user-defined class instance', () => {
@@ -156,7 +159,7 @@ test('getType of user-defined class instance', () => {
 
 test('getType of user-defined class instance with no user constructor', () => {
     class MyOtherClass {}
-    let myClassInstance = new MyClass();
+    let myClassInstance = new MyOtherClass();
     expect(enhancedTypeOf(myClassInstance)).toBe('MyOtherClass');
   });
   

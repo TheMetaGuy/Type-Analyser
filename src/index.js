@@ -1,2 +1,2 @@
-export { default as enhancedTypeOf } from './enhancedTypeOf';
-export { default as typeOfNumber } from './typeOfNumber';
+export { enhancedTypeOf } from './enhancedTypeOf.js';
+export { typeOfNumber } from './typeOfNumber.js';

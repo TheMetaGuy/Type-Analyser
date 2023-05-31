@@ -5,7 +5,10 @@
  * @returns a string representing the type of number passed in.
  */
 function typeOfNumber (obj) {
-    typeStr = Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();  // slice(8, -1) removes the constane [object ] and the last ]
+    
+    // slice(8, -1) removes the constant '[object' and the last ']' parts of the string
+    let typeStr = Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();  
+    
     if ( typeStr === 'bigint' ) {
         return 'bigint';
     }

@@ -23,10 +23,12 @@ function enhancedTypeOf(obj) {
     // slice(8, -1) removes the constant '[object' and the last ']' parts of the string
     typeStr = Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();  
 
-    // if it's a class
-    if ( typeStr === 'object' && obj.constructor && obj.constructor.name) {
-        return obj.constructor.name;
-    }
+    
+    if ( typeStr === 'object' && obj.constructor ) {
+        let es6ClassName = obj.constructor.name;
+        return ( es6ClassName === 'Object' ) ? typeStr : es6ClassName;
+    }    
+    
     return typeStr;
 }
 

@@ -20,7 +20,7 @@
     "presets": [
       [ "@babel/preset-env", {
           "targets": { 
-            "browsers": ["Chrome >= 40"]
+            "browsers": ["Chrome >= 55"]
           }
         }
       ]
