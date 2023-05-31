@@ -1,2 +1,2 @@
-export { default as getType } from './getType';
-export { default as getNumberType } from './getNumberType';
+export { default as enhancedTypeOf } from './getType';
+export { default as typeOfNumber } from './getNumberType';

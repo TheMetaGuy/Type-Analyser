@@ -4,7 +4,7 @@
  * @returns a string representing the type of the object passed in.
  */
 
-function getType(obj) {
+function enhancedTypeOf(obj) {
     let typeStr = typeof(obj);
 
     if (typeStr !== 'object' && typeStr !== 'function' && typeStr !== 'string') {
@@ -30,4 +30,4 @@ function getType(obj) {
     return typeStr;
 }
 
-export { getType };
+export { enhancedTypeOf };

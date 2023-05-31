@@ -4,7 +4,7 @@
  * @param {*} obj 
  * @returns a string representing the type of number passed in.
  */
-function getNumberType (obj) {
+function typeOfNumber (obj) {
     typeStr = Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();  // slice(8, -1) removes the constane [object ] and the last ]
     if ( typeStr === 'bigint' ) {
         return 'bigint';
@@ -26,4 +26,4 @@ function getNumberType (obj) {
     }
 }
 
-export { getNumberType };
+export { typeOfNumber };
