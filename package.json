@@ -1,0 +1,32 @@
+{
+  "name": "typeinfo",
+  "version": "1.0.0",
+  "description": "Utility functions for accurately identifying the type of most Javascript objects not just the primitive types.  detailed info on number types is also returned",
+  "main": "lib/getType.js",
+  "module": "src/getType.js",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Owen Cullum",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.16",
+    "@babel/preset-env": "^7.16",
+    "jest": "^28.1"
+  },
+  "babel": {
+    "presets": [
+      [ "@babel/preset-env", {
+          "targets": { 
+            "browsers": ["Chrome >= 40"]
+          }
+        }
+      ]
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
