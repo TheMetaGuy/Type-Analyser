@@ -84,7 +84,7 @@ test('should return false for Error', () => {
     expect(isJSONSerializable(obj,true)).toBe(false);
 });
 
-// ---- for inherited and non-integer properties ----
+// ---- for inherited and non-integer array properties ----
 
 test ('should return false for array with non integer properties', () => {
     let arr =[1, 2, 3, 4];
@@ -93,13 +93,23 @@ test ('should return false for array with non integer properties', () => {
     expect(isJSONSerializable(arr,true)).toBe(false);
 });
 
-test(' should return false where objects inherits properties from a prototype', () => {
+test(' should return TRUE where objects inherits properties from a prototype', () => {
+    // JSON expoects only own properties to be serialized
     let vehicle = { wheels: 4 };
     let car = Object.create({vehicle});
     car.doors = 2;
-    expect(isJSONSerializable(car)).toBe(false);
-    expect(isJSONSerializable(car,true)).toBe(false);
+    expect(isJSONSerializable(car)).toBe(true);
+    expect(isJSONSerializable(car,true)).toBe(true);
 });
+
+test('should return TRUE for objects with non enumerable properties', () => {
+    // JSON still serializes non enumerable properties
+    let obj = { a: 1 };
+    Object.defineProperty(obj, 'b', { value: 2, enumerable: false });
+    expect(isJSONSerializable(obj)).toBe(true);
+    expect(isJSONSerializable(obj,true)).toBe(true);
+});
+
 
 test('should handle ES5 type Symbol polyfill', () => {
     // Assumie an Symbol polyfill adds a valueOf method to an object that returns 'Symbol()'

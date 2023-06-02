@@ -37,16 +37,12 @@ function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new 
       }
       visitedObjects.add(obj);
   
-      // inherited prototype properties or non enumerable array properties cannot be JSON serialized
-      let ownPropertyCount = Object.keys(obj).length;
-      let totalPropertyCount = 0;
-      for (let key in obj) {
-        totalPropertyCount++;
-      }
-      if (type === 'object') {
-        if (totalPropertyCount > ownPropertyCount) return false;
-      }
+      // Non integer array properties cannot be JSON serialized as data will be lost when serializing to JSON
       if (type === 'array') { 
+        let totalPropertyCount = 0;
+        for (let key in obj) {
+          totalPropertyCount++;
+        }
         if (totalPropertyCount > obj.length) return false;
       }       
 
