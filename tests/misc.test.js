@@ -51,3 +51,30 @@ test('should handle Symbol polyfill', () => {
     console.log(fakeSymbol.valueOf());
     expect(isJSONSerializable(fakeSymbol)).toBe(false);
 });
+
+test('should handle deeply nested function', () => {
+    const obj = {
+        level1: {
+            level2: { func: function() {}, },
+        },
+    };
+    expect(isJSONSerializable(obj)).toBe(false);
+});
+  
+test('should handle deeply nested Date', () => {
+    const obj = {
+        level1: {
+            level2: { date: new Date(), },
+        },
+    };
+    expect(isJSONSerializable(obj)).toBe(true);
+});
+  
+test('should handle deeply nested RegExp', () => {
+    const obj = {
+        level1: {
+            level2: { regex: new RegExp('^abc'), },
+        },
+    };
+    expect(isJSONSerializable(obj)).toBe(true);
+});
