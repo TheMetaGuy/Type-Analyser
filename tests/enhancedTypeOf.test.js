@@ -26,23 +26,15 @@ test('get enhanced type of null', () => {
     expect(enhancedTypeOf(null)).toBe('null');
 });
 
-test('get enhanced type of symbol', () => {
-    expect(enhancedTypeOf(Symbol('hello'))).toBe('symbol');
-});
-
-test('get enhanced type of function', () => {
-    expect(enhancedTypeOf(function() {})).toBe('function');
-});
-
-test('get enhanced type of object', () => {
-    expect(enhancedTypeOf({})).toBe('object');
-});
-
 test('get enhanced type of undefined', () => {
     expect(enhancedTypeOf(undefined)).toBe('undefined');
 });
 
 // ----- non-primitive types -----
+
+test('get enhanced type of symbol', () => {
+    expect(enhancedTypeOf(Symbol('hello'))).toBe('symbol');
+});
 
 test('get enhanced type of regex', () => {
     expect(enhancedTypeOf(/hello/)).toBe('regexp');
@@ -54,6 +46,14 @@ test('get enhanced type of date', () => {
 
 test('get enhanced type of error', () => {
     expect(enhancedTypeOf(new Error())).toBe('error');
+});
+
+test('get enhanced type of url', () => {
+    expect(enhancedTypeOf(new URL('https://www.google.com'))).toBe('url');
+});
+
+test('get enhanced type of urlsearchparams', () => {
+    expect(enhancedTypeOf(new URLSearchParams())).toBe('urlsearchparams');
 });
 
 test('get enhanced type of set', () => {
@@ -72,13 +72,17 @@ test('get enhanced type of weakmap', () => {
     expect(enhancedTypeOf(new WeakMap())).toBe('weakmap');
 });
 
+test('get enhanced type of dataview', () => {
+    const buffer = new ArrayBuffer(16);
+    expect(enhancedTypeOf(new DataView(buffer))).toBe('dataview');
+});
+
 test('get enhanced type of arraybuffer', () => {
     expect(enhancedTypeOf(new ArrayBuffer())).toBe('arraybuffer');
 });
 
-test('get enhanced type of dataview', () => {
-    const buffer = new ArrayBuffer(16);
-    expect(enhancedTypeOf(new DataView(buffer))).toBe('dataview');
+test('get enhanced type of sharedarraybuffer', () => {
+    expect(enhancedTypeOf(new SharedArrayBuffer(16))).toBe('sharedarraybuffer');
 });
 
 // ------ array types -----
@@ -118,12 +122,16 @@ test('get enhanced type of bigint64array', () => {
 test('get enhanced type of biguint64array', () => {
     expect(enhancedTypeOf(new BigUint64Array())).toBe('biguint64array');
 });
-  
-test('get enhanced type of sharedarraybuffer', () => {
-    expect(enhancedTypeOf(new SharedArrayBuffer(16))).toBe('sharedarraybuffer');
+
+test('get enhanced type of array iterator', () => {
+    expect(enhancedTypeOf([][Symbol.iterator]())).toBe('array iterator');
 });
 
 // ----- function types -----
+
+test('get enhanced type of function', () => {
+    expect(enhancedTypeOf(function() {})).toBe('function');
+});
 
 test('get enhanced type of promise', () => {
     expect(enhancedTypeOf(new Promise(() => {}))).toBe('promise');
@@ -139,7 +147,11 @@ test('get enhanced type of asyncfunction', () => {
     expect(enhancedTypeOf( myAsyncFunction )).toBe('asyncfunction');
 });
 
-// ------- user-defined types -------
+// ------- objects and user-defined types -------
+
+test('get enhanced type of object', () => {
+    expect(enhancedTypeOf({})).toBe('object');
+});
 
 test('get enhanced type  of user-defined object instance', () => {
     let myObj = {
