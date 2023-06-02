@@ -23,7 +23,7 @@ function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new 
         'int32array', 'uint32array', 'float32array',
         'float64array', 'bigint64array', 'biguint64array'
     ];
-    if ( acceptFormatLoss) {
+    if (acceptFormatLoss) {
         validJSONTypes.push(...lossyValidJSONTypes);
     }
 
@@ -31,11 +31,26 @@ function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new 
     if (validJSONTypes.includes( type )) return true;
 
     if (type === 'object' || type === 'array') {
-      if (visitedObjects.has(obj)) { // must be a circular reference
+      // check for circular references  
+      if (visitedObjects.has(obj)) { 
         return false;
       }
       visitedObjects.add(obj);
   
+      // inherited prototype properties or non enumerable array properties cannot be JSON serialized
+      let ownPropertyCount = Object.keys(obj).length;
+      let totalPropertyCount = 0;
+      for (let key in obj) {
+        totalPropertyCount++;
+      }
+      if (type === 'object') {
+        if (totalPropertyCount > ownPropertyCount) return false;
+      }
+      if (type === 'array') { 
+        if (totalPropertyCount > obj.length) return false;
+      }       
+
+      // recursively check all properties      
       for (let key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
           if (!isJSONSerializable(obj[key], acceptFormatLoss, visitedObjects)) return false;
