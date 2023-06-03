@@ -1,10 +1,12 @@
 /**
  * Accurately identifies the type of almost all Javascript objects not just the primitive types.
  * @param {*} obj 
+ * @param {boolean} extraInfo - Optional. if true, returns more information about the object's type appended 
+ *                             to the end of the returned string. Defaults to false. 
  * @returns a string representing the type of the object passed in.
  */
 
-function enhancedTypeOf(obj) {
+function enhancedTypeOf(obj, extraInfo = false) {
     let typeStr = typeof(obj);
 
     if (obj === null) return 'null';
@@ -30,7 +32,19 @@ function enhancedTypeOf(obj) {
         return ( es6ClassName === 'Object' ) ? typeStr : es6ClassName;
     }    
     
-    return typeStr;
+    let moreStr ="";
+    if ( extraInfo ) {
+        if ( typeStr === 'generatorfunction'  || typeStr === 'asyncfunction' || typeStr === 'function' ) {
+            if ( obj.name ) {
+                if ( Object.prototype.hasOwnProperty.call(obj, 'name') ) {
+                  moreStr = ' reference to: ' + obj.name;
+                }
+                else moreStr = obj.name;
+            }
+        }     
+    }
+
+    return typeStr + moreStr;
 }
 
 export { enhancedTypeOf };

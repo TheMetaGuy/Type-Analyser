@@ -133,6 +133,11 @@ test('get enhanced type of function', () => {
     expect(enhancedTypeOf(function() {})).toBe('function');
 });
 
+test('get enhanced type of function', () => {
+    let myFunc = function() {};
+    expect(enhancedTypeOf(new myFunc())).toBe('myFunc');
+});
+
 test('get enhanced type of promise', () => {
     expect(enhancedTypeOf(new Promise(() => {}))).toBe('promise');
 });
@@ -146,6 +151,22 @@ test('get enhanced type of asyncfunction', () => {
     let myAsyncFunction = async function() {};
     expect(enhancedTypeOf( myAsyncFunction )).toBe('asyncfunction');
 });
+
+test('get enhanced type of function with extra info', () => {
+    let myFunc = function() {};
+    expect(enhancedTypeOf(myFunc, true)).toBe('function reference to: myFunc');
+});
+
+test('get enhanced type of generatorfunction with extra info', () => {
+    let theGenerator = function*() {};  
+    expect(enhancedTypeOf( theGenerator, true )).toBe('generatorfunction reference to: theGenerator');
+});
+
+test('get enhanced type of asyncfunction with extra info', () => {
+    let myAsyncFunction = async function() {};
+    expect(enhancedTypeOf( myAsyncFunction, true )).toBe('asyncfunction reference to: myAsyncFunction');
+});
+
 
 // ------- objects and user-defined types -------
 
