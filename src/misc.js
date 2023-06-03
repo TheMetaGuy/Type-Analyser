@@ -9,7 +9,7 @@ import { enhancedTypeOf } from "./index.js";
  *                               E.g. New Date(obj.date) or new URL(obj.url) or new Set(obj.set) etc can be used to convert 
  *                               back to the original type. 
  * @param {*} visitedObjects - used internally to detect circular references. Do not pass this parameter.
- * @returns true if the object is JSON serializable, false otherwise.
+ * @returns true if the object is JSON serializable WITHOUT a loss of data, false otherwise.
  */
 function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new Set()) {
     const validJSONTypes = ['string', 'number', 'boolean', 'undefined', 'null'];
