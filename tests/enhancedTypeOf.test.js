@@ -37,94 +37,94 @@ test('get enhanced type of symbol', () => {
 });
 
 test('get enhanced type of regex', () => {
-    expect(enhancedTypeOf(/hello/)).toBe('regexp');
+    expect(enhancedTypeOf(/hello/)).toBe('RegExp');
 });
 
 test('get enhanced type of date', () => {
-    expect(enhancedTypeOf(new Date())).toBe('date');
+    expect(enhancedTypeOf(new Date())).toBe('Date');
 });
 
 test('get enhanced type of error', () => {
-    expect(enhancedTypeOf(new Error())).toBe('error');
+    expect(enhancedTypeOf(new Error())).toBe('Error');
 });
 
 test('get enhanced type of url', () => {
-    expect(enhancedTypeOf(new URL('https://www.google.com'))).toBe('url');
+    expect(enhancedTypeOf(new URL('https://www.google.com'))).toBe('URL');
 });
 
 test('get enhanced type of urlsearchparams', () => {
-    expect(enhancedTypeOf(new URLSearchParams())).toBe('urlsearchparams');
+    expect(enhancedTypeOf(new URLSearchParams())).toBe('URLSearchParams');
 });
 
 test('get enhanced type of set', () => {
-    expect(enhancedTypeOf(new Set())).toBe('set');
+    expect(enhancedTypeOf(new Set())).toBe('Set');
 });
 
 test('get enhanced type of map', () => {
-    expect(enhancedTypeOf(new Map())).toBe('map');
+    expect(enhancedTypeOf(new Map())).toBe('Map');
 });
 
 test('get enhanced type of weakset', () => {
-    expect(enhancedTypeOf(new WeakSet())).toBe('weakset');
+    expect(enhancedTypeOf(new WeakSet())).toBe('WeakSet');
 });
 
 test('get enhanced type of weakmap', () => {
-    expect(enhancedTypeOf(new WeakMap())).toBe('weakmap');
+    expect(enhancedTypeOf(new WeakMap())).toBe('WeakMap');
 });
 
 test('get enhanced type of dataview', () => {
     const buffer = new ArrayBuffer(16);
-    expect(enhancedTypeOf(new DataView(buffer))).toBe('dataview');
+    expect(enhancedTypeOf(new DataView(buffer))).toBe('DataView');
 });
 
 test('get enhanced type of arraybuffer', () => {
-    expect(enhancedTypeOf(new ArrayBuffer())).toBe('arraybuffer');
+    expect(enhancedTypeOf(new ArrayBuffer())).toBe('ArrayBuffer');
 });
 
 test('get enhanced type of sharedarraybuffer', () => {
-    expect(enhancedTypeOf(new SharedArrayBuffer(16))).toBe('sharedarraybuffer');
+    expect(enhancedTypeOf(new SharedArrayBuffer(16))).toBe('SharedArrayBuffer');
 });
 
 // ------ array types -----
 
-test('get enhanced type of array', () => {
-    expect(enhancedTypeOf([])).toBe('array');
+test('get enhanced type of Array', () => {
+    expect(enhancedTypeOf([])).toBe('Array');
 });
 
-test('get enhanced type of uint8array', () => {
-    expect(enhancedTypeOf(new Uint8Array())).toBe('uint8array');
+test('get enhanced type of uint8Array', () => {
+    expect(enhancedTypeOf(new Uint8Array())).toBe('Uint8Array');
 });
 
-test('get enhanced type of int8array', () => {    
-    expect(enhancedTypeOf(new Int8Array())).toBe('int8array');
+test('get enhanced type of int8Array', () => {    
+    expect(enhancedTypeOf(new Int8Array())).toBe('Int8Array');
 });
 
-test('get enhanced type of int32array', () => {
-    expect(enhancedTypeOf(new Int32Array())).toBe('int32array');
+test('get enhanced type of int32Array', () => {
+    expect(enhancedTypeOf(new Int32Array())).toBe('Int32Array');
 });
 
-test('get enhanced type of float32array', () => {
-    expect(enhancedTypeOf(new Float32Array())).toBe('float32array');
+test('get enhanced type of float32Array', () => {
+    expect(enhancedTypeOf(new Float32Array())).toBe('Float32Array');
 });
   
-test('get enhanced type of float64array', () => {
-    expect(enhancedTypeOf(new Float64Array())).toBe('float64array');
+test('get enhanced type of float64Array', () => {
+    expect(enhancedTypeOf(new Float64Array())).toBe('Float64Array');
 });
   
-test('get enhanced type of uint8clampedarray', () => {
-    expect(enhancedTypeOf(new Uint8ClampedArray())).toBe('uint8clampedarray');
+test('get enhanced type of uint8clampedArray', () => {
+    expect(enhancedTypeOf(new Uint8ClampedArray())).toBe('Uint8ClampedArray');
 });
   
-test('get enhanced type of bigint64array', () => {
-    expect(enhancedTypeOf(new BigInt64Array())).toBe('bigint64array');
+test('get enhanced type of bigint64Array', () => {
+    expect(enhancedTypeOf(new BigInt64Array())).toBe('BigInt64Array');
 });
   
-test('get enhanced type of biguint64array', () => {
-    expect(enhancedTypeOf(new BigUint64Array())).toBe('biguint64array');
+test('get enhanced type of biguint64Array', () => {
+    expect(enhancedTypeOf(new BigUint64Array())).toBe('BigUint64Array');
 });
 
 test('get enhanced type of array iterator', () => {
-    expect(enhancedTypeOf([][Symbol.iterator]())).toBe('array iterator');
+    expect(enhancedTypeOf([][Symbol.iterator]())).toBe('Array Iterator');
 });
 
 // ----- function types -----
@@ -139,17 +139,17 @@ test('get enhanced type of function', () => {
 });
 
 test('get enhanced type of promise', () => {
-    expect(enhancedTypeOf(new Promise(() => {}))).toBe('promise');
+    expect(enhancedTypeOf(new Promise(() => {}))).toBe('Promise');
 });
 
 test('get enhanced type of generatorfunction', () => {
     let theGenerator = function*() {};  
-    expect(enhancedTypeOf( theGenerator )).toBe('generatorfunction');
+    expect(enhancedTypeOf( theGenerator )).toBe('GeneratorFunction');
 });
 
 test('get enhanced type of asyncfunction', () => {
     let myAsyncFunction = async function() {};
-    expect(enhancedTypeOf( myAsyncFunction )).toBe('asyncfunction');
+    expect(enhancedTypeOf( myAsyncFunction )).toBe('AsyncFunction');
 });
 
 test('get enhanced type of function with extra info', () => {
@@ -159,12 +159,12 @@ test('get enhanced type of function with extra info', () => {
 
 test('get enhanced type of generatorfunction with extra info', () => {
     let theGenerator = function*() {};  
-    expect(enhancedTypeOf( theGenerator, true )).toBe('generatorfunction reference to: theGenerator');
+    expect(enhancedTypeOf( theGenerator, true )).toBe('GeneratorFunction reference to: theGenerator');
 });
 
 test('get enhanced type of asyncfunction with extra info', () => {
     let myAsyncFunction = async function() {};
-    expect(enhancedTypeOf( myAsyncFunction, true )).toBe('asyncfunction reference to: myAsyncFunction');
+    expect(enhancedTypeOf( myAsyncFunction, true )).toBe('AsyncFunction reference to: myAsyncFunction');
 });
 
 

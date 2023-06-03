@@ -25,8 +25,12 @@ function enhancedTypeOf(obj, extraInfo = false) {
 
     // get a more detailed string representation of the object's type
     // slice(8, -1) removes the constant '[object' and the last ']' parts of the string
-    typeStr = Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();  
+    typeStr = Object.prototype.toString.call(obj).slice(8, -1);
     
+    if ( typeStr === 'Object' || typeStr === 'Function' ) {
+        typeStr = typeStr.toLowerCase();
+    }
+
     if ( typeStr === 'object' && obj.constructor ) {
         let es6ClassName = obj.constructor.name;
         return ( es6ClassName === 'Object' ) ? typeStr : es6ClassName;
@@ -34,7 +38,7 @@ function enhancedTypeOf(obj, extraInfo = false) {
     
     let moreStr ="";
     if ( extraInfo ) {
-        if ( typeStr === 'generatorfunction'  || typeStr === 'asyncfunction' || typeStr === 'function' ) {
+        if ( typeStr === 'GeneratorFunction'  || typeStr === 'AsyncFunction' || typeStr === 'function' ) {
             if ( obj.name ) {
                 if ( Object.prototype.hasOwnProperty.call(obj, 'name') ) {
                   moreStr = ' reference to: ' + obj.name;

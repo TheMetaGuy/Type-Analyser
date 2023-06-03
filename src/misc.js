@@ -16,21 +16,22 @@ function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new 
   
     // types where no data is lost but there is a change in data format when serializing
     const lossyValidJSONTypes = [
-        'date', 'url', 'urlsearchparams', 
-        'set', 'map', 
-        'int8array', 'uint8array', 'uint8clampedarray', 
-        'int16array', 'uint16array', 
-        'int32array', 'uint32array', 'float32array',
-        'float64array', 'bigint64array', 'biguint64array'
+        'Date', 'URL', 'URLSearchParams', 
+        'Set', 'Map', 
+        'Int8Array', 'Uint8Array', 'Uint8ClampedArray', 
+        'Int16Array', 'Uint16Array', 
+        'Int32Array', 'Uint32Array', 'Float32Array',
+        'Float64Array', 'BigInt64Array', 'BigUint64Array'
     ];
     if (acceptFormatLoss) {
         validJSONTypes.push(...lossyValidJSONTypes);
     }
 
     let type = enhancedTypeOf(obj);
+
     if (validJSONTypes.includes( type )) return true;
 
-    if (type === 'object' || type === 'array') {
+    if (type === 'object' || type === 'Array') {
       // check for circular references  
       if (visitedObjects.has(obj)) { 
         return false;
@@ -38,7 +39,7 @@ function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new 
       visitedObjects.add(obj);
   
       // Non integer array properties cannot be JSON serialized as data will be lost when serializing to JSON
-      if (type === 'array') { 
+      if (type === 'Array') { 
         let totalPropertyCount = 0;
         for (let key in obj) {
           totalPropertyCount++;
