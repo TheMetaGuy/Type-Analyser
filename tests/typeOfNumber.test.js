@@ -16,8 +16,9 @@ test('get number type of safeinteger', () => {
 });
 
 test('get number type of unsafe integer', () => {
-  expect(typeOfNumber(Number.MAX_SAFE_INTEGER + 1)).toBe('unsafeNumber');
-  expect(typeOfNumber(Number.MIN_SAFE_INTEGER - 1)).toBe('unsafeNumber');
+  expect(typeOfNumber(Number.MAX_SAFE_INTEGER + 1)).toBe('unsafeinteger');
+  expect(typeOfNumber(Number.MIN_SAFE_INTEGER - 1)).toBe('unsafeinteger');
+  expect(typeOfNumber(Number.MAX_VALUE)).toBe('unsafeinteger');
 });
 
 test('get number type of float', () => {
