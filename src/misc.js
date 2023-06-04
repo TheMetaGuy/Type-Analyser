@@ -5,9 +5,9 @@ import { enhancedTypeOf } from "./index.js";
  * @param {*} acceptFormatLoss - if false (the default), only return true for types that can be serializaed without problems.
  *                               if true also return true for types where data may need trivial conversion when de-serializing.
  *                               NOTE - 'date', 'url', 'urlsearchparams' are converted to strings when serializing to JSON 
- *                               so New Date( JSON.parse() ) or new URL( JSON.parse() ) etc can be used to convert back. 
+ *                               so New Date( stringValue ) or new URL( stringValue ) etc can be used to convert back. 
  *                               Typed arrays are converted to regular arrays when serializing to JSON so iterating over the results 
- *                               of JSON.parse(), adding to an array and then new TypedArray( array ) can be used to convert back. 
+ *                               of the parsed JSON element, adding to an array and then new TypedArray( array ) can be used to convert back. 
  * @param {*} visitedObjects - used internally to detect circular references. Do not pass this parameter.
  * @returns true if the object is JSON serializable WITHOUT a loss of data, false otherwise.
  */
