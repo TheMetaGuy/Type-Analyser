@@ -4,20 +4,19 @@ import { enhancedTypeOf } from "./index.js";
  * @param {*} obj - the object to test
  * @param {*} acceptFormatLoss - if false (the default), only return true for types that can be serializaed without problems.
  *                               if true also return true for types where data may need trivial conversion when de-serializing.
- *                               NOTE - 'date', 'url', 'urlsearchparams' are converted to strings when serializing to JSON and
- *                               'set', 'map' and all typed arrays are converted to regular arrays when serializing to JSON.
- *                               E.g. New Date(obj.date) or new URL(obj.url) or new Set(obj.set) etc can be used to convert 
- *                               back to the original type. 
+ *                               NOTE - 'date', 'url', 'urlsearchparams' are converted to strings when serializing to JSON 
+ *                               so New Date( JSON.parse() ) or new URL( JSON.parse() ) etc can be used to convert back. 
+ *                               Typed arrays are converted to regular arrays when serializing to JSON so iterating over the results 
+ *                               of JSON.parse(), adding to an array and then new TypedArray( array ) can be used to convert back. 
  * @param {*} visitedObjects - used internally to detect circular references. Do not pass this parameter.
  * @returns true if the object is JSON serializable WITHOUT a loss of data, false otherwise.
  */
 function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new Set()) {
-    const validJSONTypes = ['string', 'number', 'boolean', 'undefined', 'null'];
+    let validJSONTypes = ['string', 'number', 'boolean', 'undefined', 'null'];
   
     // types where no data is lost but there is a change in data format when serializing
     const lossyValidJSONTypes = [
         'Date', 'URL', 'URLSearchParams', 
-        'Set', 'Map', 
         'Int8Array', 'Uint8Array', 'Uint8ClampedArray', 
         'Int16Array', 'Uint16Array', 
         'Int32Array', 'Uint32Array', 'Float32Array',

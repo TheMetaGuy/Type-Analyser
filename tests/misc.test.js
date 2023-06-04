@@ -54,6 +54,18 @@ test('should return false for WeakSet', () => {
     expect(isJSONSerializable(obj,true)).toBe(false);
 });
 
+test('should return false for Set ', () => {
+    let obj = { key: new Set([1, 2, 3, 4]) };
+    expect(isJSONSerializable(obj)).toBe(false);
+    expect(isJSONSerializable(obj,true)).toBe(false);
+});
+
+test('should return false for Map', () => {
+    let obj = { key: new Map([[{ a: 1 }, 2]]) };
+    expect(isJSONSerializable(obj)).toBe(false);
+    expect(isJSONSerializable(obj,true)).toBe(false);
+});
+
 test('should return false for WeakMap', () => {
     let obj = { key: new WeakMap([[{ a: 1 }, 2]]) };
     expect(isJSONSerializable(obj)).toBe(false);
@@ -173,18 +185,6 @@ test('should return false for URL unless "acceptFormatLoss" param set', () => {
 
 test('should return false for URLSearchParams unless "acceptFormatLoss" param set', () => {
     let obj = { key: new URLSearchParams('name=Jonathan') };
-    expect(isJSONSerializable(obj)).toBe(false);
-    expect(isJSONSerializable(obj,true)).toBe(true);
-});
-
-test('should return false for Set unless "acceptFormatLoss" param set', () => {
-    let obj = { key: new Set([1, 2, 3, 4]) };
-    expect(isJSONSerializable(obj)).toBe(false);
-    expect(isJSONSerializable(obj,true)).toBe(true);
-});
-
-test('should return false for Map unless "acceptFormatLoss" param set', () => {
-    let obj = { key: new Map([[{ a: 1 }, 2]]) };
     expect(isJSONSerializable(obj)).toBe(false);
     expect(isJSONSerializable(obj,true)).toBe(true);
 });
