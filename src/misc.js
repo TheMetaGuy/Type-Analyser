@@ -60,4 +60,36 @@ function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new 
     return false;
 }
 
+/**
+ * Checks if an object has a circular reference. This is a recursive function that will check all properties of an object.
+ * This function is useful for debugging. However, note:
+ * 1. It checks for circular references in ALL types of objects including custom and ES6 classes. it checks object properties 
+ * (i.e., their state) and does not check for circular references in methods or object prototypes  
+ * 2. It won't catch circular references in dynmically created properties (i.e., created when methods are called)
+ * 3. If a custom or ES6 class overrides the default behavior of for...in or Object.keys, there may be problems 
+ * @param {*} obj 
+ * @param {*} visitedObjects 
+ * @returns true if the object has a circular reference, false otherwise.
+ */
+function hasCircularReference(obj, visitedObjects = new WeakSet()) {
+    if (typeof obj !== 'object' || obj === null) {
+        return false;
+    }
+
+    if (visitedObjects.has(obj)) {
+        return true;
+    }
+
+    visitedObjects.add(obj);
+
+    for (let key in obj) {
+        if (hasCircularReference(obj[key], visitedObjects)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 export { isJSONSerializable };
+export { hasCircularReference };

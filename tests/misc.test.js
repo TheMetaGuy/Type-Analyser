@@ -1,4 +1,4 @@
-import { isJSONSerializable } from '../src/index.js';
+import { hasCircularReference, isJSONSerializable } from '../src/index.js';
 
 test('should return true for null', () => {
     expect(isJSONSerializable(null)).toBe(true);
@@ -249,4 +249,13 @@ test('should return false for BigInt64Array unless "acceptFormatLoss" param set'
     expect(isJSONSerializable(obj,true)).toBe(true);
 });
 
+test ('return true for object with circular reference', () => {
+    let obj = {};
+    obj.item = { location : "nowhere", prize: obj };
+    expect(hasCircularReference(obj)).toBe(true);
+});
 
+test ('return false for object with no circular references', () => {
+    let obj = { a: 1, b: 2, c: { name: 'test' } };
+    expect(hasCircularReference(obj)).toBe(false);
+});
