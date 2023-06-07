@@ -1,7 +1,7 @@
 {
-  "name": "typeinfo",
-  "version": "1.0.0",
-  "description": "Utility functions for accurately identifying the type of most Javascript objects not just the primitive types.  detailed info on number types is also returned",
+  "name": "type-master",
+  "version": "1.0.1",
+  "description": "utility package designed to provide in-depth and precise type information for any JavaScript object, be it a primitive, built-in type, ES6/ES2020 type or custom classes",
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
