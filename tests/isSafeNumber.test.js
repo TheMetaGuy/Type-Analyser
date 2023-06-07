@@ -1,4 +1,4 @@
-import { isSafeNumber } from '../src/index';
+import { isSafeNumber } from '../src/index.js';
 
 test('test safe integers for safe use as a number', () => {
   expect(isSafeNumber(1)).toBe(true);
