@@ -19,9 +19,9 @@ test('test Infinity and NaN for safe use as a number', () => {
   expect(isSafeNumber(NaN)).toBe(false);
 });
 
-test('test BigInt for safe use as a number', () => {
-  expect(isSafeNumber(1n)).toBe(false); // BigInt
-});
+test('test integer divided by zero for safe use as a number', () => {
+    expect(isSafeNumber(1/0)).toBe(false);
+  });
 
 test('test valid numeric strings for safe use as a number when acceptStringNumbers is true', () => {
   expect(isSafeNumber('1', true)).toBe(true);
@@ -37,10 +37,6 @@ test('test invalid numeric strings for safe use as a number when acceptStringNum
 
 test('test numeric strings for safe use as a number when acceptStringNumbers is false', () => {
   expect(isSafeNumber('1', false)).toBe(false);
-});
-
-test('test integer divided by zero for safe use as a number', () => {
-  expect(isSafeNumber(1/0)).toBe(false);
 });
 
 test('test BigInt and BigInt literals for safe use as a number', () => {
