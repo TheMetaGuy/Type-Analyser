@@ -1,13 +1,14 @@
 /**
- * Accurately identifies the type of almost all Javascript objects not just the primitive types.
- * @param {*} obj 
- * @param {boolean} extraInfo - Optional. if true, returns more information about the object's type appended 
- *                             to the end of the returned string. Defaults to false. 
+ * Accurately identifies the type of all Javascript objects not just the primitive types. This provides
+ * the same functionality as the built in typeof operator but returns the correct type for null, all ES6 types
+ * and custom types
+ * @param {*} obj - The object to get the type of.
  * @returns a string representing the type of the object passed in.
  */
 
 function enhancedTypeOf(obj, extraInfo = false) {
     let typeStr = typeof(obj);
+    let basicType = typeStr;
 
     if (obj === null) return 'null';
 
@@ -15,7 +16,7 @@ function enhancedTypeOf(obj, extraInfo = false) {
         return typeStr;
     }
 
-    // special case to handle ES5 Symbol Polyfills which should always have a value of Symbol(something)
+    // special case to handle old ES5 Symbol Polyfills which should always have a value of Symbol(something)
     if ( typeStr === 'string' ) {
         if ( obj.valueOf && obj.valueOf().toString().slice(0,6) === 'Symbol') {
             return 'symbol';
@@ -31,24 +32,18 @@ function enhancedTypeOf(obj, extraInfo = false) {
         typeStr = typeStr.toLowerCase();
     }
 
-    if ( typeStr === 'object' && obj.constructor ) {
-        let es6ClassName = obj.constructor.name;
-        return ( es6ClassName === 'Object' ) ? typeStr : es6ClassName;
-    }    
-    
-    let moreStr ="";
-    if ( extraInfo ) {
-        if ( typeStr === 'GeneratorFunction'  || typeStr === 'AsyncFunction' || typeStr === 'function' ) {
-            if ( obj.name ) {
-                if ( Object.prototype.hasOwnProperty.call(obj, 'name') ) {
-                  moreStr = ' reference to: ' + obj.name;
-                }
-                else moreStr = obj.name;
-            }
-        }     
+    if (!obj.prototype && typeStr === 'function') { 
+        return 'ArrowFunction';
     }
 
-    return typeStr + moreStr;
+    if ( basicType === 'object' && obj.constructor ) {
+        let es6ClassName = obj.constructor.name;
+        if (es6ClassName !== 'Object') {
+            return typeStr = es6ClassName;
+        }        
+    }    
+
+    return typeStr;
 }
 
 export { enhancedTypeOf };

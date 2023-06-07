@@ -14,6 +14,10 @@ test('get enhanced type of bigint', () => {
     expect(enhancedTypeOf(BigInt(123))).toBe('bigint');
 });
 
+test('get enhanced type of bigint literal', () => {
+    expect(enhancedTypeOf( 123n )).toBe('bigint');
+});
+
 test('get enhanced type of string', () => {
     expect(enhancedTypeOf('123')).toBe('string');
 });
@@ -129,13 +133,28 @@ test('get enhanced type of array iterator', () => {
 
 // ----- function types -----
 
-test('get enhanced type of function', () => {
+test('get enhanced type of anonymous function', () => {
     expect(enhancedTypeOf(function() {})).toBe('function');
 });
 
-test('get enhanced type of function', () => {
-    let myFunc = function() {};
-    expect(enhancedTypeOf(new myFunc())).toBe('myFunc');
+test('get enhanced type of declared function', () => {
+    function mydeclaredFunction() {}
+    expect(enhancedTypeOf(mydeclaredFunction)).toBe('function');
+});
+
+test('get enhanced type of function reference', () => {
+    let myFuncExpression = function() {};
+    expect(enhancedTypeOf(myFuncExpression)).toBe('function');
+});
+
+test('get enhanced type of declared function instance', () => {
+    function mydeclaredFunction() {}
+    expect(enhancedTypeOf(new mydeclaredFunction())).toBe('mydeclaredFunction');
+});
+
+test('get enhanced type of function instance', () => {
+    let myFuncExpression = function() {};
+    expect(enhancedTypeOf(new myFuncExpression())).toBe('myFuncExpression');
 });
 
 test('get enhanced type of promise', () => {
@@ -152,19 +171,14 @@ test('get enhanced type of asyncfunction', () => {
     expect(enhancedTypeOf( myAsyncFunction )).toBe('AsyncFunction');
 });
 
-test('get enhanced type of function with extra info', () => {
-    let myFunc = function() {};
-    expect(enhancedTypeOf(myFunc, true)).toBe('function reference to: myFunc');
+test('get enhanced type of function reference', () => {
+    let myFuncReference = function() {};
+    expect(enhancedTypeOf(myFuncReference)).toBe('function');
 });
 
-test('get enhanced type of generatorfunction with extra info', () => {
-    let theGenerator = function*() {};  
-    expect(enhancedTypeOf( theGenerator, true )).toBe('GeneratorFunction reference to: theGenerator');
-});
-
-test('get enhanced type of asyncfunction with extra info', () => {
-    let myAsyncFunction = async function() {};
-    expect(enhancedTypeOf( myAsyncFunction, true )).toBe('AsyncFunction reference to: myAsyncFunction');
+test('get enhanced type of arrow Function ', () => {
+    let myArrowFunction = () => {}; 
+    expect(enhancedTypeOf( myArrowFunction )).toBe('ArrowFunction');
 });
 
 
@@ -174,13 +188,41 @@ test('get enhanced type of object', () => {
     expect(enhancedTypeOf({})).toBe('object');
 });
 
-test('get enhanced type  of user-defined object instance', () => {
+test('get enhanced type of object instance', () => {
+    expect(enhancedTypeOf(new Object())).toBe('object');
+});
+
+test('get enhanced type  of user-defined object instance via the Spread operator', () => {
     let myObj = {
         name: 'John',
         age: 30,
     }
     let myObjCopy = { ... myObj };
     expect(enhancedTypeOf(myObjCopy)).toBe('object');
+});
+
+test('get enhanced type  of user-defined object instance via Object.assign', () => {
+    let myObj = {
+        name: 'John',
+        age: 30,    
+    }   
+    let myObjCopy = Object.assign({}, myObj);
+    expect(enhancedTypeOf(myObjCopy)).toBe('object');
+});
+
+test('get enhanced type  of user-defined object instance via Object.create', () => {
+    let myObj = {};
+    let myObjCopy = Object.create(myObj);
+    expect(enhancedTypeOf(myObjCopy)).toBe('object');
+});
+
+test ('get enhanced type of object with custom tag', () => {
+    let myObj = {
+        name: 'John',
+        age: 30,
+        [Symbol.toStringTag]: 'MyCustomTag'
+    }
+    expect(enhancedTypeOf(myObj)).toBe('MyCustomTag');
 });
 
 test('get enhanced type  of user-defined class instance', () => {
@@ -197,10 +239,8 @@ test('get enhanced type  of user-defined class instance', () => {
 test('get enhanced type  of user-defined class instance with no user constructor', () => {
     class MyOtherClass {}
     let myClassInstance = new MyOtherClass();
-    expect(enhancedTypeOf(myClassInstance)).toBe('MyOtherClass');
-  });
-  
-
+    expect(enhancedTypeOf(myClassInstance)).toBe('MyOtherClass'); 
+});  
 
 
 
