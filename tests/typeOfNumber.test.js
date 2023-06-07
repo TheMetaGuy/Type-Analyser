@@ -33,8 +33,23 @@ test ('get number type of bigint literal', () => {
   expect(typeOfNumber( 123n )).toBe('bigint');
 });
 
-test ('get number type of string', () => {
+test ('get number type of string with a number', () => {
   expect(typeOfNumber('123')).toBe('safeInteger');
+  expect(typeOfNumber('1.11')).toBe('float');
+  expect(typeOfNumber('-1.11')).toBe('float');
+  expect(typeOfNumber('0xFF')).toBe('safeInteger');
+});
+
+test ('get number type of invalid number string', () => {
+  expect(typeOfNumber('123xyz')).toBe('NaN');
+  expect(typeOfNumber('xyz')).toBe('NaN');
+  expect(typeOfNumber('123xyz', false)).toBe('NaN');
+  expect(typeOfNumber('xyz',false)).toBe('NaN');
+});
+
+test ('get number type of string with acceptStringNumber set to false', () => {
+  expect(typeOfNumber('123', false)).toBe('NaN');
+  expect(typeOfNumber('123.99', false)).toBe('NaN');
 });
 
 test ('get number type of boolean', () => {

@@ -51,5 +51,33 @@ function typeOfNumber (obj, acceptStringNumbers = true) {
         return 'float';
     }
 }
+/**
+ * Tests to see if the number passed in is safe to use in a calculation. This is useful because Javascript
+ * has a number of different types of numbers and some of them are not safe to use in calculations. E.g.
+ * BigInts are not safe to use in calculations with regular numbers. Also, numbers that are too large to be
+ * safe integers are not safe to use in calculations. 
+ * 
+ * @param {*} obj - The object to check if it is a safe number.
+ * @param {*} acceptStringNumbers - if true (the default for this optional parameter), then if a string is passed in, it
+ *                                  will be converted to a number and it's type will tested for safe use. Strings
+ *                                  are not coerceced to numbers if they do not represent a valid number. E.g '34.345abchs'
+ *                                  will not be converted to a number and will return false. But '34.345' will be converted
+ *                                  to a number and will return true. String representing Hex numbers also work - E.g. 0xFF. 
+ *                                  (Note - the built in javascript parseFloat() function can be used before calling this 
+ *                                  function to force coercing. E.g. it will convert '34.345abchs' to 34.345).
+ *                                  if acceptStringNumbers is false then when a string is passed in, it will never be 
+ *                                  converted to a number and 'NaN' will be returned
+ * @returns - true if the number passed in is safe to use in a calculation, false otherwise.
+ */
+function isSafeNumber (obj, acceptStringNumbers = true) {
+    let typeStr = typeOfNumber(obj, acceptStringNumbers);
+    if ( typeStr === 'safeInteger' || typeStr === 'float' ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 export { typeOfNumber };
+export { isSafeNumber };
