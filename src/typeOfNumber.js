@@ -1,32 +1,51 @@
 /**
- * Returns information about the 'type' of number passed in. 
- * No conversion is done on the number passed in. so if you pass in a string, it will return 'nan'.
- * @param {*} obj 
- * @returns a string representing the type of number passed in.
+ * Returns information about the 'type' of number passed in. Unlike the built-in javascript isNaN( ) function,
+ * this returns useful information about the type of number passed in. E.g. it will return 'infinity' for Infinity
+ * or it will return unsafeInteger for a number that is too large to be a safe integer. Also it will return 'NaN'
+ * for BigInt and Symbol types unlike the built-in isNaN( ) function which throws a type error for these types.
+ * @param {*} obj the object to get number type information about.
+ * @param {*} acceptStringNumbers - if true (the default for this optional parameter), then if a string is passed in, it
+ *                                  will be converted to a number and the it's type will tested for safe use. Strings
+ *                                  are not coerceced to numbers if they do not represent a valid number. E.g '34.345abchs'
+ *                                  will not be converted to a number and will return false. But '34.345' will be converted
+ *                                  to a number and will return true. String representing Hex numbers also work - E.g. 0xFF. 
+ *                                  (Note - the built in javascript parseFloat() function can be used before calling this 
+ *                                  function to force coercing. E.g. it will convert '34.345abchs' to 34.345).  
+ *                                  if acceptStringNumbers is false then when a string is passed in, it will never be 
+ *                                  converted to a number and 'NaN' will be returned.
+ * @param {*} acceptStringNumbers - if true (the default for this optional parameter), then if a string is passed in, it 
+ *                                  will be converted to a number and the type of that will be returned. If false, then
+ *                                  if a string is passed in, it will not be converted to a number and 'NaN' will be returned.
+ * @returns - a string representing the type of number passed in. The possible values are:
+ *                                 'bigint', 'NaN' , 'infinity', '-infinity', 'safeInteger', 'unsafeInteger', 'float'
  */
-function typeOfNumber (obj) {
-    
-    // slice(8, -1) removes the constant '[object' and the last ']' parts of the string
-    let typeStr = Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();  
-    
-    // this should also work with ES5 Symbol Polyfills ?
-    if ( typeStr == 'string' || typeStr == 'symbol') {
-        return 'nan';
-    }    
+function typeOfNumber (obj, acceptStringNumbers = true) {
+    let typeStr = typeof(obj);
+    if ( typeStr === 'string' &&  acceptStringNumbers ) {
+        obj = Number(obj);
+        typeStr = typeof(obj);
+    } 
     if ( typeStr === 'bigint' ) {
         return 'bigint';
     }
-    if ( isNaN(obj) || typeStr !== 'number' ) {
-        return 'nan';
+    // this should also work with old ES5 Symbol polyfills which may be reported as typeof 'string' ?
+    if ( typeStr !== 'number' ) {
+        return 'NaN';
     }
+    if ( isNaN(obj)  ) {
+        return 'NaN';
+    } 
     if ( !Number.isFinite(obj) ) {
+        if ( obj < 0 ) { 
+            return '-infinity';
+        }
         return 'infinity';
     }
     if ( Number.isInteger(obj) ) {
         if ( Number.isSafeInteger(obj) ) {
-            return 'safeinteger';
+            return 'safeInteger';
         }
-        return 'unsafeinteger';
+        return 'unsafeInteger';
     }
     else {
         return 'float';
