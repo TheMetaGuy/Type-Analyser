@@ -148,6 +148,20 @@ test('check type details of RangeError', () => {
   expect(rangeErrorDetails.prototypeChain).toEqual(['RangeError', 'Error', 'Object']);
 });
 
+// AggregateError 
+test('check type details of AggregateError', () => {
+  const errors = [
+    new Error("Error 1"),
+    new Error("Error 2"),
+  ];
+  const AggregateErrorDetails  = getTypeDetails(new AggregateError (errors, 'multiple errors'));
+  expect(AggregateErrorDetails .Type).toBe('AggregateError');
+  expect(AggregateErrorDetails .hasCustomConstructor).toBe(true);
+  expect(AggregateErrorDetails .ReferenceVariable).toBe('');
+  expect(AggregateErrorDetails .prototypeChainString).toBe('AggregateError -> Error -> Object');
+  expect(AggregateErrorDetails .prototypeChain).toEqual(['AggregateError', 'Error', 'Object']);
+});
+
 // ArrowFunction
 test('check type details of ArrowFunction', () => {
   const arrowFunctionDetails = getTypeDetails(() => {});

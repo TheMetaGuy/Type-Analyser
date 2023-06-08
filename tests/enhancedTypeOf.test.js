@@ -52,6 +52,18 @@ test('get enhanced type of error', () => {
     expect(enhancedTypeOf(new Error())).toBe('Error');
 });
 
+test('get enhanced type of RangeEerror', () => {
+    expect(enhancedTypeOf(new RangeError())).toBe('RangeError');
+});
+
+test('get enhanced type of AggregateError ', () => {
+    const errors = [
+        new Error("Error 1"),
+        new Error("Error 2"),
+      ];
+    expect(enhancedTypeOf(new AggregateError(errors, 'multiple errors'))).toBe('AggregateError');
+});
+
 test('get enhanced type of url', () => {
     expect(enhancedTypeOf(new URL('https://www.google.com'))).toBe('URL');
 });

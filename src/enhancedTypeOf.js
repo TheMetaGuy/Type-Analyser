@@ -6,7 +6,7 @@
  * @returns a string representing the type of the object passed in.
  */
 
-function enhancedTypeOf(obj, extraInfo = false) {
+function enhancedTypeOf(obj) {
     let typeStr = typeof(obj);
     let basicType = typeStr;
 
