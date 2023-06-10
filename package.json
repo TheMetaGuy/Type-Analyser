@@ -8,7 +8,18 @@
     "build": "babel src --out-dir lib",
     "test": "jest"
   },
-  "keywords": [],
+  "keywords": [
+    "types",
+    "typeof",
+    "type-introspection",
+    "type-check",
+    "type-checker",
+    "type-details",
+    "JSON-serialize-check",
+    "isNaN",
+    "is-safe-number",
+    "number-type"
+  ],
   "author": "Owen Cullum",
   "license": "ISC",
   "devDependencies": {
@@ -19,7 +30,7 @@
   "babel": {
     "presets": [
       [ "@babel/preset-env", {
-          "targets": { 
+          "targets": {
             "browsers": ["Chrome >= 55"]
           }
         }
