@@ -1,7 +1,8 @@
 import { getTypeDetails } from '../src/index.js';
+import { isArrowFunction } from './testUtils.js';
 
 // Basic Type Checks
-test('check type details of string primitive', () => {
+it('check type details of string primitive', () => {
   const stringDetails = getTypeDetails('test');
   expect(stringDetails.Type).toBe('string');
   expect(stringDetails.hasCustomConstructor).toBe(false);
@@ -10,7 +11,7 @@ test('check type details of string primitive', () => {
   expect(stringDetails.prototypeChain).toEqual(['String', 'Object']);
 });
 
-test('check type details of string number', () => {  
+it('check type details of string number', () => {  
   const numberDetails = getTypeDetails(123);
   expect(numberDetails.Type).toBe('number');
   expect(numberDetails.hasCustomConstructor).toBe(false);
@@ -19,7 +20,7 @@ test('check type details of string number', () => {
   expect(numberDetails.prototypeChain).toEqual(['Number', 'Object']);
 });
 
-test('check type details of string boolean', () => {  
+it('check type details of string boolean', () => {  
   const booleanDetails = getTypeDetails(true);
   expect(booleanDetails.Type).toBe('boolean');
   expect(booleanDetails.hasCustomConstructor).toBe(false);
@@ -28,7 +29,7 @@ test('check type details of string boolean', () => {
   expect(booleanDetails.prototypeChain).toEqual(['Boolean', 'Object']);
 });
 
-test('check type details of Null', () => {  
+it('check type details of Null', () => {  
   const nullDetails = getTypeDetails(null);
   expect(nullDetails.Type).toBe('null');
   expect(nullDetails.hasCustomConstructor).toBe(false);
@@ -38,7 +39,7 @@ test('check type details of Null', () => {
 });
 
 // Undefined
-test('check type details of undefined', () => {
+it('check type details of undefined', () => {
   const undefinedDetails = getTypeDetails(undefined);
   expect(undefinedDetails.Type).toBe('undefined');
   expect(undefinedDetails.hasCustomConstructor).toBe(false);
@@ -48,7 +49,7 @@ test('check type details of undefined', () => {
 });
 
 // Array
-test('check type details of Array', () => {
+it('check type details of Array', () => {
   const arrayDetails = getTypeDetails([]);
   expect(arrayDetails.Type).toBe('Array');
   expect(arrayDetails.hasCustomConstructor).toBe(true);
@@ -60,7 +61,7 @@ test('check type details of Array', () => {
 //  ---------ES6 Types ------------
 
 // Symbol
-test('check type details of Symbol ES6 type', () => {
+it('check type details of Symbol ES6 type', () => {
   const symbolDetails = getTypeDetails(Symbol("test"));
   expect(symbolDetails.Type).toBe('symbol');
   expect(symbolDetails.hasCustomConstructor).toBe(false);
@@ -70,7 +71,7 @@ test('check type details of Symbol ES6 type', () => {
 });
 
 // regexp
-test ('check type details of ES6 RegExp', () => {
+it('check type details of ES6 RegExp', () => {
   const regExDetails = getTypeDetails(/hello/);
   expect(regExDetails.Type).toBe('RegExp');
   expect(regExDetails.hasCustomConstructor).toBe(true);
@@ -79,7 +80,7 @@ test ('check type details of ES6 RegExp', () => {
   expect(regExDetails.prototypeChain).toEqual(['RegExp', 'Object']);
 });
 
-test('check type details of BigInt ES6 type', () => {
+it('check type details of BigInt ES6 type', () => {
   const bigIntDetails = getTypeDetails(1n);
   expect(bigIntDetails.Type).toBe('bigint');
   expect(bigIntDetails.hasCustomConstructor).toBe(false);
@@ -89,7 +90,7 @@ test('check type details of BigInt ES6 type', () => {
 });
 
 // Date
-test('check type details of Date', () => {
+it('check type details of Date', () => {
   const dateDetails = getTypeDetails(new Date());
   expect(dateDetails.Type).toBe('Date');
   expect(dateDetails.hasCustomConstructor).toBe(true);
@@ -99,7 +100,7 @@ test('check type details of Date', () => {
 });
 
 // Map
-test('check type details of Map', () => {
+it('check type details of Map', () => {
   const mapDetails = getTypeDetails(new Map());
   expect(mapDetails.Type).toBe('Map');
   expect(mapDetails.hasCustomConstructor).toBe(true);
@@ -109,7 +110,7 @@ test('check type details of Map', () => {
 });
 
 // Set
-test('check type details of Set', () => {
+it('check type details of Set', () => {
   const setDetails = getTypeDetails(new Set());
   expect(setDetails.Type).toBe('Set');
   expect(setDetails.hasCustomConstructor).toBe(true);
@@ -119,7 +120,7 @@ test('check type details of Set', () => {
 });
 
 // Error
-test('check type details of Error', () => {
+it('check type details of Error', () => {
   const errorDetails = getTypeDetails(new Error());
   expect(errorDetails.Type).toBe('Error');
   expect(errorDetails.hasCustomConstructor).toBe(true);
@@ -129,7 +130,7 @@ test('check type details of Error', () => {
 });
 
 // SyntaxError
-test('check type details of SyntaxError', () => {
+it('check type details of SyntaxError', () => {
   const syntaxErrorDetails = getTypeDetails(new SyntaxError());
   expect(syntaxErrorDetails.Type).toBe('SyntaxError');
   expect(syntaxErrorDetails.hasCustomConstructor).toBe(true);
@@ -139,7 +140,7 @@ test('check type details of SyntaxError', () => {
 });
 
 // RangeError
-test('check type details of RangeError', () => {
+it('check type details of RangeError', () => {
   const rangeErrorDetails = getTypeDetails(new RangeError());
   expect(rangeErrorDetails.Type).toBe('RangeError');
   expect(rangeErrorDetails.hasCustomConstructor).toBe(true);
@@ -149,7 +150,7 @@ test('check type details of RangeError', () => {
 });
 
 // AggregateError 
-test('check type details of AggregateError', () => {
+it('check type details of AggregateError', () => {
   const errors = [
     new Error("Error 1"),
     new Error("Error 2"),
@@ -163,9 +164,14 @@ test('check type details of AggregateError', () => {
 });
 
 // ArrowFunction
-test('check type details of ArrowFunction', () => {
+it('check type details of ArrowFunction', () => {
+  const theArrowFunction = () => {};
   const arrowFunctionDetails = getTypeDetails(() => {});
-  expect(arrowFunctionDetails.Type).toBe('ArrowFunction');
+  if ( isArrowFunction(theArrowFunction) ) {                
+    expect(arrowFunctionDetails.Type).toBe('ArrowFunction');
+  } else {
+    expect(arrowFunctionDetails.Type).toBe('function');          // if called from ES5 code
+  }  
   expect(arrowFunctionDetails.hasCustomConstructor).toBe(false);
   expect(arrowFunctionDetails.ReferenceVariable).toBe('');
   expect(arrowFunctionDetails.prototypeChainString).toBe('Function -> Object');
@@ -173,7 +179,7 @@ test('check type details of ArrowFunction', () => {
 });
 
 // Promise
-test('check type details of Promise', () => {
+it('check type details of Promise', () => {
   const promiseDetails = getTypeDetails(new Promise(() => {}));
   expect(promiseDetails.Type).toBe('Promise');
   expect(promiseDetails.hasCustomConstructor).toBe(true);
@@ -183,7 +189,7 @@ test('check type details of Promise', () => {
 });
 
 // Generator Function
-test('check type details of Generator Function', () => {
+it('check type details of Generator Function', () => {
   function* genFunc() {};
   const generatorDetails = getTypeDetails(genFunc);
   expect(generatorDetails.Type).toBe('GeneratorFunction');
@@ -194,7 +200,7 @@ test('check type details of Generator Function', () => {
 });
 
 // Uint8ClampedArray
-test('check type details of Uint8ClampedArray', () => {
+it('check type details of Uint8ClampedArray', () => {
   const uint8ClampedArrayDetails = getTypeDetails(new Uint8ClampedArray());
   expect(uint8ClampedArrayDetails.Type).toBe('Uint8ClampedArray');
   expect(uint8ClampedArrayDetails.hasCustomConstructor).toBe(true);
@@ -204,7 +210,7 @@ test('check type details of Uint8ClampedArray', () => {
 });
 
 // Custom Type
-test('check type details of custom class type', () => {
+it('check type details of custom class type', () => {
   class MyClass {};
   const myObject = new MyClass();
   const myClassDetails = getTypeDetails(myObject);
@@ -216,7 +222,7 @@ test('check type details of custom class type', () => {
 });
 
 // Full Prototype Chain
-test('check type details of custom type', () => {
+it('check type details of custom type', () => {
   class MyClass {};
   const myClassDetails = getTypeDetails(new MyClass(), true);
   expect(myClassDetails.Type).toBe('MyClass');
@@ -227,7 +233,7 @@ test('check type details of custom type', () => {
 });
 
 // Object created with Object.create()
-test('check type details of Object created with Object.create()', () => {
+it('check type details of Object created with Object.create()', () => {
   const obj = Object.create({});
   const objectCreateDetails = getTypeDetails(obj);
   expect(objectCreateDetails.Type).toBe('object');
@@ -238,7 +244,7 @@ test('check type details of Object created with Object.create()', () => {
 });
 
 // Custom class extended
-test('check type details of custom class extended', () => {
+it('check type details of custom class extended', () => {
   class Parent {};
   class Child extends Parent {};
   const childDetails = getTypeDetails(new Child());
@@ -250,7 +256,7 @@ test('check type details of custom class extended', () => {
 });
 
 // Custom Class with Shortened Prototype Chain
-test('check type custom class details with shortened prototype chain', () => {
+it('check type custom class details with shortened prototype chain', () => {
   class MyClass {};
   const myClassDetails = getTypeDetails(new MyClass(), false);
   expect(myClassDetails.Type).toBe('MyClass');
@@ -261,7 +267,7 @@ test('check type custom class details with shortened prototype chain', () => {
 });
 
 // Custom class extended with shortened prototype chain 
-test('check type details of custom class extended with shortened output prototype chain', () => {
+it('check type details of custom class extended with shortened output prototype chain', () => {
   class Parent {};
   class Child extends Parent {};
   const childDetails = getTypeDetails(new Child(), false);
@@ -274,7 +280,7 @@ test('check type details of custom class extended with shortened output prototyp
 
 const globalTestVar = { foo: 'bar'};
 // Global variable
-test('check type details with global variable', () => {
+it('check type details with global variable', () => {
   globalTestVar.name = 'Dr Who';
   const globalVarDetails = getTypeDetails(globalTestVar);
   expect(globalVarDetails.Type).toBe('object');
@@ -287,7 +293,7 @@ test('check type details with global variable', () => {
 const gClass = class {};
 const globalTestClass = new gClass();
 // Global class
-test('check type details with global variable', () => {
+it('check type details with global variable', () => {
   const globalClassDetails = getTypeDetails(globalTestClass);
   expect(globalClassDetails.Type).toBe('gClass');
   expect(globalClassDetails.hasCustomConstructor).toBe(true);
@@ -297,7 +303,7 @@ test('check type details with global variable', () => {
 });
 
 // Object property
-test('check type details with object property', () => {
+it('check type details with object property', () => {
   const obj = { prop: { foo: 'bar' } };
   const propDetails = getTypeDetails(obj.prop);
   expect(propDetails.Type).toBe('object');
