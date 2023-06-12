@@ -1,4 +1,4 @@
-import { enhancedTypeOf } from "./index.js";
+import { enhancedTypeOf } from "./enhancedTypeOf.js";
 /**
  * Checks if an object is JSON serializable. This is a recursive function that will check all properties of an object.
  * @param {*} obj - the object to test
