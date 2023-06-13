@@ -6,59 +6,64 @@
     <script>
         window.addEventListener('message', function(event) {
 
-            var myObject = null; 
-            var response = {sentType: "unknown", theData: myObject};
+            var theObject = null; 
+            var response = {sentType: "unknown", theData: theObject};
 
             if (event.data === 'send back Array object') {
-                myObject = ["hello", "world"] 
+                theObject = ["hello", "world"] 
                 response.sentType = "Array";
             }
             if (event.data === 'send back Int8Array object') {
-                myObject = new Int8Array([1, 2, 3, 4, 5]);
+                theObject = new Int8Array([1, 2, 3, 4, 5]);
                 response.sentType = "Int8Array";
             }
             if (event.data === 'send back Float32Array object') {
-                myObject = new Float32Array([1.1, 2.2, 3.3, 4.4, 5.5]);
+                theObject = new Float32Array([1.1, 2.2, 3.3, 4.4, 5.5]);
                 response.sentType = "Float32Array";
             }
             if (event.data === 'send back Float64Array object') {
-                myObject = new Float64Array([1.1, 2.2, 3.3, 4.4, 5.5]);
+                theObject = new Float64Array([1.1, 2.2, 3.3, 4.4, 5.5]);
                 response.sentType = "Float64Array";
             }
             if (event.data === 'send back Date object') {
-                myObject = new Date();
+                theObject = new Date();
                 response.sentType = "Date";
             }
             if (event.data === 'send back Error object') {
-                myObject = new Error("hello world");
+                theObject = new Error("hello world");
                 response.sentType = "Error";
             }
             if (event.data === 'send back SyntaxError object') {
-                myObject = new SyntaxError("hello world");
+                theObject = new SyntaxError("hello world");
                 response.sentType = "SyntaxError";    
             }
             if (event.data === 'send back TypeError object') {
-                myObject = new TypeError("hello world");
+                theObject = new TypeError("hello world");
                 response.sentType = "TypeError";
             }
             if (event.data === 'send back RangeError object') {
-                myObject = new RangeError("hello world");
+                theObject = new RangeError("hello world");
                 response.sentType = "RangeError";
             }
             if (event.data === 'send back RegExp object') {
-                myObject = /hello world/g;
+                theObject = /hello world/g;
                 response.sentType = "RegExp";
             }
             if (event.data === 'send back Blob object') {
-                myObject = new Blob(["hello world"], {type : 'text/plain'});
+                theObject = new Blob(["hello world"], {type : 'text/plain'});
                 response.sentType = "Blob";
             }
             if (event.data === 'send back File object') {
-                myObject = new File(["hello world"], "hello.txt", {type : 'text/plain'});
+                theObject = new File(["hello world"], "hello.txt", {type : 'text/plain'});
                 response.sentType = "File";
             }
+            if (event.data === 'send back ArrayBuffer object') {
+                theObject = new ArrayBuffer(8);
+                console.log(typeMaster.enhancedTypeOf(theObject));
+                response.sentType = "ArrayBuffer";
+            }
 
-            response.theData = myObject;
+            response.theData = theObject;
             event.source.postMessage(response, event.origin);
         });
     </script>
