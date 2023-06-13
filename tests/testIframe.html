@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Test Page</title>
+    <style>
+        #log {
+            width: 100%;
+        }
+    </style>    
+    <script src="../dist/type-master.iife.js"></script>
+    <script>
+        window.onload = function() {
+
+            var logElem = document.getElementById('log');
+            function Log(message) {
+                console.log(message);
+                logElem.value += " - " + message + '\n';
+            }
+
+            var iframe = document.createElement('iframe');
+            iframe.src = 'iframe.html';
+            document.body.appendChild(iframe);
+
+            iframe.onload = function() {
+                Log('Main test page now sending object request messages to iframe\n');
+
+                iframe.contentWindow.postMessage('send back Date object', '*');
+                iframe.contentWindow.postMessage('send back Array object', '*');
+                iframe.contentWindow.postMessage('send back Int8Array object', '*');
+                iframe.contentWindow.postMessage('send back Float32Array object', '*');
+                iframe.contentWindow.postMessage('send back Float64Array object', '*');
+                iframe.contentWindow.postMessage('send back Error object', '*');
+                iframe.contentWindow.postMessage('send back SyntaxError object', '*');
+                iframe.contentWindow.postMessage('send back TypeError object', '*');
+                iframe.contentWindow.postMessage('send back RangeError object', '*');
+                iframe.contentWindow.postMessage('send back Blob object', '*');
+                iframe.contentWindow.postMessage('send back File object', '*');
+                iframe.contentWindow.postMessage('send back RegExp object', '*');
+            };
+
+            // Listen for a message event
+            window.addEventListener('message', function(event) {
+                if (event.origin !== 'http://localhost:9090' && event.origin !=="http://127.0.0.1:9090") return;
+
+                var theObject = event.data.theData;
+                var sentType = event.data.sentType;
+                var typeOfMyObject = typeMaster.enhancedTypeOf(theObject);
+                var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
+
+                Log(result + ': Iframe test of enhancedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
+            });
+        };
+    </script>
+</head>
+<body>
+    <h2>TypeMaster Iframe Tests</h2>
+    <textarea id="log" rows="40" cols="150"></textarea>
+</body>
+</html>

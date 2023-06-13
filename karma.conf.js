@@ -30,8 +30,7 @@ module.exports = function (config) {
 		require('karma-jasmine'),
 		require('karma-chrome-launcher'),
 		require('karma-firefox-launcher'),
-		require('karma-rollup-preprocessor')
-		//require('karma-jasmine-html-reporter')
+		require('karma-rollup-preprocessor'),
 		],      
 		singleRun: true,
 		autoWatch: false,

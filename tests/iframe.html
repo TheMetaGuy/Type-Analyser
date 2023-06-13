@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iframe Page</title>
+    <script src="../dist/type-master.iife.js"></script>
+    <script>
+        window.addEventListener('message', function(event) {
+
+            var myObject = null; 
+            var response = {sentType: "unknown", theData: myObject};
+
+            if (event.data === 'send back Array object') {
+                myObject = ["hello", "world"] 
+                response.sentType = "Array";
+            }
+            if (event.data === 'send back Int8Array object') {
+                myObject = new Int8Array([1, 2, 3, 4, 5]);
+                response.sentType = "Int8Array";
+            }
+            if (event.data === 'send back Float32Array object') {
+                myObject = new Float32Array([1.1, 2.2, 3.3, 4.4, 5.5]);
+                response.sentType = "Float32Array";
+            }
+            if (event.data === 'send back Float64Array object') {
+                myObject = new Float64Array([1.1, 2.2, 3.3, 4.4, 5.5]);
+                response.sentType = "Float64Array";
+            }
+            if (event.data === 'send back Date object') {
+                myObject = new Date();
+                response.sentType = "Date";
+            }
+            if (event.data === 'send back Error object') {
+                myObject = new Error("hello world");
+                response.sentType = "Error";
+            }
+            if (event.data === 'send back SyntaxError object') {
+                myObject = new SyntaxError("hello world");
+                response.sentType = "SyntaxError";    
+            }
+            if (event.data === 'send back TypeError object') {
+                myObject = new TypeError("hello world");
+                response.sentType = "TypeError";
+            }
+            if (event.data === 'send back RangeError object') {
+                myObject = new RangeError("hello world");
+                response.sentType = "RangeError";
+            }
+            if (event.data === 'send back RegExp object') {
+                myObject = /hello world/g;
+                response.sentType = "RegExp";
+            }
+            if (event.data === 'send back Blob object') {
+                myObject = new Blob(["hello world"], {type : 'text/plain'});
+                response.sentType = "Blob";
+            }
+            if (event.data === 'send back File object') {
+                myObject = new File(["hello world"], "hello.txt", {type : 'text/plain'});
+                response.sentType = "File";
+            }
+
+            response.theData = myObject;
+            event.source.postMessage(response, event.origin);
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
