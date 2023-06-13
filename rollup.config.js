@@ -22,8 +22,10 @@ export default {
     resolve(),
     babel({
       exclude: 'node_modules/**',
-      presets: ['@babel/preset-env'],
-      babelHelpers: false,
+      "targets": {
+        "esmodules": true
+      },
+      babelHelpers: 'bundled',
     })
   ]
 };
