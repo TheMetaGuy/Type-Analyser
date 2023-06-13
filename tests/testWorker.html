@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Test Page</title>
+    <style>
+        #log {
+            width: 100%;
+        }
+    </style>    
+    <script src="../dist/type-master.iife.js"></script>
+    <script>
+        window.onload = function() {
+
+            var logElem = document.getElementById('log');
+            function Log(message) {
+                console.log(message);
+                logElem.value += " - " + message + '\n';
+            }
+
+            var worker = new Worker('worker.js');
+            // send the off-screen canvas to the worker    
+            var offScreenCanvas = document.querySelector('canvas').transferControlToOffscreen();
+            worker.postMessage({canvas: offScreenCanvas}, [offScreenCanvas]);
+
+            Log('Main test page now sending object request messages to worker\n');
+
+            worker.postMessage('send back Date object');
+            worker.postMessage('send back Array object');
+            worker.postMessage('send back Int8Array object');
+            worker.postMessage('send back Float32Array object');
+            worker.postMessage('send back Float64Array object');
+            worker.postMessage('send back Error object');
+            worker.postMessage('send back SyntaxError object');
+            worker.postMessage('send back TypeError object');
+            worker.postMessage('send back RangeError object');
+            worker.postMessage('send back Blob object');
+            worker.postMessage('send back File object');
+            worker.postMessage('send back RegExp object');   
+            worker.postMessage('send back ArrayBuffer object');
+            worker.postMessage('send back ImageData object');
+
+            worker.onmessage = function(event) {
+                var theObject = event.data.theData;
+                var sentType = event.data.sentType;
+                var typeOfMyObject = typeMaster.enhancedTypeOf(theObject);
+                var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
+
+                Log(result + ': Worker test of enhancedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
+            }
+        };
+    </script>
+</head>
+<body>
+    <h2>TypeMaster Worker Tests</h2>
+    <textarea id="log" rows="40" cols="150"></textarea>
+    <canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;">
+        Your browser does not support the HTML canvas tag.
+        </canvas>
+</body>
+</html>
