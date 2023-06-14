@@ -21,6 +21,9 @@
 
             var iframe = document.createElement('iframe');
             iframe.src = 'iframe.html';
+            // make the iframe invisible
+            iframe.style.display = 'none';
+
             document.body.appendChild(iframe);
 
             iframe.onload = function() {
@@ -100,7 +103,8 @@
     <textarea id="logI" rows="25" cols="150"></textarea>
     <h2>TypeMaster Worker Tests</h2>
     <textarea id="logW" rows="25" cols="150"></textarea>
-    <canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;">
+    <!-- we don't need so actually display anything on the canvas -->
+    <canvas id="myCanvas" width="1" height="1" style="border:1px solid #d3d3d3;">
         Your browser does not support the HTML canvas tag.
         </canvas>    
 </body>
