@@ -1,11 +1,11 @@
 {
   "name": "type-master",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "utility package designed to provide in-depth and precise type information for any JavaScript object, be it a primitive, built-in type, ES6/ES2020 type or custom classes",
   "main": "dist/type-master.cjs.js",
   "module": "dist/type-master.esm.js",
   "browser": "dist/type-master.iife.js",
-  "type" :"module",
+  "type": "module",
   "scripts": {
     "build": "rollup -c"
   },
@@ -28,6 +28,7 @@
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^25.0.1",
     "@rollup/plugin-node-resolve": "^15.1.0",
-    "rollup": "^3.25.0"
+    "@rollup/plugin-terser": "^0.4.3",
+    "rollup": "^3.25.1"
   }
 }
