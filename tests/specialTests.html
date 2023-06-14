@@ -6,17 +6,19 @@
         #log {
             width: 100%;
         }
-    </style>    
+    </style> 
+    <!-- get rid of the favicon 404 error -->
+    <link rel="shortcut icon" href="#">   
     <script src="./dist-copy/type-master.iife.js"></script>
     <script>
         window.onload = function() {
 
             //  ========================================== Iframe tests ========================================== 
 
-            var logIElem = document.getElementById('logI');
-            function LogI(message) {
+            var log_I_Elem = document.getElementById('log_I');
+            function Log_I_Results(message) {
                 console.log(message);
-                logIElem.value += " - " + message + '\n';
+                log_I_Elem.value += " - " + message + '\n';
             }
 
             var iframe = document.createElement('iframe');
@@ -27,7 +29,7 @@
             document.body.appendChild(iframe);
 
             iframe.onload = function() {
-                LogI('Main test page now sending object request messages to iframe\n');
+                Log_I_Results('Main test page now sending object request messages to iframe\n');
 
                 iframe.contentWindow.postMessage('send back Date object', '*');
                 iframe.contentWindow.postMessage('send back Array object', '*');
@@ -53,15 +55,15 @@
                 var typeOfMyObject = typeMaster.enhancedTypeOf(theObject);
                 var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
 
-                LogI(result + ': Iframe test of enhancedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
+                Log_I_Results(result + ': Iframe test of enhancedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
             });
 
             // ====================================== Worker Thread tests =========================================
             
-            var logWElem = document.getElementById('logW');
-            function LogW(message) {
+            var log_W_Elem = document.getElementById('log_W');
+            function Log_W_Results(message) {
                 console.log(message);
-                logWElem.value += " - " + message + '\n';
+                log_W_Elem.value += " - " + message + '\n';
             }
             
             var worker = new Worker('worker.js');
@@ -69,9 +71,11 @@
             var offScreenCanvas = document.querySelector('canvas').transferControlToOffscreen();
             worker.postMessage({canvas: offScreenCanvas}, [offScreenCanvas]);
 
-            LogW('Main test page now sending object request messages to worker');
-            LogW('test of worker object type give : ' + typeMaster.enhancedTypeOf(worker) + '\n' );
+            Log_W_Results('Main test page now sending object request messages to worker');
+            Log_W_Results('the worker object type is : ' + typeMaster.enhancedTypeOf(worker) + '\n' );
 
+            worker.postMessage('send back null object');
+            worker.postMessage('send back undefined object');
             worker.postMessage('send back Date object');
             worker.postMessage('send back Array object');
             worker.postMessage('send back Int8Array object');
@@ -93,15 +97,15 @@
                 var typeOfMyObject = typeMaster.enhancedTypeOf(theObject);
                 var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
 
-                LogW(result + ': Worker test of enhancedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
+                Log_W_Results(result + ': Worker test of enhancedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
             }
 
             // ====================================== DOM elements tests =========================================
 
-            var logHElem = document.getElementById('logH');
-            function LogH(message) {
+            var log_H_Elem = document.getElementById('log_H');
+            function Log_H_Results(message) {
                 console.log(message);
-                logHElem.value += " - " + message + '\n';
+                log_H_Elem.value += " - " + message + '\n';
             }
 
             // create a series of DOM elements and then test to see if we can detect the correct type of each one
@@ -116,20 +120,105 @@
             var source = document.createElement('source');
             var track = document.createElement('track');
             var table = document.createElement('table');
+            var testIiframe = document.createElement('testIiframe');
+            var button = document.createElement('button');
+            var textNode = document.createTextNode('This is a text node');
+            var script = document.createElement('script');
+            var style = document.createElement('style');
+            var link = document.createElement('link');
+            var meta = document.createElement('meta');
+            var head = document.createElement('head');
+            var body = document.createElement('body');
+            var html = document.createElement('html');
+            var ulist = document.createElement('ul');
+            var olist = document.createElement('ol');
+            var list = document.createElement('li');
+            var documentFragment = document.createDocumentFragment();            
+
+            var result;
+            Log_H_Results('Main test page now testing the detected type of DOM elements\n ' );
+
+            result = (typeMaster.enhancedTypeOf(window) === 'Window') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'window is of type             - ' + typeMaster.enhancedTypeOf(window));
+
+            result = (typeMaster.enhancedTypeOf(document) === 'HTMLDocument') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'document is of type           - ' + typeMaster.enhancedTypeOf(document));
+
+            result = (typeMaster.enhancedTypeOf(documentFragment) === 'DocumentFragment') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'documentFragment is of type   - ' + typeMaster.enhancedTypeOf(documentFragment));
+
+            result = (typeMaster.enhancedTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<meta> is of  type            - ' + typeMaster.enhancedTypeOf(meta));
+
+            result = (typeMaster.enhancedTypeOf(head) === 'HTMLHeadElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<head> is of  type            - ' + typeMaster.enhancedTypeOf(head));
+
+            result = (typeMaster.enhancedTypeOf(body) === 'HTMLBodyElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<body> is of  type            - ' + typeMaster.enhancedTypeOf(body));
             
-            LogH('Main test page now testing the detected type of DOM elements ===\n ' );
-            LogH('div is a     - ' + typeMaster.enhancedTypeOf(div));
-            LogH('p is a       - ' + typeMaster.enhancedTypeOf(p));
-            LogH('span is a    - '  + typeMaster.enhancedTypeOf(span));
-            LogH('a is a       - ' + typeMaster.enhancedTypeOf(a));
-            LogH('img is a     - ' + typeMaster.enhancedTypeOf(img));
-            LogH('canvas is a  - ' + typeMaster.enhancedTypeOf(canvas));
-            LogH('video is a   - ' + typeMaster.enhancedTypeOf(video));
-            LogH('audio is a   - ' + typeMaster.enhancedTypeOf(audio));
-            LogH('source is a  - ' + typeMaster.enhancedTypeOf(source));
-            LogH('track is a   - ' + typeMaster.enhancedTypeOf(track));
-            LogH('table is a   - ' + typeMaster.enhancedTypeOf(table));
-            LogH('iframe is a  - ' + typeMaster.enhancedTypeOf(iframe));
+            result = (typeMaster.enhancedTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';                
+            Log_H_Results(result + '<html> is of  type            - ' + typeMaster.enhancedTypeOf(html));
+
+            result = (typeMaster.enhancedTypeOf(div) === 'HTMLDivElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<div> is of  type             - ' + typeMaster.enhancedTypeOf(div));
+            
+            result = (typeMaster.enhancedTypeOf(p) === 'HTMLParagraphElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<p> is of  type               - ' + typeMaster.enhancedTypeOf(p));
+
+            result = (typeMaster.enhancedTypeOf(span) === 'HTMLSpanElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<span> is of  type            - ' + typeMaster.enhancedTypeOf(span));
+
+            result = (typeMaster.enhancedTypeOf(a) === 'HTMLAnchorElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<a> is of  type               - ' + typeMaster.enhancedTypeOf(a));
+
+            result = (typeMaster.enhancedTypeOf(img) === 'HTMLImageElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<img> is of  type             - ' + typeMaster.enhancedTypeOf(img));
+
+            result = (typeMaster.enhancedTypeOf(canvas) === 'HTMLCanvasElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<canvas> is of  type          - ' + typeMaster.enhancedTypeOf(canvas));
+
+            result = (typeMaster.enhancedTypeOf(video) === 'HTMLVideoElement') ? 'PASS: ' : 'FAIL: ';     
+            Log_H_Results(result + '<video> is of  type           - ' + typeMaster.enhancedTypeOf(video));
+
+            result = (typeMaster.enhancedTypeOf(audio) === 'HTMLAudioElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<audio> is of  type           - ' + typeMaster.enhancedTypeOf(audio));
+
+            result = (typeMaster.enhancedTypeOf(source) === 'HTMLSourceElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<source> is of  type          - ' + typeMaster.enhancedTypeOf(source));
+
+            result = (typeMaster.enhancedTypeOf(track) === 'HTMLTrackElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<track> is of  type           - ' + typeMaster.enhancedTypeOf(track));
+
+            result = (typeMaster.enhancedTypeOf(table) === 'HTMLTableElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<table> is of  type           - ' + typeMaster.enhancedTypeOf(table));
+
+            result = (typeMaster.enhancedTypeOf(testIiframe) === 'HTMLIFrameElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<iframe> is of  type          - ' + typeMaster.enhancedTypeOf(testIiframe));
+
+            result = (typeMaster.enhancedTypeOf(button) === 'HTMLButtonElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<button> is of  type          - ' + typeMaster.enhancedTypeOf(button));
+
+            result = (typeMaster.enhancedTypeOf(textNode) === 'Text') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + 'textNode is of  type          - ' + typeMaster.enhancedTypeOf(textNode));
+
+            result = (typeMaster.enhancedTypeOf(script) === 'HTMLScriptElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<script> is of  type          - ' + typeMaster.enhancedTypeOf(script));
+
+            result = (typeMaster.enhancedTypeOf(style) === 'HTMLStyleElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<style> is of  type           - ' + typeMaster.enhancedTypeOf(style));
+
+            result = (typeMaster.enhancedTypeOf(link) === 'HTMLLinkElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<link> is of  type            - ' + typeMaster.enhancedTypeOf(link));
+
+            result = (typeMaster.enhancedTypeOf(ulist) === 'HTMLUListElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<ul> is of  type              - ' + typeMaster.enhancedTypeOf(ulist));
+
+            result = (typeMaster.enhancedTypeOf(olist) === 'HTMLOListElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<ol> is of  type              - ' + typeMaster.enhancedTypeOf(olist));
+
+            result = (typeMaster.enhancedTypeOf(list) === 'HTMLLIElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<li> is of  type              - ' + typeMaster.enhancedTypeOf(list));
+
 
             // ====================================== End of tests =========================================
 
@@ -138,14 +227,14 @@
 </head>
 <body>
     <h3>TypeMaster Iframe Tests</h3>
-    <textarea id="logI" rows="20" cols="180"></textarea>
+    <textarea id="log_I" rows="16" cols="180"></textarea>
     <h3>TypeMaster Worker Tests</h3>
-    <textarea id="logW" rows="20" cols="180"></textarea>
+    <textarea id="log_W" rows="20" cols="180"></textarea>
     <!-- we don't need so actually display anything on the canvas -->
     <canvas id="myCanvas" width="1" height="1" style="border:1px solid #d3d3d3;">
         Your browser does not support the HTML canvas tag.
     </canvas>    
     <h3>DOM Element Tests</h3>
-    <textarea id="logH" rows="20" cols="180"></textarea>
+    <textarea id="log_H" rows="30" cols="180"></textarea>
 </body>
 </html>

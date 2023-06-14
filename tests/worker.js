@@ -1,12 +1,21 @@
 importScripts("./dist-copy/type-master.iife.js");
-let canvas = null;
+var theCanvas = null;
 self.onmessage = function(event) {
     var theObject = null; 
-    var response = {sentType: "unknown", theData: theObject};
+    var response = {sentType: "notSet", theData: theObject};
+    
     if ( typeMaster.enhancedTypeOf(event.data) === 'object') {
-        canvas = event.data.canvas;
+        theCanvas = event.data.canvas;
     }
 
+    if (event.data === 'send back undefined object') { 
+        theObject = undefined;
+        response.sentType = "undefined";
+    }
+    if (event.data === 'send back null object') { 
+        theObject = null;
+        response.sentType = "null";
+    }
     if (event.data === 'send back Array object') {
         theObject = ["hello", "world"] 
         response.sentType = "Array";
@@ -61,17 +70,18 @@ self.onmessage = function(event) {
     }
 
     if (event.data === 'send back ImageData object') {
-        if ( canvas === null ) {
+        if ( theCanvas === null ) {
             response.sentType = "ImageData";
             theObject = null; 
         } else {
-            var context = canvas.getContext("2d");
+            var context = theCanvas.getContext("2d");
             theObject = context.createImageData(100, 100);
-            console.log(typeMaster.enhancedTypeOf(theObject));
             response.sentType = "ImageData";
         }
     }
 
-    response.theData = theObject;
-    self.postMessage(response);
+    if ( response.sentType !== "notSet" ) {
+        response.theData = theObject;
+        self.postMessage(response);
+    }
 };
