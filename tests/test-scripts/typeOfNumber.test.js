@@ -1,4 +1,4 @@
-import { typeOfNumber } from '../src/index.js';
+import { typeOfNumber } from '../testIndex.js';
 
 it('get number type of NaN', () => {
   expect(typeOfNumber(NaN)).toBe('NaN');

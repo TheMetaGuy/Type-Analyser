@@ -1,4 +1,4 @@
-import { hasCircularReference, isJSONSerializable, enhancedTypeOf } from '../src/index.js';
+import { hasCircularReference, isJSONSerializable, enhancedTypeOf } from '../testIndex.js';
 
 it('should return true for null', () => {
     expect(isJSONSerializable(null)).toBe(true);

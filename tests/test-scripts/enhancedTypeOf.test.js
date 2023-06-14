@@ -1,5 +1,5 @@
-import { enhancedTypeOf } from '../src/index.js';
-import { isAsyncFunction, isArrowFunction } from './testUtils.js';
+import { enhancedTypeOf } from '../testIndex.js';
+import { isAsyncFunction, isArrowFunction } from '../testUtils.js';
 
 // ----- primitive types -----
 

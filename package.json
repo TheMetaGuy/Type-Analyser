@@ -1,15 +1,13 @@
 {
   "name": "type-master",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "utility package designed to provide in-depth and precise type information for any JavaScript object, be it a primitive, built-in type, ES6/ES2020 type or custom classes",
   "main": "dist/type-master.cjs.js",
   "module": "dist/type-master.esm.js",
   "browser": "dist/type-master.iife.js",
+  "type" :"module",
   "scripts": {
-    "build": "rollup -c",
-    "test": "jest",
-    "test:karma": "karma start",
-    "startServer": "http-server . -p 9090"
+    "build": "rollup -c"
   },
   "keywords": [
     "types",
@@ -27,43 +25,9 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.22.5",
-    "@babel/preset-env": "^7.16",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^25.0.1",
     "@rollup/plugin-node-resolve": "^15.1.0",
-    "http-server": "^14.1.1",
-    "jasmine-core": "^5.0.1",
-    "jest": "^28.1",
-    "karma": "^6.4.2",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-firefox-launcher": "^2.1.2",
-    "karma-jasmine": "^5.1.0",
-    "karma-rollup-preprocessor": "^7.0.8",
     "rollup": "^3.25.0"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "browsers": [
-              "Edge >= 15",
-              "Chrome >= 55",
-              "Firefox >= 54",
-              "Opera >= 43",
-              "Safari >= 10.2",
-              "iOS >= 11.2",
-              "ChromeAndroid >= 55",
-              "FirefoxAndroid >= 54",
-              "Samsung >= 6.2"
-            ]
-          }
-        }
-      ]
-    ]
-  },
-  "jest": {
-    "testEnvironment": "node"
   }
 }

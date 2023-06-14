@@ -1,5 +1,5 @@
-import { getTypeDetails } from '../src/index.js';
-import { isArrowFunction } from './testUtils.js';
+import { getTypeDetails } from '../testIndex.js';
+import { isArrowFunction } from '../testUtils.js';
 
 // Basic Type Checks
 it('check type details of string primitive', () => {

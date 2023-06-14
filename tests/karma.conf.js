@@ -2,11 +2,11 @@ module.exports = function (config) {
 	config.set({
 		frameworks: ["jasmine"], 
 		files: [
-			"dist/type-master.iife.js",
-			"./tests/*.test.js"
+			"../dist-copy/type-master.iife.js",
+			"./test-scripts/*.test.js"
 		],
 		preprocessors: {
-			'./tests/*.test.js': ['rollup']
+			'./test-scripts/*.test.js': ['rollup']
 		},
 		rollupPreprocessor: {
 			plugins: [
