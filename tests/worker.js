@@ -1,4 +1,4 @@
-importScripts("./dist-copy/type-master.iife.js");
+importScripts("./dist-copy/type-master.iife.min.js");
 var theCanvas = null;
 self.onmessage = function(event) {
     var theObject = null; 

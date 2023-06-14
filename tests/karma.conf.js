@@ -2,7 +2,7 @@ module.exports = function (config) {
 	config.set({
 		frameworks: ["jasmine"], 
 		files: [
-			"../dist-copy/type-master.iife.js",
+			"../tests/dist-copy/type-master.iife.min.js",
 			"./test-scripts/*.test.js"
 		],
 		preprocessors: {
