@@ -69,7 +69,8 @@
             var offScreenCanvas = document.querySelector('canvas').transferControlToOffscreen();
             worker.postMessage({canvas: offScreenCanvas}, [offScreenCanvas]);
 
-            LogW('Main test page now sending object request messages to worker\n');
+            LogW('Main test page now sending object request messages to worker');
+            LogW('test of worker object type give : ' + typeMaster.enhancedTypeOf(worker) + '\n' );
 
             worker.postMessage('send back Date object');
             worker.postMessage('send back Array object');
@@ -95,17 +96,56 @@
                 LogW(result + ': Worker test of enhancedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
             }
 
+            // ====================================== DOM elements tests =========================================
+
+            var logHElem = document.getElementById('logH');
+            function LogH(message) {
+                console.log(message);
+                logHElem.value += " - " + message + '\n';
+            }
+
+            // create a series of DOM elements and then test to see if we can detect the correct type of each one
+            var div = document.createElement('div');
+            var p = document.createElement('p');
+            var span = document.createElement('span');
+            var a = document.createElement('a');
+            var img = document.createElement('img');
+            var canvas = document.createElement('canvas');
+            var video = document.createElement('video');
+            var audio = document.createElement('audio');
+            var source = document.createElement('source');
+            var track = document.createElement('track');
+            var table = document.createElement('table');
+            
+            LogH('Main test page now testing the detected type of DOM elements ===\n ' );
+            LogH('div is a     - ' + typeMaster.enhancedTypeOf(div));
+            LogH('p is a       - ' + typeMaster.enhancedTypeOf(p));
+            LogH('span is a    - '  + typeMaster.enhancedTypeOf(span));
+            LogH('a is a       - ' + typeMaster.enhancedTypeOf(a));
+            LogH('img is a     - ' + typeMaster.enhancedTypeOf(img));
+            LogH('canvas is a  - ' + typeMaster.enhancedTypeOf(canvas));
+            LogH('video is a   - ' + typeMaster.enhancedTypeOf(video));
+            LogH('audio is a   - ' + typeMaster.enhancedTypeOf(audio));
+            LogH('source is a  - ' + typeMaster.enhancedTypeOf(source));
+            LogH('track is a   - ' + typeMaster.enhancedTypeOf(track));
+            LogH('table is a   - ' + typeMaster.enhancedTypeOf(table));
+            LogH('iframe is a  - ' + typeMaster.enhancedTypeOf(iframe));
+
+            // ====================================== End of tests =========================================
+
         };
     </script>
 </head>
 <body>
-    <h2>TypeMaster Iframe Tests</h2>
-    <textarea id="logI" rows="25" cols="150"></textarea>
-    <h2>TypeMaster Worker Tests</h2>
-    <textarea id="logW" rows="25" cols="150"></textarea>
+    <h3>TypeMaster Iframe Tests</h3>
+    <textarea id="logI" rows="20" cols="180"></textarea>
+    <h3>TypeMaster Worker Tests</h3>
+    <textarea id="logW" rows="20" cols="180"></textarea>
     <!-- we don't need so actually display anything on the canvas -->
     <canvas id="myCanvas" width="1" height="1" style="border:1px solid #d3d3d3;">
         Your browser does not support the HTML canvas tag.
-        </canvas>    
+    </canvas>    
+    <h3>DOM Element Tests</h3>
+    <textarea id="logH" rows="20" cols="180"></textarea>
 </body>
 </html>
