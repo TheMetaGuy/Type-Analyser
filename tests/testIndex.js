@@ -1,5 +1,5 @@
-export { enhancedTypeOf } from './src-copy/enhancedTypeOf.js';
-export { getTypeDetails } from './src-copy/enhancedTypeOf.js';
+export { extendedTypeOf } from './src-copy/extendedTypeOf.js';
+export { getTypeDetails } from './src-copy/extendedTypeOf.js';
 export { typeOfNumber } from './src-copy/typeOfNumber.js';
 export { isSafeNumber } from './src-copy/typeOfNumber.js';
 export { isJSONSerializable } from './src-copy/misc.js';

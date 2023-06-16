@@ -4,7 +4,7 @@ self.onmessage = function(event) {
     var theObject = null; 
     var response = {sentType: "notSet", theData: theObject};
     
-    if ( typeMaster.enhancedTypeOf(event.data) === 'object') {
+    if ( typeMaster.extendedTypeOf(event.data) === 'object') {
         theCanvas = event.data.canvas;
     }
 

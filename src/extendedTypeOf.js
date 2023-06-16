@@ -2,11 +2,13 @@
  * Accurately identifies the type of all Javascript objects not just the primitive types and it's much more
  * accurate than the built-in javascript 'typeof' operator. It provides the same core functionality 
  * but returns the correct type for null, all ES6 / ES2020 types and custom types ( E.g. your classes ). 
+ * It works correctly with types simulated via Polyfills (E.g. Symbol via Babel ) and also correctly identifies
+ * types retieved from Iframes and Worker threads where passing of those types is supported.
  * @param {*} obj - The object to get the type of.
  * @returns a string representing the type of the object passed in.
  */
 
-function enhancedTypeOf(obj) {
+function extendedTypeOf(obj) {
     let typeStr = typeof(obj);
     let basicType = typeStr;
 
@@ -40,7 +42,7 @@ function enhancedTypeOf(obj) {
         let es6ClassName = obj.constructor.name;
         if (es6ClassName !== 'Object') {
             return typeStr = es6ClassName;
-        }        
+        }       
     }    
 
     return typeStr;
@@ -50,7 +52,8 @@ function enhancedTypeOf(obj) {
  * Performs type introspection and returns detailed type information about the object passed in. This function returns 
  * useful information about all types including ES6 / EES2020 and customs types ( E.g. Your classes ). 
  * @param {*} obj - the object to get type information about.
- * @param {*} showFullPrototypeChain - if true, the full javascript inheritance prototype chain will be included in the returned object
+ * @param {*} showFullPrototypeChain - Optional. if true (the default value), the full javascript inheritance prototype chain will be included 
+ *                                     in the returned object. 
  *                                     if false, The final 'Object' will be removed from the chain and also only 
  *                                     chains longer than 1 will be included as in this case the chain will be just 
  *                                     have a single value the same as the Type field which is not very useful.
@@ -144,4 +147,4 @@ function getPrototypeChain(obj) {
 }
 
 export { getTypeDetails };
-export { enhancedTypeOf };
+export { extendedTypeOf };

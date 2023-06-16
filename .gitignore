@@ -1,1 +1,8 @@
 node_modules/
+lib/
+temp/
+tests/dist-copy/type-master.cjs.js
+dist/
+tests/dist-copy/type-master.cjs.min.js
+tests/dist-copy/
+tests/src-copy/

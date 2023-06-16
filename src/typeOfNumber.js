@@ -4,7 +4,7 @@
  * or it will return unsafeInteger for a number that is too large to be a safe integer. Also it will return 'NaN'
  * for BigInt and Symbol types unlike the built-in isNaN( ) function which throws a type error for these types.
  * @param {*} obj the object to get number type information about.
- * @param {*} acceptStringNumbers - if true (the default for this optional parameter), then if a string is passed in, it
+ * @param {*} acceptStringNumbers - Optional. if true (the default value), then if a string is passed in, it
  *                                  will be converted to a number and the it's type will tested for safe use. Strings
  *                                  are not coerceced to numbers if they do not represent a valid number. E.g '34.345abchs'
  *                                  will not be converted to a number and will return false. But '34.345' will be converted
@@ -13,8 +13,6 @@
  *                                  function to force coercing. E.g. it will convert '34.345abchs' to 34.345).  
  *                                  if acceptStringNumbers is false then when a string is passed in, it will never be 
  *                                  converted to a number and 'NaN' will be returned.
- * @param {*} acceptStringNumbers - if true (the default for this optional parameter), then if a string is passed in, it 
- *                                  will be converted to a number and the type of that will be returned. If false, then
  *                                  if a string is passed in, it will not be converted to a number and 'NaN' will be returned.
  * @returns - a string representing the type of number passed in. The possible values are:
  *                                 'bigint', 'NaN' , 'infinity', '-infinity', 'safeInteger', 'unsafeInteger', 'float'
@@ -58,7 +56,7 @@ function typeOfNumber (obj, acceptStringNumbers = true) {
  * safe integers are not safe to use in calculations. 
  * 
  * @param {*} obj - The object to check if it is a safe number.
- * @param {*} acceptStringNumbers - if true (the default for this optional parameter), then if a string is passed in, it
+ * @param {*} acceptStringNumbers - Optional. if true (the default value), then if a string is passed in, it
  *                                  will be converted to a number and it's type will tested for safe use. Strings
  *                                  are not coerceced to numbers if they do not represent a valid number. E.g '34.345abchs'
  *                                  will not be converted to a number and will return false. But '34.345' will be converted
