@@ -3,6 +3,7 @@
  * this returns useful information about the type of number passed in. E.g. it will return 'infinity' for Infinity
  * or it will return unsafeInteger for a number that is too large to be a safe integer. Also it will return 'NaN'
  * for BigInt and Symbol types unlike the built-in isNaN( ) function which throws a type error for these types.
+ * Note that NaN returns 'NaN' as that is that of 'number' type that it is
  * @param {*} obj the object to get number type information about.
  * @param {*} acceptStringNumbers - Optional. if true (the default value), then if a string is passed in, it
  *                                  will be converted to a number and the it's type will tested for safe use. Strings
@@ -26,7 +27,6 @@ function typeOfNumber (obj, acceptStringNumbers = true) {
     if ( typeStr === 'bigint' ) {
         return 'bigint';
     }
-    // this should also work with old ES5 Symbol polyfills which may be reported as typeof 'string' ?
     if ( typeStr !== 'number' ) {
         return 'NaN';
     }
@@ -54,7 +54,7 @@ function typeOfNumber (obj, acceptStringNumbers = true) {
  * has a number of different types of numbers and some of them are not safe to use in calculations. E.g.
  * BigInts are not safe to use in calculations with regular numbers. Also, numbers that are too large to be
  * safe integers are not safe to use in calculations. 
- * 
+ * Note that NaN returns false as it is not a safe number to use in calculations. 
  * @param {*} obj - The object to check if it is a safe number.
  * @param {*} acceptStringNumbers - Optional. if true (the default value), then if a string is passed in, it
  *                                  will be converted to a number and it's type will tested for safe use. Strings
