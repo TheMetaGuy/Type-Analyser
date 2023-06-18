@@ -11,8 +11,12 @@ import { extendedTypeOf } from "./extendedTypeOf.js";
  * @param {*} visitedObjects -   Used internally to detect circular references. Do not pass this parameter.
  * @returns true if the object is JSON serializable WITHOUT a loss of data, false otherwise.
  */
-function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new Set()) {
-    let validJSONTypes = ['string', 'number', 'boolean', 'undefined', 'null'];
+function isJSONSerializable(obj, acceptFormatLoss, visitedObjects) {
+
+    acceptFormatLoss = acceptFormatLoss === undefined ? false : acceptFormatLoss;
+    visitedObjects = visitedObjects === undefined ? new Set() : visitedObjects;
+
+    var validJSONTypes = ['string', 'number', 'boolean', 'undefined', 'null'];
   
     // types where no data is lost but there is a change in data format when serializing
     const lossyValidJSONTypes = [
@@ -26,7 +30,7 @@ function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new 
         validJSONTypes.push(...lossyValidJSONTypes);
     }
 
-    let type = extendedTypeOf(obj);
+    var type = extendedTypeOf(obj);
 
     if (validJSONTypes.includes( type )) return true;
 
@@ -39,15 +43,15 @@ function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new 
   
       // Non integer array properties cannot be JSON serialized as data will be lost when serializing to JSON
       if (type === 'Array') { 
-        let totalPropertyCount = 0;
-        for (let key in obj) {
+        var totalPropertyCount = 0;
+        for (var key in obj) {
           totalPropertyCount++;
         }
         if (totalPropertyCount > obj.length) return false;
       }       
 
       // recursively check all properties      
-      for (let key in obj) {
+      for (var key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
           if (!isJSONSerializable(obj[key], acceptFormatLoss, visitedObjects)) return false;
         }
@@ -70,7 +74,10 @@ function isJSONSerializable(obj, acceptFormatLoss = false, visitedObjects = new 
  * @param {*} visitedObjects - Used internally to detect circular references. Do not pass this parameter.
  * @returns true if the object has a circular reference, false otherwise.
  */
-function hasCircularReference(obj, visitedObjects = new WeakSet()) {
+function hasCircularReference(obj, visitedObjects) {
+
+   visitedObjects = visitedObjects === undefined ? new WeakSet() : visitedObjects;
+
     if (typeof obj !== 'object' || obj === null) {
         return false;
     }
@@ -81,7 +88,7 @@ function hasCircularReference(obj, visitedObjects = new WeakSet()) {
 
     visitedObjects.add(obj);
 
-    for (let key in obj) {
+    for (var key in obj) {
         if (hasCircularReference(obj[key], visitedObjects)) {
             return true;
         }

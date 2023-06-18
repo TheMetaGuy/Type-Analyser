@@ -18,8 +18,11 @@
  * @returns - a string representing the type of number passed in. The possible values are:
  *                                 'bigint', 'NaN' , 'infinity', '-infinity', 'safeInteger', 'unsafeInteger', 'float'
  */
-function typeOfNumber (obj, acceptStringNumbers = true) {
-    let typeStr = typeof(obj);
+function typeOfNumber (obj, acceptStringNumbers) {
+
+    acceptStringNumbers = acceptStringNumbers === undefined ? true : acceptStringNumbers;
+
+    var typeStr = typeof(obj);
     if ( typeStr === 'string' &&  acceptStringNumbers ) {
         obj = Number(obj);
         typeStr = typeof(obj);
@@ -67,8 +70,11 @@ function typeOfNumber (obj, acceptStringNumbers = true) {
  *                                  converted to a number and 'NaN' will be returned
  * @returns - true if the number passed in is safe to use in a calculation, false otherwise.
  */
-function isSafeNumber (obj, acceptStringNumbers = true) {
-    let typeStr = typeOfNumber(obj, acceptStringNumbers);
+function isSafeNumber (obj, acceptStringNumbers) {
+
+    acceptStringNumbers = acceptStringNumbers === undefined ? true : acceptStringNumbers;
+    
+    var typeStr = typeOfNumber(obj, acceptStringNumbers);
     if ( typeStr === 'safeInteger' || typeStr === 'float' ) {
         return true;
     } else {

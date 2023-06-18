@@ -9,8 +9,8 @@
  */
 
 function extendedTypeOf(obj) {
-    let typeStr = typeof(obj);
-    let basicType = typeStr;
+    var typeStr = typeof(obj);
+    var basicType = typeStr;
 
     if (obj === null) return 'null';
 
@@ -39,7 +39,7 @@ function extendedTypeOf(obj) {
     }
 
     if ( basicType === 'object' && obj.constructor ) {
-        let es6ClassName = obj.constructor.name;
+        var es6ClassName = obj.constructor.name;
         if (es6ClassName !== 'Object') {
             return typeStr = es6ClassName;
         }       
@@ -70,8 +70,11 @@ function extendedTypeOf(obj) {
  *          prototypeChain : null,       // an array containing the javascript inheritance prototype chain of the input object passed.
  *      };
  */
-function getTypeDetails(obj, showFullPrototypeChain = true) {
-    let resultInfo = {  Type: "null", 
+function getTypeDetails(obj, showFullPrototypeChain) {
+
+    showFullPrototypeChain = showFullPrototypeChain === undefined ? true : showFullPrototypeChain;                
+
+    var resultInfo = {  Type: "null", 
                         ReferenceVariable: "",
                         hasCustomConstructor : false,
                         prototypeChainString : "",
@@ -86,9 +89,9 @@ function getTypeDetails(obj, showFullPrototypeChain = true) {
         return resultInfo;
     }    
 
-    let coreTypes = ['String', 'Number', 'Boolean', 'Undefined', 'Null', 'Symbol', 'Function', 'Object', 'BigInt'];
+    var coreTypes = ['String', 'Number', 'Boolean', 'Undefined', 'Null', 'Symbol', 'Function', 'Object', 'BigInt'];
 
-    let typeStr = Object.prototype.toString.call(obj).slice(8, -1);
+    var typeStr = Object.prototype.toString.call(obj).slice(8, -1);
     if ( coreTypes.includes(typeStr) ) {
         typeStr = typeStr.toLowerCase();
     }
@@ -97,7 +100,7 @@ function getTypeDetails(obj, showFullPrototypeChain = true) {
         typeStr = 'ArrowFunction';
     }
 
-    let es6ClassName;
+    var es6ClassName;
     if ( typeof obj === 'object' && obj.constructor) {
         es6ClassName = obj.constructor.name;
         if (es6ClassName !== 'Object') {
@@ -106,7 +109,7 @@ function getTypeDetails(obj, showFullPrototypeChain = true) {
         }
     }  
 
-    let pChain = getPrototypeChain(obj);
+    var pChain = getPrototypeChain(obj);
     if ( showFullPrototypeChain ) {
         resultInfo.prototypeChain = pChain;
         resultInfo.prototypeChainString = pChain.join(' -> ');
