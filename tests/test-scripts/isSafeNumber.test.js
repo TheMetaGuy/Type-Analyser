@@ -1,21 +1,23 @@
 import { isSafeNumber } from '../testIndex.js';
 
 it('test safe integers for safe use as a number', () => {
+  var maxInt = 9007199254740991;  // from mozilla docs. Number.MAX_SAFE_INTEGER is not supported on very old browsers  
   expect(isSafeNumber(1)).toBe(true);
-  expect(isSafeNumber(Number.MAX_SAFE_INTEGER)).toBe(true);
-  expect(isSafeNumber(Number.MIN_SAFE_INTEGER)).toBe(true);
+  expect(isSafeNumber(maxInt)).toBe(true);
+  expect(isSafeNumber(-maxInt)).toBe(true);
   expect(isSafeNumber(0)).toBe(true);
 });
 
 it('test unsafe integers for safe use as a number', () => {
-  expect(isSafeNumber(Number.MAX_SAFE_INTEGER + 1)).toBe(false);
-  expect(isSafeNumber(Number.MIN_SAFE_INTEGER - 1)).toBe(false);
+  var maxInt = 9007199254740991;  // from mozilla docs. Number.MAX_SAFE_INTEGER is not supported on very old browsers    
+  expect(isSafeNumber(maxInt + 1)).toBe(false);
+  expect(isSafeNumber(-maxInt - 1)).toBe(false);
   expect(isSafeNumber(Number.MAX_VALUE)).toBe(false); // Number.MAX_VALUE is not a safe integer
 });
 
 it('test Infinity and NaN for safe use as a number', () => {
-  expect(isSafeNumber(Number.POSITIVE_INFINITY)).toBe(false);
-  expect(isSafeNumber(Number.NEGATIVE_INFINITY)).toBe(false);
+  expect(isSafeNumber(1/0)).toBe(false);
+  expect(isSafeNumber(-1/0)).toBe(false);
   expect(isSafeNumber(NaN)).toBe(false);
 });
 

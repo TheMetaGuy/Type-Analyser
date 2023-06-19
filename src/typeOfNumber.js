@@ -14,9 +14,8 @@
  *                                  function to force coercing. E.g. it will convert '34.345abchs' to 34.345).  
  *                                  if acceptStringNumbers is false then when a string is passed in, it will never be 
  *                                  converted to a number and 'NaN' will be returned.
- *                                  if a string is passed in, it will not be converted to a number and 'NaN' will be returned.
  * @returns - a string representing the type of number passed in. The possible values are:
- *                                 'bigint', 'NaN' , 'infinity', '-infinity', 'safeInteger', 'unsafeInteger', 'float'
+ *                                 'bigint', 'NaN' , 'infinity', '-infinity', 'safeInteger', 'unsafeNumber', 'safeFloat'
  */
 function typeOfNumber (obj, acceptStringNumbers) {
 
@@ -42,14 +41,13 @@ function typeOfNumber (obj, acceptStringNumbers) {
         }
         return 'infinity';
     }
-    if ( Number.isInteger(obj) ) {
-        if ( Number.isSafeInteger(obj) ) {
-            return 'safeInteger';
-        }
-        return 'unsafeInteger';
-    }
-    else {
-        return 'float';
+    if ( Number.isSafeInteger(obj) ) {
+        return 'safeInteger';
+    } else {
+        if (Number.isSafeInteger( Number(obj.toFixed()) ) ) {
+            return "safeFloat"
+        }         
+        return 'unsafeNumber';
     }
 }
 /**
@@ -75,7 +73,7 @@ function isSafeNumber (obj, acceptStringNumbers) {
     acceptStringNumbers = acceptStringNumbers === undefined ? true : acceptStringNumbers;
     
     var typeStr = typeOfNumber(obj, acceptStringNumbers);
-    if ( typeStr === 'safeInteger' || typeStr === 'float' ) {
+    if ( typeStr === 'safeInteger' || typeStr === 'safeFloat' ) {
         return true;
     } else {
         return false;

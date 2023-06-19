@@ -19,13 +19,16 @@ it('get number type of safeinteger', () => {
 
 it('get number type of unsafe integers', () => {
   var maxInt = 9007199254740991;  // from mozilla docs. Number.MAX_SAFE_INTEGER is not supported on very old browsers
-  expect(typeOfNumber(maxInt + 1)).toBe('unsafeInteger');
-  expect(typeOfNumber(-maxInt - 1)).toBe('unsafeInteger');
-  expect(typeOfNumber(Number.MAX_VALUE)).toBe('unsafeInteger');
+  expect(typeOfNumber(maxInt + 1)).toBe('unsafeNumber');
+  expect(typeOfNumber(-maxInt - 1)).toBe('unsafeNumber');
+  expect(typeOfNumber(Number.MAX_VALUE)).toBe('unsafeNumber');
 });
 
 it('get number type of float', () => {
-  expect(typeOfNumber(1.1)).toBe('float');
+  var maxInt = 9007199254740991;  // from mozilla docs. Number.MAX_SAFE_INTEGER is not supported on very old browsers
+  expect(typeOfNumber(1.1)).toBe('safeFloat');
+  expect(typeOfNumber(900719925474099.75)).toBe('safeFloat');
+  expect(typeOfNumber(90071992547409975.33)).toBe('unsafeNumber');
 });
 
 it('get number type of bigint', () => {
@@ -38,8 +41,8 @@ it('get number type of bigint literal', () => {
 
 it('get number type of string with a number', () => {
   expect(typeOfNumber('123')).toBe('safeInteger');
-  expect(typeOfNumber('1.11')).toBe('float');
-  expect(typeOfNumber('-1.11')).toBe('float');
+  expect(typeOfNumber('1.11')).toBe('safeFloat');
+  expect(typeOfNumber('-1.11')).toBe('safeFloat');
   expect(typeOfNumber('0xFF')).toBe('safeInteger');
 });
 
