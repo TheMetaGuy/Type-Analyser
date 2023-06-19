@@ -6,18 +6,21 @@ it('get number type of NaN', () => {
 });
 
 it('get number type of Infinity', () => {
-  expect(typeOfNumber(Infinity)).toBe('infinity');
-  expect(typeOfNumber(-Infinity)).toBe('-infinity');
+  expect(typeOfNumber(1/0)).toBe('infinity');
+  expect(typeOfNumber(-1/0)).toBe('-infinity');
 });
 
 it('get number type of safeinteger', () => {
+  var maxInt = 9007199254740991;  // from mozilla docs. Number.MAX_SAFE_INTEGER is not supported on very old browsers  
   expect(typeOfNumber(10)).toBe('safeInteger');
-  expect(typeOfNumber(Number.MAX_SAFE_INTEGER)).toBe('safeInteger');
+  expect(typeOfNumber(maxInt)).toBe('safeInteger');
+  expect(typeOfNumber(-maxInt)).toBe('safeInteger');
 });
 
 it('get number type of unsafe integers', () => {
-  expect(typeOfNumber(Number.MAX_SAFE_INTEGER + 1)).toBe('unsafeInteger');
-  expect(typeOfNumber(Number.MIN_SAFE_INTEGER - 1)).toBe('unsafeInteger');
+  var maxInt = 9007199254740991;  // from mozilla docs. Number.MAX_SAFE_INTEGER is not supported on very old browsers
+  expect(typeOfNumber(maxInt + 1)).toBe('unsafeInteger');
+  expect(typeOfNumber(-maxInt - 1)).toBe('unsafeInteger');
   expect(typeOfNumber(Number.MAX_VALUE)).toBe('unsafeInteger');
 });
 

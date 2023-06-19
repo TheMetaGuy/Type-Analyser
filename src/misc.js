@@ -19,7 +19,7 @@ function isJSONSerializable(obj, acceptFormatLoss, visitedObjects) {
     var validJSONTypes = ['string', 'number', 'boolean', 'undefined', 'null'];
   
     // types where no data is lost but there is a change in data format when serializing
-    const lossyValidJSONTypes = [
+    var lossyValidJSONTypes = [
         'Date', 'URL', 'URLSearchParams', 
         'Int8Array', 'Uint8Array', 'Uint8ClampedArray', 
         'Int16Array', 'Uint16Array', 
