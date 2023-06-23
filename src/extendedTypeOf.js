@@ -5,7 +5,8 @@
  * It works correctly with types simulated via Polyfills (E.g. Symbol via Babel ) and also correctly identifies
  * types retieved from Iframes and Worker threads where passing of those types is supported.
  * @param {*} obj - The object to get the type of.
- * @returns a string representing the type of the object passed in.
+ * @returns a string representing the type of the object passed in. if a type can't be determined, 
+ *          the string 'unknown' will be returned.
  */
 
 function extendedTypeOf(obj) {
@@ -16,6 +17,11 @@ function extendedTypeOf(obj) {
 
     if (typeStr !== 'object' && typeStr !== 'function' && typeStr !== 'string') {
         return typeStr;
+    }
+
+    // if the object has the toString method overridden, then we can't accurately determine it's type
+    if ( obj.hasOwnProperty("toString") ) {
+        return "unknown"
     }
 
     // special case to handle old ES5 Symbol Polyfills which should always have a value of Symbol(something)
@@ -63,6 +69,7 @@ function extendedTypeOf(obj) {
  *                                         'string', 'number', 'boolean', 'undefined', 'symbol', 'function', 'object', 'bigint'.
  *                                          A Null object will be detected as 'null'.  All other built-in types will be recognised and returned
  *                                          in CamelCase Format as per the Javascirpt standard: E.g. 'Array', 'Date', 'Error', 'RegExp', 'URL' etc
+ *                                          if a type can't be determined, then 'unknown' will be returned.
  *          ReferenceVariable: "",       // A string representation of the reference variable, if any, that points to the input object. 
  *          hasCustomConstructor: false, // true if the input object has a it's own custom constructor, false otherwise.
  *          prototypeChainString : "",   // a string representation of the Javascript inheritance prototype chain of the input object. Objects
@@ -88,6 +95,12 @@ function getTypeDetails(obj, showFullPrototypeChain) {
         resultInfo.Type = 'undefined';
         return resultInfo;
     }    
+
+    // if the object has the toString method overridden, then we can't accurately determine it's type
+    if ( obj.hasOwnProperty("toString") ) {
+        resultInfo.Type = "unknownn";
+        return resultInfo;
+    }  
 
     var coreTypes = ['String', 'Number', 'Boolean', 'Undefined', 'Null', 'Symbol', 'Function', 'Object', 'BigInt'];
 
