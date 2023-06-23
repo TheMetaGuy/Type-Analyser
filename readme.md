@@ -2,7 +2,9 @@
 
 ## **What is Type-Master?**
 -----
-Type-Master is an simple but innovative JavaScript utility package designed to provide in-depth and precise type information for any JavaScript object, be it a primitive, built-in type, ES6/ES2020 type or even your custom classes. It offers a set of functions that go beyond the native `typeof`, `instanceof` or `isNaN` operators, addressing their limitations and delivering enhanced run-time and debug-time functionality that every JavaScript developer needs at their fingertips.  
+Type-Master is an simple but innovative utility package designed to provide in-depth and precise type information for any JavaScript object, be it a primitive, built-in type, ES6/ES2020 type or even your custom classes. 
+
+It offers a set of functions that go beyond the native `typeof`, `instanceof` or `isNaN` operators, addressing their limitations and delivering enhanced run-time and debug-time functionality that every JavaScript developer needs at their fingertips.  
 <br>
 
 ## **Why?**
@@ -29,80 +31,25 @@ Also Type-Master:
 
 - Also works when testing most ES6 types whilst running in non ES6 environments via Polyfills ( E.g. when bundling via Babel ).  See the Compatiability section below.
 
-- Has been extensively tested across different browsers and run-time environments (Node, Iframes, Worker threads etc - see the tests folder in the GitHub project for details).
+- Has been extensively tested across different browsers and run-time environments (Node, Iframes, Worker threads etc - see the tests folder in the GitHub project for details)
+
+- provides ESM, CSJ and IIFE modules variants for almost all use cases ( see *installation* section below)
+
+- Is tiny at 15KB unminified and 3KB minified. 
 
 
 <br>
 
-In short, Type-Master provides JavaScript developers with an small arsenal of tools for dealing with types, eliminating guesswork and reducing potential sources of bugs and so saving development time.
+In short, Type-Master prevents the incorrect behaviour that can occur if you naively used the built-in `typeof`, `instanceof` or `isNaN` operators. It accurtaely identifies javascript types, eliminating guesswork and reducing potential sources of bugs and so saving development time.  
 
 <br>
-
-
-
-
-<br>
-    
-## **Installation**
-------
-## **Node.js**
-
-Installing Type-Master in a Node.js project is easy with npm. Simply use the following command:
-
-```bash 
-  npm install type-master
-```
-
-Then, in your JavaScript file, you can require the module as follows:
-
-```javascript
-  const tm = require('type-master');
-```
-
-## **Browsers**
-For browser environments, you can import Type-Master via either CommonJS (CJS), ECMAScript Modules (ESM) or a simple  IIFE style global module. You can use the minified or non-minified versions when debugging you app. 
-
-## CommonJS (CJS)
-
-If you're using a bundler like Browserify or Webpack, you can use the same `require` syntax as in Node.js:
-
-```javascript
-  const tm = require('type-master');
-```
-
-## ECMAScript Modules (ESM)
-
-In modern browsers that support ECMAScript Modules, you can import Type-Master directly in your HTML file. 
-E.g. If you have downloaded from GitHub 
-
-```html
-  <script type="module">
-      import * as tm from './dist/type-master.esm.min.js';
-      // OR if you just need the essentials 
-      import {extendedTypeOf, typeOfNumber, isSafeNumber} from './dist/type-master.esm.min.js';
-  </script>
-```
-
-## Unbundled (IIFE) Global straight into your script 
-If  you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE global module version which will work on all browsers as is.
-```html
-  <script src="./dist/type-master.iife.min.js"></script>
-  <script>
-      var tm = typeMaster;  // the IIFE global is called 'typeMaster'
-
-      // your code 
-      if ( tm.extendedTypeOf(obj) === 'null' ) {
-          yourObjectResetcode( obj);      
-      } else {
-          obj = yourObjectCreationCode( );
-      }
-  </script>  
-```
 
 ## **Usage**
 
-Here are some examples of how you might use Type-Master. Note the wide range of examples where this tiny library will allow you to correctly identify the type of an object or the allowed operations and so the prevent incorrect behaviour if you naively used the built-in `typeof`, `instanceof` or `isNaN` operators.
+Here are some examples of how you might use Type-Master. Note the wide range of examples where this library will allow you to correctly identify the type of an object or the allowed operations. *However, note that - 'Object.prototype.toString( )' is used behind the scenes for type checking.  In the unlikely event that an object has the built-in toString( ) method overridden by custom code then 'unknown' will be returned for the type of that object* 
+ 
 
+<br>
 
 **Working with `null` and `object`**
 
@@ -128,7 +75,7 @@ if (tm.extendedTypeOf(y) === "object") {
 
 **Identifying arrays**
 
-Arrays have unique methods that objects don't have. Trying to use these methods on an object will cause a TypeError.
+Arrays have unique methods that objects don't have. Trying to use these methods on an object will cause a TypeError. Using extendedTypeOf All ES6 typed arrays can be identified 
 
 ```javascript
 let y = [1, 2, 3];
@@ -136,8 +83,9 @@ if (typeof y === "object") {
     y.push(4);  // TypeError: y.push is not a function
 }
 
-if (tm.extendedTypeOf(y) === "Array") {
-    y.push(4);  // Safe operation, y is now [1, 2, 3, 4]
+// This works across iframes and worker threads unlike Array.isArray( )
+if (tm.extendedTypeOf(y) === "Array") {  
+    y.push(4);  // Safe operation, y is now [1, 2, 3, 4].  
 }
 
 // typed arrays can be recognised 
@@ -148,8 +96,6 @@ if (tm.extendedTypeOf(new Uint8Array) === 'Uint8Array') {
 if ( tm.extendedTypeOf(new Float32Array) == 'Float32Array' ) {
     // can now do safe operation on the Typed array 
 }
-
-All ES6 typed arrays can be identified 
 ```
 
 **Safe use of a promise in a loop**
@@ -330,6 +276,64 @@ console.log(tm.hasCircularReference(obj)); // true
 **For a complete list of functions and their descriptions, please refer to the provided JSDoc comments within the module's source code** 
 
 <br> 
+    
+## **Installation**  
+
+-------------
+
+## **Node.js**
+
+Installing Type-Master in a Node.js project is easy with npm. Simply use the following command:
+
+```bash 
+  npm install type-master
+```
+
+Then, in your JavaScript file, you can require the module as follows:
+
+```javascript
+  const tm = require('type-master');
+```
+
+## **Browsers**
+For browser environments, you can import Type-Master via either CommonJS (CJS), ECMAScript Modules (ESM) or a simple  IIFE style global module. You can use the minified or non-minified versions when debugging you app. 
+
+## CommonJS (CJS)
+
+If you're using a bundler like Browserify or Webpack, you can use the same `require` syntax as in Node.js:
+
+```javascript
+  const tm = require('type-master');
+```
+
+## ECMAScript Modules (ESM)
+
+In modern browsers that support ECMAScript Modules, you can import Type-Master directly in your HTML file. E.g;  
+
+```html
+  <script type="module">
+      import * as tm from './node_module/type-master/dist/type-master.esm.min.js';
+      // OR if you just need the essentials 
+      import {extendedTypeOf, typeOfNumber, isSafeNumber} from './node_module/type-master/dist/type-master.esm.min.js';
+  </script>
+```
+
+## Unbundled (IIFE) Global straight into your script 
+If  you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE global module version which will work on all browsers as is.
+```html
+  <script src="./node_module/type-master/dist/type-master.iife.min.js"></script>
+  <script>
+      var tm = typeMaster;  // the IIFE global is called 'typeMaster'
+
+      // your code 
+      if ( tm.extendedTypeOf(obj) === 'null' ) {
+          yourObjectResetcode( obj);      
+      } else {
+          obj = yourObjectCreationCode( );
+      }
+  </script>  
+```
+
 
 
 ## **Compatiability** 
@@ -352,7 +356,6 @@ if you are Targeting ES5 environments via ES6 Polyfills ( E.g. via Babel ) then 
 | 0.12  | 34    | 32      |  9     |  12  | 25    | 9   |    2.0          |         34     |  37             |
 |
 
-This requires the ES6 Polyfills to simulate the actual ES6 type. However, note that in some cases the polyfill  
-duplicates the run-time behaviour of the type but *can't* simulate the actual ES6 type. E.g. This applies to *Arrow* and *Async Functions*. In practice If you don't need to detect/inspect these specific types at runtime in your code everything should work fine. E.g. you'll be able to correctly get the type of typed Arrays, or Symbol or Map objcts etc. 
+This requires the ES6 Polyfills to simulate the actual ES6 type. However, note that in some cases the polyfill duplicates the run-time behaviour of the type but *can't* simulate the actual ES6 type. E.g. This applies to *Arrow* and *Async Functions*. In practice If you don't need to detect/inspect these specific types at runtime in your code everything should work fine. E.g. you'll be able to correctly get the type of typed Arrays, or Symbol or Map objcts etc. 
 
 <br>
