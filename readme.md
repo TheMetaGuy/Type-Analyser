@@ -78,11 +78,13 @@ E.g. If you have downloaded from GitHub
 ```html
   <script type="module">
       import * as tm from './dist/type-master.esm.min.js';
+      // OR if you just need the essentials 
+      import {extendedTypeOf, typeOfNumber, isSafeNumber} from './dist/type-master.esm.min.js';
   </script>
 ```
 
 ## Unbundled (IIFE) Global straight into your script 
-
+If  you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE global module version which will work on all browsers as is.
 ```html
   <script src="./dist/type-master.iife.min.js"></script>
   <script>
@@ -101,87 +103,26 @@ E.g. If you have downloaded from GitHub
 
 Here are some examples of how you might use Type-Master. Note the wide range of examples where this tiny library will allow you to correctly identify the type of an object or the allowed operations and so the prevent incorrect behaviour if you naively used the built-in `typeof`, `instanceof` or `isNaN` operators.
 
-**basic use**
-```javascript
-const tm = require('type-master'); 
-
-console.log(tm.extendedTypeOf(null)); // 'null'          typeOf would return 'object'
-console.log(tm.extendedTypeOf([])); // 'Array'           typeOf would return 'object'
-console.log(tm.extendedTypeOf(new Map())); // 'Map'      typeOf would return 'object'
-console.log(tm.extendedTypeOf(() => {})); // 'ArrowFunction'  typeOf would return 'function' 
-
-```
-**Get detailed type information**
-```javascript
-console.log(tm.getTypeDetails(new Set())); 
-// { Type:                'Set',
-//   ReferenceVariable:   '', 
-//   hasCustomConstructor: false, 
-//   prototypeChainString: 'Set -> Object', 
-//   prototypeChain: ['Set']
-//}
-```
-**Check if a number is safe for calculations**
-```javascript
-console.log(tm.isSafeNumber(Number.MAX_SAFE_INTEGER)); // true
-console.log(tm.isSafeNumber(Number.MAX_SAFE_INTEGER + 1)); // false
-console.log(tm.isSafeNumber("1234")); // true
-console.log(tm.isSafeNumber("1234abcd")); // false
-```
-**Check if an object is JSON serializable**
-```javascript
-console.log(tm.isJSONSerializable({ a: 1, b: 2 })); // true
-console.log(tm.isJSONSerializable(new Map())); // false
-```
-**Check for circular references**
-```javascript
-let obj = {};
-obj.self = obj;
-console.log(tm.hasCircularReference(obj)); // true
-```
-**Safe use of a promise in a loop**
-```javascript
-const api = new Promise((resolve, reject) => {
-  // Fetch data from the API.
-  // ...
-  resolve(data);
-});
-// ...
-for (let i = 0; i < 10; i++) {
-  if (extendedTypeOf(api) === "Promise") {
-    // we can safely do somethin with the data 
-    api.then((data) => {
-    // ...
-    });    
-  }
-}
-```
-**checking an object type from an iframe or worker thread**
-```javascript
-const iframe = document.createElement("iframe");
-iframe.src = "https://example.com/iframe.html";
-iframe.onload = () => {
-  const obj = iframe.contentWindow.obj;
-  if (extendedTypeOf(obj) === "MyCustomType") {
-    // do something with the obj
-    // This would not cause an error because extendedTypeOf obj is "MyCustomType"
-    // using the builtin typeof wound cause an error because typeof obj is "object"
-  }
-};
-```
 
 **Working with `null` and `object`**
 
 Using `typeof`, you might try to access a property or method of an object which is actually `null`, leading to a TypeError.
 
 ```javascript
+const tm = require('type-master'); 
+
 let x = null;
+let y = {};
 if (typeof x === "object") {
     x.property = "value";  // TypeError: Cannot set property 'property' of null
 }
 
-if (extendedTypeOf(x) === "null") {
+if (tm.extendedTypeOf(x) === "null") {
     console.log("x is null, can't access properties or methods");  // Safe operation
+}
+if (tm.extendedTypeOf(y) === "object") {
+    console.log("y is an objeect, we can access it's properties or methods");  // Safe operation
+    y.property = "value";
 }
 ```
 
@@ -195,9 +136,51 @@ if (typeof y === "object") {
     y.push(4);  // TypeError: y.push is not a function
 }
 
-if (extendedTypeOf(y) === "Array") {
+if (tm.extendedTypeOf(y) === "Array") {
     y.push(4);  // Safe operation, y is now [1, 2, 3, 4]
 }
+
+// typed arrays can be recognised 
+if (tm.extendedTypeOf(new Uint8Array) === 'Uint8Array') {
+    // can now do safe operation on the Typed array 
+};  
+
+if ( tm.extendedTypeOf(new Float32Array) == 'Float32Array' ) {
+    // can now do safe operation on the Typed array 
+}
+
+All ES6 typed arrays can be identified 
+```
+
+**Safe use of a promise in a loop**
+```javascript
+const api = new Promise((resolve, reject) => {
+  // Fetch data from the API.
+  // ...
+  resolve(data);
+});
+// ...
+for (let i = 0; i < 10; i++) {
+  if tm.extendedTypeOf(api) === "Promise") {
+    // we can safely do somethin with the data 
+    api.then((data) => {
+    // ...
+    });    
+  }
+}
+```
+**checking an object type from an iframe or worker thread**
+```javascript
+const iframe = document.createElement("iframe");
+iframe.src = "https://example.com/iframe.html";
+iframe.onload = () => {
+  const obj = iframe.contentWindow.obj;
+  if tm.extendedTypeOf(obj) === "MyCustomType") {
+    // do something with the obj
+    // This would not cause an error because extendedTypeOf obj is "MyCustomType"
+    // using the builtin typeof wound cause an error because typeof obj is "object"
+  }
+};
 ```
 
 **Differentiating between 'Date', 'RegExp', and generic 'object'**
@@ -210,7 +193,7 @@ if (typeof z === "object") {
     z.test("2023-06-21");  // TypeError: z.test is not a function
 }
 
-if (extendedTypeOf(z) === "Date") {
+if tm.extendedTypeOf(z) === "Date") {
     console.log(z.getFullYear());  // Safe operation, outputs the year of date
 }
 
@@ -219,7 +202,7 @@ if (typeof regex === "object") {
     console.log(regex.getFullYear());  // TypeError: regex.getFullYear is not a function
 }
 
-if (extendedTypeOf(regex) === "RegExp") {
+if tm.extendedTypeOf(regex) === "RegExp") {
     console.log(regex.test("123"));  // Safe operation, tests if string contains a number
 }
 ```
@@ -234,7 +217,7 @@ if (typeof map === "object") {
     map.push(["key", "value"]);  // TypeError: map.push is not a function
 }
 
-if (extendedTypeOf(map) === "Map") {
+if tm.extendedTypeOf(map) === "Map") {
     map.set("key", "value");  // Safe operation, adds a key-value pair to the map
 }
 
@@ -243,7 +226,7 @@ if (typeof set === "object") {
     set.property = "value";  // No error but incorrect operation, properties shouldn't be added to Set this way
 }
 
-if (extendedTypeOf(set) === "Set") {
+if tm.extendedTypeOf(set) === "Set") {
     set.add("value");  // Safe operation, adds a value to the set
 }
 ```
@@ -264,7 +247,7 @@ if (typeof instance === "object") {
     instance.push("value");  // TypeError: instance.push is not a function
 }
 
-if (extendedTypeOf(instance) === "MyClass") {
+if tm.extendedTypeOf(instance) === "MyClass") {
     instance.printHello();  // Safe operation, prints "Hello, World!"
 }
 ```
@@ -279,11 +262,68 @@ if (typeof polyfilledSymbol === "object") {
     polyfilledSymbol.push("value");  // TypeError: polyfilledSymbol.push is not a function
 }
 
-if (extendedTypeOf(polyfilledSymbol) === "Symbol") {
+if tm.extendedTypeOf(polyfilledSymbol) === "Symbol") {
     // Safe operation - no operation is performed here as symbols are usually used as unique identifiers
     console.log(polyfilledSymbol);
 }
 ```
+
+<br> 
+
+## **Getting detailed type information**
+----
+**Get detailed type information**
+```javascript
+console.log(tm.getTypeDetails(new Set())); 
+// { Type:                'Set',
+//   ReferenceVariable:   '', 
+//   hasCustomConstructor: false, 
+//   prototypeChainString: 'Set -> Object', 
+//   prototypeChain: ['Set']
+//}
+```
+<br> 
+
+## **Number Checks**
+----
+**Check if a number is safe for calculations**
+```javascript
+console.log(tm.isSafeNumber(Number.MAX_SAFE_INTEGER)); // true
+console.log(tm.isSafeNumber(Number.MAX_SAFE_INTEGER + 1)); // false
+console.log(tm.isSafeNumber("1234")); // true
+console.log(tm.isSafeNumber("1234abcd")); // false
+```
+<br> 
+
+## **Other Checks**
+----
+**Check if an object is JSON serializable**
+
+only objects which are strictly serializable will return true
+
+```javascript
+console.log(tm.isJSONSerializable({ a: 1, b: 2 })); // true
+console.log(tm.isJSONSerializable(new Map())); // false
+// only objects which are strictly serializable will return true
+// objects with functions, circular references or invalid nested types will return false 
+```
+
+
+**Check if an object is JSON serializable but with loss of format**
+```javascript
+let today = new Date();
+console.log(tm.isJSONSerializable({ today, true })); // true - no data lost but format is changed ()
+                                                     // JSON.stringify(today) converted into a string
+let obj = { key: new URL('http://example.com') };
+console.log(tm.isJSONSerializable(obj,true)));      // true - value converted into a string 
+```
+**Check for circular references**
+```javascript
+let obj = {};
+obj.self = obj;
+console.log(tm.hasCircularReference(obj)); // true
+```
+
 
 <br>
 
