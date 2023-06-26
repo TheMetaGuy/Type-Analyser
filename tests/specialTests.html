@@ -67,43 +67,43 @@
             }
             
             var worker = new Worker('worker.js');
-            // send the off-screen canvas to the worker    
+            // send the off-screen canvas to the worker  
             var canvas = document.querySelector('canvas');
             if ( ! canvas.transferControlToOffscreen) {
                 Log_W_Results('Your browser does not support Worker transferControlToOffscreen()');
             } else {
 
-            var offScreenCanvas = document.querySelector('canvas').transferControlToOffscreen();
-            worker.postMessage({canvas: offScreenCanvas}, [offScreenCanvas]);
+                var offScreenCanvas = document.querySelector('canvas').transferControlToOffscreen();
+                worker.postMessage({canvas: offScreenCanvas}, [offScreenCanvas]);
 
-            Log_W_Results('Main test page now sending object request messages to worker');
-            Log_W_Results('the worker object type is : ' + typeMaster.extendedTypeOf(worker) + '\n' );
+                Log_W_Results('Main test page now sending object request messages to worker');
+                Log_W_Results('the worker object type is : ' + typeMaster.extendedTypeOf(worker) + '\n' );
 
-            worker.postMessage('send back null object');
-            worker.postMessage('send back undefined object');
-            worker.postMessage('send back Date object');
-            worker.postMessage('send back Array object');
-            worker.postMessage('send back Int8Array object');
-            worker.postMessage('send back Float32Array object');
-            worker.postMessage('send back Float64Array object');
-            worker.postMessage('send back Error object');
-            worker.postMessage('send back SyntaxError object');
-            worker.postMessage('send back TypeError object');
-            worker.postMessage('send back RangeError object');
-            worker.postMessage('send back Blob object');
-            worker.postMessage('send back File object');
-            worker.postMessage('send back RegExp object');   
-            worker.postMessage('send back ArrayBuffer object');
-            worker.postMessage('send back ImageData object');
+                worker.postMessage('send back null object');
+                worker.postMessage('send back undefined object');
+                worker.postMessage('send back Date object');
+                worker.postMessage('send back Array object');
+                worker.postMessage('send back Int8Array object');
+                worker.postMessage('send back Float32Array object');
+                worker.postMessage('send back Float64Array object');
+                worker.postMessage('send back Error object');
+                worker.postMessage('send back SyntaxError object');
+                worker.postMessage('send back TypeError object');
+                worker.postMessage('send back RangeError object');
+                worker.postMessage('send back Blob object');
+                worker.postMessage('send back File object');
+                worker.postMessage('send back RegExp object');   
+                worker.postMessage('send back ArrayBuffer object');
+                worker.postMessage('send back ImageData object');
 
-            worker.onmessage = function(event) {
-                var theObject = event.data.theData;
-                var sentType = event.data.sentType;
-                var typeOfMyObject = typeMaster.extendedTypeOf(theObject);
-                var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
+                worker.onmessage = function(event) {
+                    var theObject = event.data.theData;
+                    var sentType = event.data.sentType;
+                    var typeOfMyObject = typeMaster.extendedTypeOf(theObject);
+                    var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
 
-                Log_W_Results(result + ': Worker test of extendedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
-            }
+                    Log_W_Results(result + ': Worker test of extendedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
+                }
             }
 
             // ====================================== DOM elements tests =========================================
@@ -139,8 +139,8 @@
             var olist = document.createElement('ol');
             var list = document.createElement('li');
             var input = document.createElement('input');
-            var documentFragment = document.createDocumentFragment();            
-
+            var documentFragment = document.createDocumentFragment();    
+            
             var result;
             Log_H_Results('Main test page now testing the detected type of DOM elements\n ' );
 
@@ -225,9 +225,43 @@
             result = (typeMaster.extendedTypeOf(list) === 'HTMLLIElement') ? 'PASS: ' : 'FAIL: ';    
             Log_H_Results(result + '<li> is of  type              - ' + typeMaster.extendedTypeOf(list));
 
+            result = (typeMaster.extendedTypeOf(input) === 'HTMLInputElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<input> is of  type           - ' + typeMaster.extendedTypeOf(input));    
 
             // ====================================== End of tests =========================================
 
+            var promise = new Promise(function(resolve, reject) {
+                resolve('hello world');
+            });
+            reuslt = (typeMaster.extendedTypeOf(promise) === 'Promise') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'promise is of  type           - ' + typeMaster.extendedTypeOf(promise));
+
+            reuslt = ( promise.toString() === '[object Promise]') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'promise is of  type           - ' + promise.toString());
+
+            var dataview = new DataView(new ArrayBuffer(1));
+            reuslt = (typeMaster.extendedTypeOf(dataview) === 'DataView') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'dataview is of  type          - ' + typeMaster.extendedTypeOf(dataview));
+
+            var iterator = document.createNodeIterator(document.body, NodeFilter.SHOW_ELEMENT);
+            result = (typeMaster.extendedTypeOf(iterator) === 'NodeIterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'iterator is of  type          - ' + typeMaster.extendedTypeOf(iterator));
+
+            var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
+            result = (typeMaster.extendedTypeOf(treeWalker) === 'TreeWalker') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'treeWalker is of  type        - ' + typeMaster.extendedTypeOf(treeWalker));
+
+            var arrayIterator = [1,2].values();
+            result = (typeMaster.extendedTypeOf(arrayIterator) === 'Array Iterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'arrayIterator is of  type     - ' + typeMaster.extendedTypeOf(arrayIterator));
+
+            var stringIterator = 'abc'[Symbol.iterator]();
+            result = (typeMaster.extendedTypeOf(stringIterator) === 'String Iterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'stringIterator is of  type    - ' + typeMaster.extendedTypeOf(stringIterator));
+
+            var mapIterator = (new Map()).values();
+            result = (typeMaster.extendedTypeOf(mapIterator) === 'Map Iterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'mapIterator is of  type       - ' + typeMaster.extendedTypeOf(mapIterator));
         };
     </script>
 </head>
