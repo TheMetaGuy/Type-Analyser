@@ -247,16 +247,63 @@ it('get extendedTypeOf  object with custom tag', () => {
     expect(extendedTypeOf(myObj)).toBe('MyCustomTag');
 });
 
+it ('get extendedTypeOf  object with overridden toString method', () => {
+    let myObj = {
+        name: 'John',
+        age: 30,
+        toString: function() {
+            return 'MagicObj';
+        }
+    }
+    expect(extendedTypeOf(myObj)).toBe('unknown');
+});
+
 it('get extendedTypeOf  user-defined class instance', () => {
   class MyClass {
     constructor() {
       this.name = 'John';
       this.age = 30;
     }
+    get [Symbol.toStringTag]() {
+        return 'Not MyClass';
+    }   
   }
   let myClassInstance = new MyClass();
-  expect(extendedTypeOf(myClassInstance)).toBe('MyClass');
+  expect(myClassInstance[Symbol.toStringTag]).toBe('Not MyClass');      // functions as it should. This is default javascript behavior
+  expect(extendedTypeOf(myClassInstance)).toBe('MyClass');              // instances should have the same 'type' as the class they are instantiated from
+                                                                        // and by design are not affected by the toStringTag property
 });
+
+it('get extendedTypeOf of extended user class', () => {
+    class MyClass {
+        constructor() {
+          this.name = 'John';
+          this.age = 30;
+        }
+        get [Symbol.toStringTag]() {
+            return 'Not MyClass';
+        }   
+    }    
+    class OtherClass extends MyClass {
+        constructor() {
+            super();
+        }
+        get [Symbol.toStringTag]() {
+            return 'Not OtherClass';
+        }   
+    }
+    let myClassInstance = new OtherClass();
+    expect(extendedTypeOf(myClassInstance)).toBe('OtherClass');
+    
+    let instanceProto = Object.getPrototypeOf(myClassInstance);  
+    expect(extendedTypeOf(instanceProto)).toBe('OtherClass');      
+
+                                                                // It may not be not obvious that we have to get the 
+    let rootProto = Object.getPrototypeOf( instanceProto );     // prototype of the prototype to get the root (class) type
+                                                                // note that Object.getPrototypeOf(OtherClass) will return 'function'!
+    expect(extendedTypeOf(rootProto)).toBe('MyClass');
+});
+
 
 it('get extendedTypeOf  user-defined class instance with no user constructor', () => {
     class MyOtherClass {}
