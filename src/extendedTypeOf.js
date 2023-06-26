@@ -18,7 +18,7 @@
  *                                           whatever value was set.
  *
  * Object Types with [Symbol.toStringTag]:   Actual Object types with [Symbol.toStringTag] set will have that value 
- *                                           returned for the 'type of the object.
+ *                                           returned for the type of the object.
  *
  * Rationale
  * The goal here is to reveal the intrinsic underlying 'type' of an object. For built-in types and custom objects, using
