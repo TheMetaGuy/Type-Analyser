@@ -1,14 +1,18 @@
 import { extendedTypeOf } from "./extendedTypeOf.js";
 /**
  * Checks if an object is JSON serializable. This is a recursive function that will check all properties of an object.
+ * 
  * @param {*} obj - the object to test
+ * 
  * @param {*} acceptFormatLoss - Optional. if false (the default), only return true for types that can be serializaed without problems.
  *                               if true also return true for types where data may need trivial conversion when de-serializing.
  *                               NOTE - 'date', 'url', 'urlsearchparams' are converted to strings when serializing to JSON 
  *                               so New Date( stringValue ) or new URL( stringValue ) etc can be used to convert back. 
  *                               Typed arrays are converted to regular arrays when serializing to JSON so iterating over the results 
  *                               of the parsed JSON element, adding to an array and then new TypedArray( array ) can be used to convert back. 
+ * 
  * @param {*} visitedObjects -   Used internally to detect circular references. Do not pass this parameter.
+ * 
  * @returns true if the object is JSON serializable WITHOUT a loss of data, false otherwise.
  */
 function isJSONSerializable(obj, acceptFormatLoss, visitedObjects) {
@@ -65,13 +69,17 @@ function isJSONSerializable(obj, acceptFormatLoss, visitedObjects) {
 
 /**
  * Checks if an object has a circular reference. This is a recursive function that will check all properties of an object.
+ * 
  * This function is useful for debugging. However, note:
- * 1. It checks for circular references in ALL types of objects including custom and ES6 classes. it checks object properties 
- * (i.e., their state) and does not check for circular references in methods or object prototypes  
+ * 1. It checks for circular references in ALL types of objects including custom and ES6 classes. It checks object properties 
+ *      (i.e., their state) and does not check for circular references in methods or object prototypes  
  * 2. It won't catch circular references in dynmically created properties (i.e., created when methods are called)
  * 3. If a custom or ES6 class overrides the default behavior of for...in or Object.keys, there may be problems 
+ * 
  * @param {*} obj - the object to test
+ * 
  * @param {*} visitedObjects - Used internally to detect circular references. Do not pass this parameter.
+ * 
  * @returns true if the object has a circular reference, false otherwise.
  */
 function hasCircularReference(obj, visitedObjects) {

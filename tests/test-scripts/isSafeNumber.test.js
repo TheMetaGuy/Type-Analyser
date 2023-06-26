@@ -25,20 +25,21 @@ it('test integer divided by zero for safe use as a number', () => {
     expect(isSafeNumber(1/0)).toBe(false);
   });
 
-it('test valid numeric strings for safe use as a number when acceptStringNumbers is true', () => {
-  expect(isSafeNumber('1', true)).toBe(true);
-  expect(isSafeNumber('1.1', true)).toBe(true);
-  expect(isSafeNumber('-1', true)).toBe(true);
-  expect(isSafeNumber('0xFF', true)).toBe(true);
+it('test valid numeric strings are safe by default', () => {
+  expect(isSafeNumber('1')).toBe(true);
+  expect(isSafeNumber('1.1')).toBe(true);
+  expect(isSafeNumber('-1')).toBe(true);
+  expect(isSafeNumber('0xFF')).toBe(true);
 });
 
-it('test invalid numeric strings for safe use as a number when acceptStringNumbers is true', () => {
+it('test invalid numeric strings are safe by default', () => {
   expect(isSafeNumber('34.345abchs', true)).toBe(false);
   expect(isSafeNumber('Xyz', true)).toBe(false);
 });
 
 it('test numeric strings for safe use as a number when acceptStringNumbers is false', () => {
   expect(isSafeNumber('1', false)).toBe(false);
+  expect(isSafeNumber('1.1', false)).toBe(false);
 });
 
 it('test BigInt and BigInt literals for safe use as a number', () => {
@@ -63,4 +64,11 @@ it('test Object for safe use as a number', () => {
 it('test Array for safe use as a number', () => {
   expect(isSafeNumber([])).toBe(false);
   expect(isSafeNumber([1])).toBe(false);
+});
+
+it('test Number Objects for safe use as a number', () => {
+  expect(isSafeNumber(new Number(1))).toBe(false);
+  expect(isSafeNumber(new Number(1.1))).toBe(false);
+  expect(isSafeNumber(new Number(-1))).toBe(false);
+  expect(isSafeNumber(new Number(0xFF))).toBe(false);
 });

@@ -85,3 +85,7 @@ it('get number type of function', () => {
 it('get number type of array', () => {
   expect(typeOfNumber([])).toBe('NaN');
 });
+
+it('get number type of a Number Object', () => {
+  expect(typeOfNumber( new Number(999))).toBe('numberObject');   // Note - not a number primitive
+}); 

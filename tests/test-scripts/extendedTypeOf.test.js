@@ -103,6 +103,10 @@ it('get extendedTypeOf  sharedarraybuffer', () => {
     }
 });
 
+it('get number type of Number Object', () => {
+    expect(extendedTypeOf( new Number(999))).toBe('Number');   // Note case - its a Number object !
+}); 
+
 // ------ array types -----
 
 it('get extendedTypeOf  Array', () => {
