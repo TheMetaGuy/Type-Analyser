@@ -68,6 +68,11 @@
             
             var worker = new Worker('worker.js');
             // send the off-screen canvas to the worker    
+            var canvas = document.querySelector('canvas');
+            if ( ! canvas.transferControlToOffscreen) {
+                Log_W_Results('Your browser does not support Worker transferControlToOffscreen()');
+            } else {
+
             var offScreenCanvas = document.querySelector('canvas').transferControlToOffscreen();
             worker.postMessage({canvas: offScreenCanvas}, [offScreenCanvas]);
 
@@ -98,6 +103,7 @@
                 var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
 
                 Log_W_Results(result + ': Worker test of extendedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
+            }
             }
 
             // ====================================== DOM elements tests =========================================
@@ -132,6 +138,7 @@
             var ulist = document.createElement('ul');
             var olist = document.createElement('ol');
             var list = document.createElement('li');
+            var input = document.createElement('input');
             var documentFragment = document.createDocumentFragment();            
 
             var result;
