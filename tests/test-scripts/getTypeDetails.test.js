@@ -58,6 +58,16 @@ it('check type details of Array', () => {
   expect(arrayDetails.prototypeChain).toEqual(['Array', 'Object']);
 });
 
+// number Object 
+it('check type details of number Object', () => {
+  const numberObjectDetails = getTypeDetails(new Number(999));
+  expect(numberObjectDetails.Type).toBe('Number');
+  expect(numberObjectDetails.hasCustomConstructor).toBe(true);
+  expect(numberObjectDetails.ReferenceVariable).toBe('');
+  expect(numberObjectDetails.prototypeChainString).toBe('Number -> Object');
+  expect(numberObjectDetails.prototypeChain).toEqual(['Number', 'Object']);
+});
+
 //  ---------ES6 Types ------------
 
 // Symbol
@@ -151,36 +161,74 @@ it('check type details of RangeError', () => {
 
 // AggregateError 
 it('check type details of AggregateError', () => {
-  const errors = [
-    new Error("Error 1"),
-    new Error("Error 2"),
-  ];
-  const AggregateErrorDetails  = getTypeDetails(new AggregateError (errors, 'multiple errors'));
-  expect(AggregateErrorDetails .Type).toBe('AggregateError');
-  expect(AggregateErrorDetails .hasCustomConstructor).toBe(true);
-  expect(AggregateErrorDetails .ReferenceVariable).toBe('');
-  expect(AggregateErrorDetails .prototypeChainString).toBe('AggregateError -> Error -> Object');
-  expect(AggregateErrorDetails .prototypeChain).toEqual(['AggregateError', 'Error', 'Object']);
+  if ( typeof AggregateError !== 'undefined' ) {    
+    const errors = [
+      new Error("Error 1"),
+      new Error("Error 2"),
+    ];
+    const AggregateErrorDetails  = getTypeDetails(new AggregateError (errors, 'multiple errors'));
+    expect(AggregateErrorDetails .Type).toBe('AggregateError');
+    expect(AggregateErrorDetails .hasCustomConstructor).toBe(true);
+    expect(AggregateErrorDetails .ReferenceVariable).toBe('');
+    expect(AggregateErrorDetails .prototypeChainString).toBe('AggregateError -> Error -> Object');
+    expect(AggregateErrorDetails .prototypeChain).toEqual(['AggregateError', 'Error', 'Object']);  
+  } else {
+    console.log('AggregateError not supported in this environment');
+  }
+});
+
+// Expressed Function 
+it('check type details of expressed function', () => {
+  let expressedFunc = function() {};
+  let daFunc = expressedFunc;
+  const functionDetails = getTypeDetails(daFunc);
+  expect(functionDetails.Type).toBe('function');
+  expect(functionDetails.hasCustomConstructor).toBe(false);
+  expect(functionDetails.ReferenceVariable).toBe('expressedFunc');
+  expect(functionDetails.prototypeChainString).toBe('Function -> Object');
+  expect(functionDetails.prototypeChain).toEqual(['Function', 'Object']);
+});
+
+// Declared Function
+it('check type details of declared function', () => {
+  function declaredFunc() {};
+  const functionDetails = getTypeDetails(declaredFunc);
+  expect(functionDetails.Type).toBe('function');
+  expect(functionDetails.hasCustomConstructor).toBe(false);
+  expect(functionDetails.ReferenceVariable).toBe('declaredFunc');
+  expect(functionDetails.prototypeChainString).toBe('Function -> Object');
+  expect(functionDetails.prototypeChain).toEqual(['Function', 'Object']);
+});
+
+// Anonymous Function
+it('check type details of anonymous function', () => {
+  const functionDetails = getTypeDetails(function() {});
+  expect(functionDetails.Type).toBe('function');
+  expect(functionDetails.hasCustomConstructor).toBe(false);
+  expect(functionDetails.ReferenceVariable).toBe('');
+  expect(functionDetails.prototypeChainString).toBe('Function -> Object');
+  expect(functionDetails.prototypeChain).toEqual(['Function', 'Object']);
 });
 
 // ArrowFunction
 it('check type details of ArrowFunction', () => {
   const theArrowFunction = () => {};
-  const arrowFunctionDetails = getTypeDetails(() => {});
+  const arrowFunctionDetails = getTypeDetails( theArrowFunction );
   if ( isArrowFunction(theArrowFunction) ) {                
     expect(arrowFunctionDetails.Type).toBe('ArrowFunction');
   } else {
     expect(arrowFunctionDetails.Type).toBe('function');          // if called from ES5 code
   }  
   expect(arrowFunctionDetails.hasCustomConstructor).toBe(false);
-  expect(arrowFunctionDetails.ReferenceVariable).toBe('');
+  expect(arrowFunctionDetails.ReferenceVariable).toBe('theArrowFunction');
   expect(arrowFunctionDetails.prototypeChainString).toBe('Function -> Object');
   expect(arrowFunctionDetails.prototypeChain).toEqual(['Function', 'Object']);
 });
 
 // Promise
 it('check type details of Promise', () => {
-  const promiseDetails = getTypeDetails(new Promise(() => {}));
+  let thePromise = new Promise(() => {});
+  const promiseDetails = getTypeDetails( thePromise );
   expect(promiseDetails.Type).toBe('Promise');
   expect(promiseDetails.hasCustomConstructor).toBe(true);
   expect(promiseDetails.ReferenceVariable).toBe('');
@@ -222,7 +270,7 @@ it('check type details of custom class type', () => {
 });
 
 // Full Prototype Chain
-it('check type details of custom type', () => {
+it('check type details of custom type instance', () => {
   class MyClass {};
   const myClassDetails = getTypeDetails(new MyClass(), true);
   expect(myClassDetails.Type).toBe('MyClass');
@@ -231,6 +279,30 @@ it('check type details of custom type', () => {
   expect(myClassDetails.prototypeChainString).toBe('MyClass -> Object');
   expect(myClassDetails.prototypeChain).toEqual(['MyClass', 'Object']);
 });
+
+// object with toString( ) overridden
+it('check type details of object with toString( ) overridden', () => {
+  const obj = {  a: 1, b: 2, c: {} };
+  obj.toString = () => { return 'test'; };
+  const objDetails = getTypeDetails(obj);
+  expect(objDetails.Type).toBe('unknownn');
+  expect(objDetails.hasCustomConstructor).toBe(false);
+  expect(objDetails.ReferenceVariable).toBe('');
+  expect(objDetails.prototypeChainString).toBe('Object');
+  expect(objDetails.prototypeChain).toEqual(['Object']);
+});  
+
+// Object with custom tag property set 
+it('check type details of object with custom tag property set', () => {
+  const obj = {  a: 1, b: 2, c: {} };
+  obj[Symbol.toStringTag] = 'MyCustomTag';
+  const objDetails = getTypeDetails(obj);
+  expect(objDetails.Type).toBe('MyCustomTag');
+  expect(objDetails.hasCustomConstructor).toBe(false);
+  expect(objDetails.ReferenceVariable).toBe('');
+  expect(objDetails.prototypeChainString).toBe('Object');
+  expect(objDetails.prototypeChain).toEqual(['Object']);
+});     
 
 // Object created with Object.create()
 it('check type details of Object created with Object.create()', () => {
@@ -241,6 +313,32 @@ it('check type details of Object created with Object.create()', () => {
   expect(objectCreateDetails.ReferenceVariable).toBe('');
   expect(objectCreateDetails.prototypeChainString).toBe('Object -> Object');
   expect(objectCreateDetails.prototypeChain).toEqual(['Object', 'Object']);
+});
+
+// Custom class with custom tag property set
+it('check type details of custom class with custom tag property set', () => {
+  class MyClass {};
+  const myObject = new MyClass();
+  myObject[Symbol.toStringTag] = 'MyCustomTag';
+  const myClassDetails = getTypeDetails(myObject);
+  expect(myClassDetails.Type).toBe('MyClass');
+  expect(myClassDetails.hasCustomConstructor).toBe(true);
+  expect(myClassDetails.ReferenceVariable).toBe('');
+  expect(myClassDetails.prototypeChainString).toBe('MyClass -> Object');
+  expect(myClassDetails.prototypeChain).toEqual(['MyClass', 'Object']);
+});
+
+// custome class with toString( ) overridden
+it('check type details of custom class with toString( ) overridden', () => {
+  class MyClass {};
+  const myObject = new MyClass();
+  myObject.toString = () => { return 'test'; };
+  const myClassDetails = getTypeDetails(myObject);
+  expect(myClassDetails.Type).toBe('unknownn');
+  expect(myClassDetails.hasCustomConstructor).toBe(true);
+  expect(myClassDetails.ReferenceVariable).toBe('');
+  expect(myClassDetails.prototypeChainString).toBe('MyClass -> Object');
+  expect(myClassDetails.prototypeChain).toEqual(['MyClass', 'Object']);
 });
 
 // Custom class extended
@@ -254,6 +352,21 @@ it('check type details of custom class extended', () => {
   expect(childDetails.prototypeChainString).toBe('Child -> Parent -> Object');
   expect(childDetails.prototypeChain).toEqual(['Child', 'Parent', 'Object']);
 });
+
+// Custom class extended
+it('check type details of custom class extended with custom tags', () => {
+  class Parent {};
+  class Child extends Parent {};
+  let myBoy = new Child();
+  myBoy[Symbol.toStringTag] = 'MyCustomTag';
+  const childDetails = getTypeDetails(myBoy);
+  expect(childDetails.Type).toBe('Child');
+  expect(childDetails.hasCustomConstructor).toBe(true);
+  expect(childDetails.ReferenceVariable).toBe('');
+  expect(childDetails.prototypeChainString).toBe('Child -> Parent -> Object');
+  expect(childDetails.prototypeChain).toEqual(['Child', 'Parent', 'Object']);
+});
+
 
 // Custom Class with Shortened Prototype Chain
 it('check type custom class details with shortened prototype chain', () => {
