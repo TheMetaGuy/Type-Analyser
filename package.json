@@ -24,7 +24,14 @@
     "is-safe-number",
     "number-type"
   ],
-  "author": "Owen Cullum",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theMetaGuy/type-master.git"
+  },
+  "author": { 
+    "name" : "Owen Cullum",
+    "email" : "dev@metagu.com"
+  },
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.22.5",
