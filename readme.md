@@ -405,6 +405,7 @@ Performs type introspection and returns detailed type information about the obje
 | **hasCustomConstructor**| false | true if the input object has a it's own custom constructor, false otherwise. |
 | **prototypeChainString** | ""  |A string representation of the Javascript inheritance prototype chain of the input object. Objects in the chain are separated by ' -> '. E.g. 'Child -> Parent -> Object'. | 
 | **prototypeChain** | null | An array containing the javascript inheritance prototype chain of the input object passed. |
+|
 
 <br>
 
@@ -694,11 +695,11 @@ If you are not using a bundler and your app is going to run on ES5 browsers with
 # **Compatiability** 
 
 ### **ES6 Targets** 
-For full compatiability with ES6 types the following Node or browser versions or greater should be used
+For full compatiability with ES6 types the following Node or browser versions or greater should be used  
 
 | Node | Chrome | FireFox | Safari | Edge | Opera | IOS | Samsung Browser | Chrome Android | WebView Android |
- :---:  |:---: |:---:  |:--- | :---:           | :---:          |:---:            | 
-| 7.6  | 55     | 52      |  10.2  |  15  | 43    | 11.2 |    6.0         |         55     |  55             |
+| :---:| :---:  | :---:   | :---:  | :---: | :--: |:---:|:---:            | :--:           |  :--:           |
+| 7.6  | 55     | 52      |  10.2  |  15  | 43    | 11.2|  6.0            |         55     |  55             |
 |
 
 <br>
