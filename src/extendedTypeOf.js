@@ -122,12 +122,6 @@ function getTypeDetails(obj, showFullPrototypeChain) {
         return resultInfo;
     }    
 
-    // if the object has the toString method overridden, then we can't accurately determine it's type
-    if ( obj.hasOwnProperty("toString") ) {
-        resultInfo.Type = "unknownn";
-        return resultInfo;
-    }  
-
     var coreTypes = ['String', 'Number', 'Boolean', 'Undefined', 'Null', 'Symbol', 'Function', 'Object', 'BigInt'];
 
     var typeStr = Object.prototype.toString.call(obj).slice(8, -1);
@@ -147,6 +141,11 @@ function getTypeDetails(obj, showFullPrototypeChain) {
             resultInfo.hasCustomConstructor = true;
         }
     }  
+
+    // if the object has the toString method overridden, then we can't accurately determine it's type
+    if ( obj.hasOwnProperty("toString") ) {
+         typeStr = "unknownn";
+    } 
 
     var pChain = getPrototypeChain(obj);
     if ( showFullPrototypeChain ) {
