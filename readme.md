@@ -314,7 +314,7 @@ Tests to see if the number passed in is safe to use in a calculation. This is us
 
 Note;  
 1 . NaN returns false as it is not a safe number to use in calculations.  
-2 . Booleans also returns false because even though javascript coerces them into 0 or 1, relying on this behaviour is not good practice and can lead to bugs.
+2 . Booleans also returns false because even though javascript coerces them into 0 or 1, relying on this behaviour is not good practice and can lead to bugs.  
 3 . Number Objects (created via new Number(xxx)) return false. Some JavaScript methods and functions behave differently when they receive an object instead of a primitive value. E.g. when comparing with ===, new Number(10) !== 10.
 
 **Parameters**  
@@ -325,7 +325,7 @@ Note;
 *(Note - the built in javascript parseFloat() function can be used before calling this function to force coercing. E.g. it will convert '34.345abchs' to 34.345). if acceptStringNumbers is false then when a string is passed in, it will never be converted to a number and 'NaN' will be returned*
  
  **Returns**  
- `true` if the number passed in is safe to use in a calculation, false otherwise.
+ `true` if the number passed in is safe to use in a calculation, `false` otherwise.
 
 <br>
 
@@ -386,48 +386,249 @@ console.log( tm.isSafeNumber( new Number(99) ) )       // => false
 
 <br> 
 
-## **Getting detailed type information**
-----
-**Get detailed type information**
+### **`getTypeDetails( object, showFullPrototypeChain )`**
+---
+Performs type introspection and returns detailed type information about the object passed in. This function returns useful information about all types including ES6 / EES2020 and customs types ( E.g. Your classes )
+
+*For the  returned 'type' field, the same special cases involving the use of `toString( )` override and `[Symbol.toStringTag]` apply as per the **`extendedTypeOf`** function above and the same rationale applies. The goal is for the 'type' field to reveal the intrinsic underlying 'type' of an object. For built-in types and custom objects, using `[Symbol.toStringTag]` doesn't alter that by design here. However, we consider actual `Object` types an exception and return the `[Symbol.toStringTag]` value. This is because JavaScript's type system returns 'object' for all Objects, making it impossible to distinguish one type of custom Object from another without using `[Symbol.toStringTag]`.*
+
+**Parameters**  
+***object*** - The object to get type information about
+
+***showFullPrototypeChain*** - Optional. if `true` (the default value), the full javascript inheritance prototype chain will be included in the returned object. If `false`, the last 'Object' will be removed from the chain (which is always 'Object') and also only chains longer than 1 will be included as in this case the chain will be just have a single value the same as the Type field which is not very useful.
+
+**Returns** - an object containing the following fields:  
+| field | default value | description | 
+| :--- | :---: |  :---  |
+| **Type** |  "null" | - A string representation of the exact input type. This is set for all types not just primitives.  The following types will be in lower case as per the built-in javascript typeof operator: 'string', 'number', 'boolean', 'undefined', 'symbol', 'function', 'object', 'bigint'. A Null object will be detected as 'null'.  All other built-in types will be recognised and returned in CamelCase Format as per the Javascirpt standard: E.g. 'Array', 'Date', 'Error', 'RegExp', 'URL' etc. if a type can't be determined, then 'unknown' will be returned. |
+| **ReferenceVariable** | "" | A string representation of the reference variable, if any, that points to the input object |
+| **hasCustomConstructor**| false | true if the input object has a it's own custom constructor, false otherwise. |
+| **prototypeChainString** | ""  |A string representation of the Javascript inheritance prototype chain of the input object. Objects in the chain are separated by ' -> '. E.g. 'Child -> Parent -> Object'. | 
+| **prototypeChain** | null | An array containing the javascript inheritance prototype chain of the input object passed. |
+
+<br>
+
+### **Examples** 
+
+
+**type details of some built-in javascript types** 
 ```javascript
-console.log( tm.getTypeDetails(new Set())); 
-// { Type:                'Set',
-//   ReferenceVariable:   '', 
-//   hasCustomConstructor: false, 
-//   prototypeChainString: 'Set -> Object', 
-//   prototypeChain: ['Set']
-//}
+const tm = require('type-master' );
+
+const stringDetails = tm.getTypeDetailss('test');
+console.log( stringDetails.Type );                              // => 'string'
+console.log( stringDetails.hasCustomConstructor );              // => false
+console.log( stringDetails.ReferenceVariable );                 // => ''
+console.log( stringDetails.prototypeChainString );              // => 'String -> Object'
+console.log( stringDetails.prototypeChain );                    // => ['String', 'Object']
+
+const arrayDetails = tm.getTypeDetailss( [] );
+console.log( arrayDetails.Type );                               // => 'Array'
+console.log( arrayDetails.hasCustomConstructor );               // => true
+console.log( arrayDetails.ReferenceVariable );                  // => ''
+console.log( arrayDetails.prototypeChainString );               // => 'Array -> Object'
+console.log( arrayDetails.prototypeChain );                     // => ['Array', 'Object']
+
+const nullDetails = tm.getTypeDetailss(null);
+console.log( nullDetails.Type );                                // => 'null'
+console.log( nullDetails.hasCustomConstructor );                // => false
+console.log( nullDetails.ReferenceVariable );                   // => ''
+console.log( nullDetails.prototypeChainString );                // => ""
+console.log( nullDetails.prototypeChain );                      // => null
+
+const symbolDetails = tm.getTypeDetailss( Symbol("test") );
+console.log( symbolDetails.Type );                              // => 'symbol'
+console.log( symbolDetails.hasCustomConstructor );              // => false
+console.log( symbolDetails.ReferenceVariable );                 // => ''
+console.log( symbolDetails.prototypeChainString );              // => 'Symbol -> Object'
+console.log( symbolDetails.prototypeChain );                    // => ['Symbol', 'Object']
+
+// check type details of Regular Expression
+const regExDetails = tm.getTypeDetailss(/hello/);
+console.log( regExDetails.Type );                               // => 'RegExp'
+console.log( regExDetails.hasCustomConstructor );               // => true
+console.log( regExDetails.ReferenceVariable );                  // => ''
+console.log( regExDetails.prototypeChainString );               // => 'RegExp -> Object'
+console.log( regExDetails.prototypeChain );                     // => ['RegExp', 'Object']
+
+// check type details of Date 
+const dateDetails = tm.getTypeDetailss(new Date());
+console.log( dateDetails.Type );                                 // => 'Date'
+console.log( dateDetails.hasCustomConstructor );                 // => true
+console.log( dateDetails.ReferenceVariable );                    // => ''
+console.log( dateDetails.prototypeChainString );                 // => 'Date -> Object'
+console.log( dateDetails.prototypeChain );                       // => ['Date', 'Object']
+
+let thePromise = new Promise(() => {});
+const promiseDetails = tm.getTypeDetailss( thePromise );
+console.log( promiseDetails.Type );                              // => 'Promise'
+console.log( promiseDetails.hasCustomConstructor );              // => true
+console.log( promiseDetails.ReferenceVariable );                 // => ''
+console.log( promiseDetails.prototypeChainString );              // => 'Promise -> Object'
+console.log( promiseDetails.prototypeChain );                    // => ['Promise', 'Object']
+``` 
+
+**type details of extended custom class** 
+```javascript
+class Parent {};
+class Child extends Parent {};
+const childDetails = tm.getTypeDetailss(new Child());
+
+console.log( childDetails.Type );                               // => 'Child'
+console.log( childDetails.hasCustomConstructor );               // => true
+console.log( childDetails.ReferenceVariable );                  // => ''
+console.log( childDetails.prototypeChainString );               // => 'Child -> Parent -> Object'
+console.log( childDetails.prototypeChain );                     // => ['Child', 'Parent', 'Object']
+
+// with shortened output prototype chain 
+const childDetailsShort = tm.getTypeDetailss(new Child(), false);
+console.log( childDetailsShort.Type );                          // => 'Child'
+console.log( childDetailsShort.hasCustomConstructor );          // => true
+console.log( childDetailsShort.ReferenceVariable );             // => ''
+console.log( childDetailsShort.prototypeChainString );          // => 'Child -> Parent'
+console.log( childDetailsShort.prototypeChain );                // => ['Child', 'Parent']
 ```
+
+**type details of some function types** 
+```javascript
+const myArrowFunction = () => {};
+const arrowFunctionDetails = tm.getTypeDetailss(myArrowFunction); 
+console.log( arrowFunctionDetails.Type );                       // => 'ArrowFunction'
+console.log( arrowFunctionDetails.hasCustomConstructor );       // => false
+console.log( arrowFunctionDetails.ReferenceVariable );          // => 'myArrowFunction'
+console.log( arrowFunctionDetails.prototypeChainString );       // => 'Function -> Object'
+console.log( arrowFunctionDetails.prototypeChain );             // => ['Function', 'Object']
+
+// can get details even if reference to function reference used 
+let myFunc = function() {};
+let otherFuncRef = myFunc;
+const functionDetails = tm.getTypeDetailss( otherFuncRef );
+console.log( functionDetails.Type );                            // => 'function'
+console.log( functionDetails.hasCustomConstructor );            // => false
+console.log( functionDetails.ReferenceVariable );               // => 'myFunc'
+console.log( functionDetails.prototypeChainString );            // => 'Function -> Object'
+console.log( functionDetails.prototypeChain );                  // => ['Function', 'Object']
+
+const anonFunctionDetails = tm.getTypeDetailss( function() {} );
+console.log( anonFunctionDetails.Type );                         // => 'function'
+console.log( anonFunctionDetails.hasCustomConstructor );         // => false
+console.log( anonFunctionDetails.ReferenceVariable );            // => ''
+console.log( anonFunctionDetails.prototypeChainString );         // => 'Function -> Object'
+console.log( anonFunctionDetails.prototypeChain );               // => ['Function', 'Object']
+
+// Generator Function
+function* genFunc() {};
+const generatorDetails = tm.getTypeDetailss(genFunc);
+console.log( generatorDetails.Type );                            // => 'GeneratorFunction'
+console.log( generatorDetails.hasCustomConstructor );            // => false
+console.log( generatorDetails.ReferenceVariable );               // => 'genFunc'
+console.log( generatorDetails.prototypeChainString );            // => 'GeneratorFunction -> Function -> Object'
+console.log( generatorDetails.prototypeChain );                  // => ['GeneratorFunction', 'Function', 'Object']
+```
+
+
 <br> 
 
 
-## **Other Checks**
+### **`isJSONSerializable(obj, acceptFormatLoss, visitedObjects)`**
 ----
-**Check if an object is JSON serializable**
+Checks if an object is JSON serializable. This is a recursive function that will check *all* properties of an object. 
 
-only objects which are strictly serializable will return true
+Only objects which are strictly serializable will return true. Objects with functions, circular references or invalid nested types will return false. 
+
+**Parameters**  
+***object*** - The object to check to determine if it has a circular reference
+
+***acceptFormatLoss*** - Optional. if false (the default), only return true for types that can be serializaed without problems. 
+
+If this parmeter is true this function also returns true for types where data may need trivial conversion when de-serializing. E.g. 'Date', 'URL', 'URLsearchparams' are converted to strings when serializing to JSON. so New Date( stringValue ) or new URL( stringValue ) etc can be used to convert back. 
+
+Typed arrays are converted to regular arrays when serializing to JSON so iterating over the results of the parsed JSON element, adding to an array and then new TypedArray( array ) can be used to convert back.  
+
+***visitedObjects*** -   Used internally to detect circular references. **Do not pass this parameter**.
+
+**Returns**   
+true if the object is JSON serializable WITHOUT a loss of data, false otherwise
+
+<br> 
+
+### **Examples** 
+
 
 ```javascript
-console.log( tm.isJSONSerializable({ a: 1, b: 2 })); // true
-console.log( tm.isJSONSerializable(new Map())); // false
-// only objects which are strictly serializable will return true
-// objects with functions, circular references or invalid nested types will return false 
+const tm = require('type-master' );
+
+console.log( tm.isJSONSerializable({ a: 1, b: 2 }));            // => true
+console.log( tm.isJSONSerializable(new Map()));                 // => false
+
+// objects with non enumerable properties can still be serialized
+let obj = { a: 1 };
+Object.defineProperty( obj, 'b', { value: 2, 
+                                   enumerable: false });
+console.log( tm.isJSONSerializable(obj) );                      // =>  true
+
+// Arrays with non integer properties can't be serialized 
+let arr =[1, 2, 3, 4];
+arr.foo = "bar"; 
+console.log( tm.isJSONSerializable(arr) );                      // =>  false);
 ```
 
+**functions or objects with functions can't be JSON serialized** 
+```javascript
+console.log( tm.isJSONSerializable( () => {} );                 // => false
+console.log( tm.isJSONSerializable( () => {}, true );           // => false  - still false because data is lost
 
-**Check if an object is JSON serializable but with loss of format**
+// nested function 
+const objFn = {
+    level1: {
+        level2: { func: function() {}, },
+    },
+};
+console.log( tm.isJSONSerializable( objFn ));                   // => false
+```
+
+**Some objects can be JSON serialized but with loss of format**
 ```javascript
 let today = new Date();
-console.log( tm.isJSONSerializable({ today, true })); // true - no data lost but format is changed ()
-                                                     // JSON.stringify(today) converted into a string
+console.log( tm.isJSONSerializable({ today, true }));           // => true - no data lost but format is changed into string
+                                                            
 let obj = { key: new URL('http://example.com') };
-console.log( tm.isJSONSerializable(obj,true)));      // true - value converted into a string 
+console.log( tm.isJSONSerializable( obj, true )));              // => true - value converted into a string 
+
+let obj = { key: new Float64Array([1.1, 2.2, 3.3, 4.4]) };
+console.log( tm.isJSONSerializable(obj) );                      // =>  false
+console.log( tm.isJSONSerializable(obj,true) );                 // =>  true  
 ```
-**Check for circular references**
+<br> 
+
+### **`hasCircularReference( object, visitedObjects )`**
+---
+Checks if an object has a circular reference. This is a recursive function that will check all properties of an object. It works for ALL types of objects including custom and ES6 classes and is particularily useful for debugging. 
+
+However, note:  
+1 . It checks object properties (i.e., their state) and does not check for circular references in methods or object prototypes   
+2 . It won't catch circular references in dynmically created properties (i.e. created when methods are called)  
+3 . If a custom or ES6 class overrides the default behavior of for...in or Object.keys, there may be problems    
+
+**Parameters**  
+***object*** - The object to check to determine if it has a circular reference
+ 
+***visitedObjects*** - Used internally to detect circular references. **Do not pass this parameter**
+ 
+**returns**  
+ `true` if the object has a circular reference, `false` otherwise.
+
+<br> 
+
+### **Examples** 
+
 ```javascript
 let obj = {};
 obj.self = obj;
-console.log( tm.hasCircularReference(obj)); // true
+console.log( tm.hasCircularReference(obj));         // => true
+
+let obj = { a: 1, b: 2, c: { name: 'test' } };
+console.log( tm.hasCircularReference(obj));         // => false
 ```
 
 <br>
@@ -496,7 +697,7 @@ If you are not using a bundler and your app is going to run on ES5 browsers with
 For full compatiability with ES6 types the following Node or browser versions or greater should be used
 
 | Node | Chrome | FireFox | Safari | Edge | Opera | IOS | Samsung Browser | Chrome Android | WebView Android |
-| :---: | :---: |  :---:  | :---:  |:---: |:---:  |:--- | :---:           | :---:          |:---:            | 
+ :---:  |:---: |:---:  |:--- | :---:           | :---:          |:---:            | 
 | 7.6  | 55     | 52      |  10.2  |  15  | 43    | 11.2 |    6.0         |         55     |  55             |
 |
 

@@ -81,6 +81,13 @@ function extendedTypeOf(obj) {
  * Performs type introspection and returns detailed type information about the object passed in. This function returns 
  * useful information about all types including ES6 / EES2020 and customs types ( E.g. Your classes ). 
  * 
+ * For the returned 'type' field, the same special cases involving the use of `toString( )` override and `[Symbol.toStringTag]`
+ * apply as per the **`extendedTypeOf`** function above and the same rationale applies. The goal is for the 'type' field
+ * to reveal the intrinsic underlying 'type' of an object. For built-in types  and custom objects, using `[Symbol.toStringTag]`
+ * doesn't alter that by design here. However, we consider actual `Object` types an exception and return the 
+ * `[Symbol.toStringTag]` value. This is because JavaScript's  type system returns 'object' for all Objects, making it 
+ * impossible to distinguish one type of custom Object from another without using `[Symbol.toStringTag]`.
+ * 
  * @param {*} obj - the object to get type information about.
  * 
  * @param {*} showFullPrototypeChain - Optional. if true (the default value), the full javascript inheritance prototype chain will be included 
@@ -89,7 +96,7 @@ function extendedTypeOf(obj) {
  *                                     chains longer than 1 will be included as in this case the chain will be just 
  *                                     have a single value the same as the Type field which is not very useful.
  * 
- * @returns - an object containing the following fields (Default values are shown)):
+ * @returns - an object containing the following fields (Default values are shown):
  *      {  Type: "null",                 // A string representation of the exact input type. This is set for all types not just primitives. 
  *                                          The following types will be in lower case as per the built-in javascript typeof operator: 
  *                                         'string', 'number', 'boolean', 'undefined', 'symbol', 'function', 'object', 'bigint'.
