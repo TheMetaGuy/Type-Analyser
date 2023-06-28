@@ -32,11 +32,19 @@ it('get number type of float', () => {
 });
 
 it('get number type of bigint', () => {
-  expect(typeOfNumber(BigInt(123))).toBe('bigint');
+  if (typeof BigInt !== 'undefined') {
+    expect(typeOfNumber(BigInt(123))).toBe('bigint');
+  } else {
+    console.log('BigInt is not supported in this environment');
+  }
 });
 
 it('get number type of bigint literal', () => {
-  expect(typeOfNumber( 123n )).toBe('bigint');
+  if (typeof BigInt !== 'undefined') {
+    expect(typeOfNumber( 123n )).toBe('bigint');
+  } else {
+    console.log('BigInt is not supported in this environment');
+  }
 });
 
 it('get number type of string with a number', () => {

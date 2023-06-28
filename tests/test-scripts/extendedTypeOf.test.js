@@ -12,11 +12,19 @@ it('get extendedTypeOf  float number', () => {
 });
 
 it('get extendedTypeOf  bigint', () => {
-    expect(extendedTypeOf(BigInt(123))).toBe('bigint');
+    if (typeof BigInt !== 'undefined') {
+        expect(extendedTypeOf(BigInt(123))).toBe('bigint');
+    } else {
+        console.log('BigInt is not supported in this environment');
+    }
 });
 
 it('get extendedTypeOf  bigint literal', () => {
-    expect(extendedTypeOf( 123n )).toBe('bigint');
+    if (typeof BigInt !== 'undefined') {
+        expect(extendedTypeOf( 123n )).toBe('bigint');
+    } else {
+        console.log('BigInt is not supported in this environment');
+    }      
 });
 
 it('get extendedTypeOf  string', () => {
@@ -57,11 +65,15 @@ it('get extendedTypeOf  RangeEerror', () => {
 });
 
 it('get extendedTypeOf  AggregateError ', () => {
-    const errors = [
-        new Error("Error 1"),
-        new Error("Error 2"),
-      ];
-    expect(extendedTypeOf(new AggregateError(errors, 'multiple errors'))).toBe('AggregateError');
+    if ( typeof AggregateError !== 'undefined' ) {
+        const errors = [
+            new Error("Error 1"),
+            new Error("Error 2"),
+        ];
+        expect(extendedTypeOf(new AggregateError(errors, 'multiple errors'))).toBe('AggregateError');
+    } else {
+        console.log('AggregateError is not supported in this environment');
+    }
 });
 
 it('get extendedTypeOf  url', () => {
@@ -100,6 +112,8 @@ it('get extendedTypeOf  arraybuffer', () => {
 it('get extendedTypeOf  sharedarraybuffer', () => {
     if ( typeof SharedArrayBuffer !== 'undefined' ) {
         expect(extendedTypeOf(new SharedArrayBuffer(16))).toBe('SharedArrayBuffer');
+    } else {
+        console.log('SharedArrayBuffer is not supported in this environment');
     }
 });
 
@@ -138,11 +152,19 @@ it('get extendedTypeOf  uint8clampedArray', () => {
 });
   
 it('get extendedTypeOf  bigint64Array', () => {
-    expect(extendedTypeOf(new BigInt64Array())).toBe('BigInt64Array');
+    if ( typeof BigInt64Array !== 'undefined' ) {
+        expect(extendedTypeOf(new BigInt64Array())).toBe('BigInt64Array');
+    } else {
+        console.log('BigInt64Array is not supported in this environment');
+    }
 });
   
 it('get extendedTypeOf  biguint64Array', () => {
-    expect(extendedTypeOf(new BigUint64Array())).toBe('BigUint64Array');
+    if ( typeof BigUint64Array !== 'undefined' ) {
+        expect(extendedTypeOf(new BigUint64Array())).toBe('BigUint64Array');
+    } else {    
+        console.log('BigUint64Array is not supported in this environment');
+    }
 });
 
 it('get extendedTypeOf  array iterator', () => {

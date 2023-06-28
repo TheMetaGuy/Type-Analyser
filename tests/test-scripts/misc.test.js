@@ -246,10 +246,16 @@ it('should return false for Float64Array unless "acceptFormatLoss" param set', (
 });
 
 it('should return false for BigInt64Array unless "acceptFormatLoss" param set', () => {
-    let obj = { key: new BigInt64Array([BigInt(1), BigInt(2), BigInt(3), BigInt(4)]) };
-    expect(isJSONSerializable(obj)).toBe(false);
-    expect(isJSONSerializable(obj,true)).toBe(true);
+    if (typeof BigInt64Array !== 'undefined' && typeof BigInt !== 'undefined') {
+        let obj = { key: new BigInt64Array([BigInt(1), BigInt(2), BigInt(3), BigInt(4)]) };
+        expect(isJSONSerializable(obj)).toBe(false);
+        expect(isJSONSerializable(obj,true)).toBe(true);
+    } else {
+        console.log('BigInt64Array or/and BinInt not supported in this environment');
+    }
 });
+
+// =========== Circular Reference Tests ===========
 
 it('return true for object with circular reference', () => {
     let obj = {};

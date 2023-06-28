@@ -43,8 +43,12 @@ it('test numeric strings for safe use as a number when acceptStringNumbers is fa
 });
 
 it('test BigInt and BigInt literals for safe use as a number', () => {
-  expect(isSafeNumber(1n)).toBe(false);
-  expect(isSafeNumber(BigInt(1))).toBe(false);
+  if (typeof BigInt !== 'undefined') {
+    expect(isSafeNumber(1n)).toBe(false);
+    expect(isSafeNumber(BigInt(1))).toBe(false);
+  } else {
+    console.log('BigInt is not supported in this environment');
+  }
 });
 
 it('test floating point string that is too large for safe use as a number', () => {
