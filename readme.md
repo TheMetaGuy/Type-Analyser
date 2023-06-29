@@ -97,7 +97,6 @@ All other built-in types will be recognised and returned in CamelCase format as 
 | `async function` | 'AsyncFunction' |
 | `function*` | 'GeneratorFunction' |
 | `() => {}` | 'ArrowFunction' |
-|
 
 <br>
 
