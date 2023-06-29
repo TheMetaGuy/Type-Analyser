@@ -1,7 +1,7 @@
 {
   "name": "type-master",
-  "version": "1.2.0",
-  "description": "utility package designed to provide in-depth and precise type information for any JavaScript object, be it a primitive, built-in type, ES6/ES2020 type or custom classes",
+  "version": "1.2.1",
+  "description": "utility package designed to provide in-depth and precise type information for any JavaScript object, be it a primitive, built-in types, ES6/ES2020 types or custom classes",
   "main": "dist/type-master.cjs.js",
   "module": "dist/type-master.esm.js",
   "browser": "dist/type-master.iife.min.js",
@@ -32,7 +32,7 @@
     "name" : "Owen Cullum",
     "email" : "dev@metagu.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.22.5",
     "@rollup/plugin-babel": "^6.0.3",
