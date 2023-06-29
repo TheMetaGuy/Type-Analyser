@@ -6,16 +6,18 @@ import { extendedTypeOf } from "./extendedTypeOf.js";
  * 
  * @param {*} acceptFormatLoss - Optional. if false (the default), only return true for types that can be serializaed without problems.
  * 
- *                               if true also return true for types where data may need trivial conversion when de-serializing.
- *                               E.g. 'Date', 'URL', 'URLSearchParams' are converted to strings when serializing to JSON, 
- *                               so New Date( stringValue ) or new URL( stringValue ) etc can be used to convert back. 
+ *                               If this parmeter is true then this function also returns true for types where no data is lost but 
+ *                               the format is changed and can be easily converted back when de-serializing. E.g. 'Date', 'URL', 
+ *                               'URLsearchparams' are converted to strings when serializing to JSON, so New Date( stringValue ) or
+ *                               new URL( stringValue ) etc can be used to convert back.
  * 
  *                               Typed arrays are converted to regular arrays when serializing to JSON so iterating over the results 
  *                               of the parsed JSON element, adding to an array and then new TypedArray( array ) can be used to convert back. 
  * 
  * @param {*} visitedObjects -   Used internally to detect circular references. Do not pass this parameter.
  * 
- * @returns true if the object is JSON serializable WITHOUT a loss of data, false otherwise.
+ * @returns true if the object is JSON serializable WITHOUT a loss of data, false otherwise.  Note that if 'acceptFormatLoss' is set 
+ * then this function returns true if during JSON serialization there's no actual data loss but the format may be changed.   
  */
 function isJSONSerializable(obj, acceptFormatLoss, visitedObjects) {
 

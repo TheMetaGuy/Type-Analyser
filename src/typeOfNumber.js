@@ -87,7 +87,7 @@ function typeOfNumber (obj, acceptStringNumbers) {
  *                                  (Note - the built in javascript parseFloat() function can be used before calling this 
  *                                  function to force coercing. E.g. it will convert '34.345abchs' to 34.345).
  *                                  if acceptStringNumbers is false then when a string is passed in, it will never be 
- *                                  converted to a number and 'NaN' will be returned
+ *                                  converted to a number and false will be returned
  * 
  * @returns - true if the number passed in is safe to use in a calculation, false otherwise.
  */
