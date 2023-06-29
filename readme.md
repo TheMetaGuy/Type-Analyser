@@ -777,7 +777,7 @@ For full compatibility with ES6 types, use the following Node or browser version
 
 | Node | Chrome | FireFox | Safari | Edge | Opera | IOS | Samsung Browser | Chrome Android | WebView Android |
 | :---:| :---:  | :---:   | :---:  | :---: | :--: |:---:|:---:            | :--:           |  :--:           |
-| 7.6  | 55     | 52      |  10.2  |  15  | 43    | 11.2|  6.0            |         55     |  55             |
+| 7.6  | 55     | 53      |  10.2  |  15  | 43    | 11.2|  6.0            |         55     |  55             |
 |
 
 <br>

@@ -212,6 +212,7 @@ it('get extendedTypeOf  asyncfunction', () => {
         expect(extendedTypeOf( myAsyncFunction )).toBe('AsyncFunction');
     } else {
         expect(extendedTypeOf( myAsyncFunction )).toBe('function');  // if called from ES5 code
+        console.log('Async functions are not supported in this environment');
     }
 });
 
@@ -226,6 +227,7 @@ it('get extendedTypeOf  arrow Function ', () => {
         expect(extendedTypeOf( myArrowFunction )).toBe('ArrowFunction');
     } else {
         expect(extendedTypeOf( myArrowFunction )).toBe('function');  // if called from ES5 code
+        console.log('Arrow functions are not supported in this environment');
     }
 });
 

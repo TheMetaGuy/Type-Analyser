@@ -1,5 +1,5 @@
 import { getTypeDetails } from '../testIndex.js';
-import { isArrowFunction } from '../testUtils.js';
+import { isArrowFunction, isAsyncFunction } from '../testUtils.js';
 
 // Basic Type Checks
 it('check type details of string primitive', () => {
@@ -218,6 +218,7 @@ it('check type details of ArrowFunction', () => {
     expect(arrowFunctionDetails.Type).toBe('ArrowFunction');
   } else {
     expect(arrowFunctionDetails.Type).toBe('function');          // if called from ES5 code
+    console.log('ArrowFunction not supported in this environment');
   }  
   expect(arrowFunctionDetails.hasCustomConstructor).toBe(false);
   expect(arrowFunctionDetails.ReferenceVariable).toBe('theArrowFunction');
@@ -246,6 +247,26 @@ it('check type details of Generator Function', () => {
   expect(generatorDetails.prototypeChainString).toBe('GeneratorFunction -> Function -> Object');
   expect(generatorDetails.prototypeChain).toEqual(['GeneratorFunction', 'Function', 'Object']);
 });
+
+// async function
+it('check type details of async function', () => {
+  let asyncFunc = async function() {};
+  const asyncFunctionDetails = getTypeDetails(asyncFunc);
+  if ( isAsyncFunction(asyncFunc) ) {
+    expect(asyncFunctionDetails.Type).toBe('AsyncFunction');
+    expect(asyncFunctionDetails.prototypeChainString).toBe('AsyncFunction -> Function -> Object');
+    expect(asyncFunctionDetails.prototypeChain).toEqual(['AsyncFunction', 'Function', 'Object']);
+  
+  } else {
+    expect(asyncFunctionDetails.Type).toBe('function');          // if called from ES5 code
+    expect(asyncFunctionDetails.prototypeChainString).toBe('Function -> Object');
+    expect(asyncFunctionDetails.prototypeChain).toEqual(['Function', 'Object']);
+    console.log('AsyncFunction not supported in this environment');
+  }  
+  expect(asyncFunctionDetails.hasCustomConstructor).toBe(false);
+  expect(asyncFunctionDetails.ReferenceVariable).toBe('asyncFunc');
+});
+
 
 // Uint8ClampedArray
 it('check type details of Uint8ClampedArray', () => {
