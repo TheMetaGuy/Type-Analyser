@@ -60,7 +60,44 @@ Accurately identifies the type of all Javascript objects not just the primitive 
 `object` - The object to determine the 'type' of
 
 **Returns**  
-This function returns a `string` representing the type of the object passed in. if a type can't be determined the string `unknown` will be returned.
+This function returns a `string` representing the type of the object passed in. if a type can't be determined the string `unknown` will be returned. The following types will be in lower case as per the built-in javascript typeof operator: 
+
+'string', 'number', 'boolean', 'undefined', 'symbol', 'function', 'object', 'bigint'. 
+
+All other built-in types will be recognised and returned in CamelCase format as per the Javascript standard: E.g. 'Array', 'Date', 'Error', 'RegExp', 'URL' etc. Here are some typical return values: 
+
+| Type | `extendedTypeOf` Output |
+| ----------- | ------------------------- |
+| `Number` | 'number' |
+| `BigInt` | 'bigint' |
+| `String` | 'string' |
+| `Boolean` | 'boolean' |
+| `Symbol` | 'symbol' |
+| `Undefined` | 'undefined' |
+| `Null` | 'null' |
+| `Object` | 'object' |
+| `Function` | 'function' |
+| `Array` | 'Array' |
+| `Date` | 'Date' |
+| `RegExp` | 'RegExp' |
+| `Error` | 'Error' |
+| `TypeError` | 'TypeError' |
+| `Map` | 'Map' |
+| `WeakMap` | 'WeakMap' |
+| `Set` | 'Set' |
+| `WeakSet` | 'WeakSet' |
+| `Promise` | 'Promise' |
+| `Proxy` | 'Proxy' |
+| `Int8Array` | 'Int8Array' |
+| `Uint8Array` | 'Uint8Array' |
+| `SharedArrayBuffer` | 'SharedArrayBuffer' |
+| `URL` | 'URL' |
+| `URLSearchParams` | 'URLSearchParams' |
+| `Blob` | 'Blob' |
+| `async function` | 'AsyncFunction' |
+| `function*` | 'GeneratorFunction' |
+| `() => {}` | 'ArrowFunction' |
+|
 
 <br>
 

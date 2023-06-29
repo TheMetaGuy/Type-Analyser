@@ -1,9 +1,16 @@
 /**
  * Accurately identifies the type of all Javascript objects not just the primitive types and it's much more
- * useful than the built-in javascript 'typeof' operator. It provides the same core functionality 
- * but returns the correct type for null, all ES6 / ES2020 types and custom types ( E.g. your classes ). 
- * It works correctly with types simulated via Polyfills (E.g. Symbol via Babel ) and also correctly identifies
- * types retieved from Iframes and Worker threads where passing of those types is supported.
+ * useful than the built-in javascript 'typeof' operator. It provides the same core functionality but also 
+ * has the following advantages. It; 
+ * 
+ * - returns the correct type for null, Array, **all** ES6 / ES2020 types and custom types ( E.g. your classes ). 
+ * 
+ * - works correctly with types correctly simulated via Polyfills (E.g. Symbol via Babel ) 
+ * 
+ * - distinquishes between different types of functions( regular, async, generator, arrow ) 
+ * 
+ * - correctly identifies types retieved from Iframes and Worker threads where passing of those types is supported.
+ * 
  * 
  * SPECIAL CASES - toString( ) Override and [Symbol.toStringTag]
  * There are some special cases where the returned 'type' might not align with your expectations:
@@ -28,8 +35,11 @@
  * 
  * @param {*} obj - The object to get the type of.
  * 
- * @returns a string representing the type of the object passed in. if a type can't be determined, 
- *          the string 'unknown' will be returned.
+ * @returns a string representing the type of the object passed in. if a type can't be determined, the string 'unknown' 
+ *          will be returned. The following types will be in lower case as per the built-in javascript typeof operator:
+ *          'string', 'number', 'boolean', 'undefined', 'symbol', 'function', 'object', 'bigint'. All other built-in
+ *          types will be recognised and returned in CamelCase format as per the Javascript standard: E.g. 'Array', 
+ *          'Date', 'Error', 'RegExp', 'URL' etc.
  */
 
 function extendedTypeOf(obj) {
