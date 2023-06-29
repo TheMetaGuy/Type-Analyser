@@ -11,17 +11,17 @@ It offers a set of functions that go beyond the native `typeof`, `instanceof`, a
 ---------
 Understanding the types you're working with in JavaScript is crucial for maintaining robust, bug-free code. Yet, JavaScript's native tools for identifying types can be limited and sometimes misleading; there are numerous edge cases where these built-in operators fail to provide correct or usable information. Type-Master addresses these shortcomings by:
 
-- Accurately identifying the **actual** type of any JavaScript object via a simple-to-use `extendedTypeOf( )` function. This function works consistently across Iframes, Worker threads, and with browser DOM objects.  
+- Accurately identifying the **actual** type of any JavaScript object via a simple-to-use **`extendedTypeOf( )`** function. This function works consistently across Iframes, Worker threads, and with browser DOM objects.  
 
-- Testing if a number is safe to use in calculations, a common source of bugs when dealing with JavaScript's different number types, via `isSafeNumber( )`.
+- Testing if a number is safe to use in calculations, a common source of bugs when dealing with JavaScript's different number types, via **`isSafeNumber( )`**.
 
-- Providing information on the specific sub-type of a number via `typeOfNumber( )` - (E.g. 'bigint', 'NaN', 'infinity', '-infinity', 'safeInteger', 'unsafeNumber', and 'safeFloat').
+- Providing information on the specific sub-type of a number via **`typeOfNumber( )`** - (E.g. 'NaN', 'infinity', 'safeInteger', 'safeFloat' and 'unsafeNumber' etc).
 
-- Offering detailed information about the object, including its prototype chain, via `getTypeDetails( )` function.
+- Offering detailed information about the object, including its prototype chain, via **`getTypeDetails( )`** function.
 
-- Checking if an object is JSON serializable, a common requirement in modern JavaScript programming, via `isJSONSerializable()`.
+- Checking if an object is JSON serializable, a common requirement in modern JavaScript programming, via **`isJSONSerializable()`**.
 
-- Checking for circular references, an essential tool for debugging complex object structures, via `hasCircularReference()`.
+- Checking for circular references, an essential tool for debugging complex object structures, via **`hasCircularReference()`**.
 
 <br>  
 
@@ -36,11 +36,6 @@ Additionally, Type-Master:
 - Provides ESM, CSJ, and IIFE module variants for various use cases (refer to the *installation* section below).
 
 - Is lightweight, at just 15KB unminified and 3KB minified. 
-
-
-
-
-
 
 <br> 
 
@@ -191,7 +186,7 @@ const iframe = document.createElement("iframe");
 iframe.src = "https://example.com/iframe.html";
 iframe.onload = () => {
   const obj = iframe.contentWindow.obj;
-  if tm.extendedTypeOf(obj) === "MyCustomType") {
+  if (tm.extendedTypeOf(obj) === "MyCustomType") {
     // do something with the obj
     // This would not cause an error because extendedTypeOf obj is "MyCustomType"
     // using the builtin typeof wound cause an error because typeof obj is "object"
