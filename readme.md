@@ -782,7 +782,7 @@ In modern browsers that support ECMAScript Modules, you can import Type-Master d
 
 ```html
   <script type="module">
-      import * as tm from './node_module/type-master/dist/type-master.esm.min.js';
+      import * as tm from './node_modules/type-master/dist/type-master.esm.min.js';
       // OR if you just need the essentials 
       import {extendedTypeOf, typeOfNumber, isSafeNumber} from './node_module/type-master/dist/type-master.esm.min.js';
   </script>
@@ -791,7 +791,7 @@ In modern browsers that support ECMAScript Modules, you can import Type-Master d
 ### ***Unbundled (IIFE) Global straight into your script*** 
 If you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE global module version which will work on all browsers as is.
 ```html
-  <script src="./node_module/type-master/dist/type-master.iife.min.js"></script>
+  <script src="./node_modules/type-master/dist/type-master.iife.min.js"></script>
   <script>
       var tm = typeMaster;  // the IIFE global is called 'typeMaster'
 

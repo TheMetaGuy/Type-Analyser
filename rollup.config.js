@@ -26,11 +26,11 @@ export default {
       plugins: [terser()]
     },    
     {
-      file: 'dist/type-master.cjs.js',
+      file: 'dist/type-master.cjs',
       format: 'cjs'
     },
     {
-      file: 'dist/type-master.cjs.min.js',
+      file: 'dist/type-master.cjs.min',
       format: 'cjs',
       plugins: [terser()]
     }

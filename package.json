@@ -1,8 +1,8 @@
 {
   "name": "type-master",
-  "version": "1.2.5",
+  "version": "1.3.0",
   "description": "utility package designed to provide in-depth and precise type information for any JavaScript object, be it a primitive, built-in types, ES6/ES2020 types or custom classes",
-  "main": "dist/type-master.cjs.js",
+  "main": "dist/type-master.cjs",
   "module": "dist/type-master.esm.js",
   "browser": "dist/type-master.iife.min.js",
   "files"  : [
