@@ -218,7 +218,7 @@ it('check type details of ArrowFunction', () => {
     expect(arrowFunctionDetails.Type).toBe('ArrowFunction');
   } else {
     expect(arrowFunctionDetails.Type).toBe('function');          // if called from ES5 code
-    console.log('ArrowFunction not supported in this environment');
+    console.log('Arrow Functions not supported in this environment');
   }  
   expect(arrowFunctionDetails.hasCustomConstructor).toBe(false);
   expect(arrowFunctionDetails.ReferenceVariable).toBe('theArrowFunction');
@@ -261,7 +261,7 @@ it('check type details of async function', () => {
     expect(asyncFunctionDetails.Type).toBe('function');          // if called from ES5 code
     expect(asyncFunctionDetails.prototypeChainString).toBe('Function -> Object');
     expect(asyncFunctionDetails.prototypeChain).toEqual(['Function', 'Object']);
-    console.log('AsyncFunction not supported in this environment');
+    console.log('Async Functions not supported in this environment');
   }  
   expect(asyncFunctionDetails.hasCustomConstructor).toBe(false);
   expect(asyncFunctionDetails.ReferenceVariable).toBe('asyncFunc');

@@ -1,6 +1,6 @@
 {
   "name": "type-master",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "utility package designed to provide in-depth and precise type information for any JavaScript object, be it a primitive, built-in types, ES6/ES2020 types or custom classes",
   "main": "dist/type-master.cjs.js",
   "module": "dist/type-master.esm.js",
@@ -20,6 +20,7 @@
     "type-check",
     "type-checker",
     "type-details",
+    "type-detection",
     "javascript-types",
     "type-validation",
     "javascript-type-checker",

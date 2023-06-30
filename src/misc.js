@@ -1,3 +1,10 @@
+/*******************************************************************************************************
+ * Type-Master
+ * MIT License
+ * For full license details see the LICENSE file in the repo root or https://opensource.org/licenses/MIT
+ * Copyright(c) 2023 Owen Cullum <dev@metagu.com>
+ *******************************************************************************************************/
+
 import { extendedTypeOf } from "./extendedTypeOf.js";
 /**
  * Checks if an object is JSON serializable. This is a recursive function that will check all properties of an object.

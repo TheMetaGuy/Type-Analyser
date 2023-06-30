@@ -1,3 +1,10 @@
+/*******************************************************************************************************
+ * Type-Master
+ * MIT License
+ * For full license details see the LICENSE file in the repo root or https://opensource.org/licenses/MIT
+ * Copyright(c) 2023 Owen Cullum <dev@metagu.com>
+ *******************************************************************************************************/
+
 /**
  * Accurately identifies the type of all Javascript objects not just the primitive types and it's much more
  * useful than the built-in javascript 'typeof' operator. It provides the same core functionality but also 

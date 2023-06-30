@@ -1,3 +1,10 @@
+/*******************************************************************************************************
+ * Type-Master
+ * MIT License
+ * For full license details see the LICENSE file in the repo root or https://opensource.org/licenses/MIT
+ * Copyright(c) 2023 Owen Cullum <dev@metagu.com>
+ *******************************************************************************************************/
+  
 /**
  * Returns information about the 'sub-type' of number passed in. Unlike the built-in javascript isNaN( ) function,
  * this returns useful information about the 'type' of number passed in. E.g. it will return 'infinity' for Infinity
