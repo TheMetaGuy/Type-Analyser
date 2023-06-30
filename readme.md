@@ -789,7 +789,7 @@ In modern browsers that support ECMAScript Modules, you can import Type-Master d
 ```
 
 ### ***Unbundled (IIFE) Global straight into your script*** 
-If you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE global module version which will work on all browsers as is.
+If you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE version of Type-Master which exposes a global `typeMaster` object which will work on all browsers as is.
 ```html
   <script src="./node_modules/type-master/dist/type-master.iife.min.js"></script>
   <script>
@@ -802,6 +802,25 @@ If you are not using a bundler and your app is going to run on ES5 browsers with
           obj = yourObjectCreationCode( );
       }
   </script>  
+```
+
+### ***CDN*** 
+You can also load Type-Master directly from a CDN like **jsDelivr** or **unpkg** if you're not using npm or just want to quickly test something out.
+
+```html
+<!-- Using ECMAScript Modules (ESM) -->
+<script type="module">
+  import * as tm from 'https://cdn.jsdelivr.net/npm/type-master@1.3.0/dist/type-master.esm.min.js';
+</script>
+
+<!-- Or using IIFE -->
+<script src="https://cdn.jsdelivr.net/npm/type-master@1.3.0/dist/type-master.iife.min.js"></script>
+<script>
+  // Use a global object
+  var tm = typeMaster;
+  console.log(tm.extendedTypeOf([])); // outputs: 'Array'
+</script>
+
 ```
 
 <br>
