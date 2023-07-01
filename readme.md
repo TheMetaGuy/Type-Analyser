@@ -2,7 +2,7 @@
 
 ## **What is Type-Master?**
 -----
-Type-Master is a simple yet innovative utility package designed to provide in-depth and precise type information for any JavaScript object. It's capable of analyzing primitive, built-in types, ES6/ES2020 types, and even your custom classes. 
+Type-Master is a simple yet innovative library designed to provide precise and in-depth type information for any JavaScript object. It's capable of analyzing primitive, built-in types, ES6/ES2020 types, and even your custom classes. 
 
 It offers a set of functions that go beyond the native `typeof`, `instanceof`, and `isNaN` operators, addressing their limitations and delivering enhanced run-time and debug-time functionality that every JavaScript developer needs.  
 <br>
@@ -521,8 +521,8 @@ Performs type introspection and returns detailed type information about the obje
 | **ReferenceVariable** | "" | A string representation of the reference variable, if any, that points to the input object. E.g. if you have *'let myfunc =  function() {};'* then 'Type' will be 'function' and the 'ReferenceVariable will be 'myfunc' in the returned object from getTypeDetails(myfunc). | 
 | **hasCustomConstructor**| false | true if the input object has a it's own custom constructor, false otherwise. |
 | **prototypeChainString** | ""  |A string representation of the Javascript inheritance prototype chain of the input object. Objects in the chain are separated by ' -> '. E.g. 'Child -> Parent -> Object'. | 
-| **prototypeChain** | null | An array containing the javascript inheritance prototype chain of the input object passed. |
-|
+| **prototypeChain** | null | An array containing the javascript inheritance prototype chain of the input object passed. |  
+
 
 <br>
 
@@ -832,8 +832,8 @@ For full compatibility with ES6 types, use the following Node or browser version
 
 | Node | Chrome | FireFox | Safari | Edge | Opera | IOS | Samsung Browser | Chrome Android | WebView Android |
 | :---:| :---:  | :---:   | :---:  | :---: | :--: |:---:|:---:            | :--:           |  :--:           |
-| 7.6  | 55     | 53      |  10.2  |  15  | 43    | 11.2|  6.0            |         55     |  55             |
-|
+| 7.6  | 55     | 53      |  10.2  |  15  | 43    | 11.2|  6.0            |         55     |  55             |  
+
 
 <br>
 
@@ -842,8 +842,8 @@ if you are Targeting ES5 environments via ES6 Polyfills (E.g. via Babel) then Ty
 
 | Node | Chrome | FireFox | Safari | Edge | Opera | IOS | Samsung Browser | Chrome Android | WebView Android |
 | :---: | :---: |  :---:  | :---:  |:---: |:---:  |:--- | :---:           | :---:          |:---:            | 
-| 0.12  | 34    | 32      |  9     |  12  | 25    | 9   |    2.0          |         34     |  37             |
-|
+| 0.12  | 34    | 32      |  9     |  12  | 25    | 9   |    2.0          |         34     |  37             |  
+
 
 This requires the ES6 Polyfills to simulate the actual ES6 type. However, note that in some cases the polyfill duplicates the run-time behaviour of the type but ***can't*** simulate the actual ES6 type. E.g. This applies to *Arrow* and *Async Functions*. In practice If you don't need to detect/inspect these specific types at runtime in your code everything should work fine. E.g. you'll be able to correctly get the type of typed Arrays, or Symbol or Map objcts etc. 
 
