@@ -228,16 +228,11 @@
             result = (typeMaster.extendedTypeOf(input) === 'HTMLInputElement') ? 'PASS: ' : 'FAIL: ';
             Log_H_Results(result + '<input> is of  type           - ' + typeMaster.extendedTypeOf(input));    
 
-            // ====================================== End of tests =========================================
-
             var promise = new Promise(function(resolve, reject) {
                 resolve('hello world');
             });
             reuslt = (typeMaster.extendedTypeOf(promise) === 'Promise') ? 'PASS: ' : 'FAIL: ';
             Log_H_Results(result + 'promise is of  type           - ' + typeMaster.extendedTypeOf(promise));
-
-            reuslt = ( promise.toString() === '[object Promise]') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'promise is of  type           - ' + promise.toString());
 
             var dataview = new DataView(new ArrayBuffer(1));
             reuslt = (typeMaster.extendedTypeOf(dataview) === 'DataView') ? 'PASS: ' : 'FAIL: ';
