@@ -1,7 +1,7 @@
 # **Type-Master**
 
-![Static Badge](https://img.shields.io/badge/Coverage%3Afunctions-_100%25-green) 
-![Static Badge](https://img.shields.io/badge/Coverage%3Abranches-_99.12%25-green)
+![Functions](https://raw.githubusercontent.com/TheMetaGuy/Type-Master/master/tests/coverage/badge-functions.svg)
+![Branches](https://raw.githubusercontent.com/TheMetaGuy/Type-Master/master/tests/coverage/badge-branches.svg)
 ![GitHub](https://img.shields.io/github/license/TheMetaGuy/Type-Master)
 ![npm](https://img.shields.io/npm/v/type-master)
 
