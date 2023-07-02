@@ -1,5 +1,10 @@
 # **Type-Master**
 
+![Static Badge](https://img.shields.io/badge/Coverage%3Afunctions-_100%25-green) 
+![Static Badge](https://img.shields.io/badge/Coverage%3Abranches-_99.12%25-green)
+![GitHub](https://img.shields.io/github/license/TheMetaGuy/Type-Master)
+![npm](https://img.shields.io/npm/v/type-master)
+
 ## **What is Type-Master?**
 -----
 Type-Master is a simple yet innovative library designed to provide precise and in-depth type information for any JavaScript object. It's capable of analyzing primitive, built-in types, ES6/ES2020 types, and even your custom classes. 

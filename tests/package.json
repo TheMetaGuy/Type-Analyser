@@ -4,8 +4,9 @@
     "description": "Test suite for type-master",
     "private": true,
     "scripts": {
-      "test": "jest",
-      "test:karma": "karma start"
+        "test": "jest",
+        "test:karma": "karma start",
+        "test:coverage": "jest --coverage && jest-coverage-badges"
     },
     "devDependencies": {
         "@babel/cli": "^7.22.5",
@@ -21,31 +22,41 @@
         "karma-firefox-launcher": "^2.1.2",
         "karma-jasmine": "^5.1.0",
         "karma-rollup-preprocessor": "^7.0.8",
-        "rollup": "^3.25.0"
+        "rollup": "^3.25.0",
+        "jest-coverage-badges": "^1.1.2"
     },
     "babel": {
         "presets": [
-          [
-            "@babel/preset-env",
-            {
-              "targets": {
-                "browsers": [
-                  "Edge >= 15",
-                  "Chrome >= 55",
-                  "Firefox >= 53",
-                  "Opera >= 43",
-                  "Safari >= 10.2",
-                  "iOS >= 11.2",
-                  "ChromeAndroid >= 55",
-                  "Samsung >= 6.0"
-                ]
-              }
-            }
-          ]
+            [
+                "@babel/preset-env",
+                {
+                    "targets": {
+                        "browsers": [
+                            "Edge >= 15",
+                            "Chrome >= 55",
+                            "Firefox >= 53",
+                            "Opera >= 43",
+                            "Safari >= 10.2",
+                            "iOS >= 11.2",
+                            "ChromeAndroid >= 55",
+                            "Samsung >= 6.0"
+                        ]
+                    }
+                }
+            ]
         ]
-    },    
+    },
     "jest": {
-      "testEnvironment": "node"
+        "testEnvironment": "node",
+        "coverageReporters": [
+          "json-summary", 
+          "text",
+          "lcov"
+        ],
+        "coveragePathIgnorePatterns": [
+          "/node_modules/",
+          "testUtils.js",
+          "testIndex.js"
+        ]
     }
-  }
-  
+}
