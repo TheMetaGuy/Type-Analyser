@@ -891,7 +891,7 @@ To use Karma to run the above Jest-based tests in the actual Chrome and Firefox 
 To run the special hand-crafted Iframe, Worker thread, and DOM elements tests, which automatically open up and run in the current default system browser:
 
 ```dos
-> runSpecialBrowserTest.bat 
+> runSpecialBrowserTests.bat 
 ```
 
 
