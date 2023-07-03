@@ -4,6 +4,8 @@
 ![Branches](https://raw.githubusercontent.com/TheMetaGuy/Type-Master/master/tests/coverage/badge-branches.svg)
 ![GitHub](https://img.shields.io/github/license/TheMetaGuy/Type-Master)
 ![npm](https://img.shields.io/npm/v/type-master)
+![npm bundle size](https://img.shields.io/bundlephobia/min/type-master)
+
 
 ## **What is Type-Master?**
 -----
