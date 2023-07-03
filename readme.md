@@ -789,7 +789,7 @@ In modern browsers that support ECMAScript Modules, you can import Type-Master d
   <script type="module">
       import * as tm from './node_modules/type-master/dist/type-master.esm.min.js';
       // OR if you just need the essentials 
-      import {extendedTypeOf, typeOfNumber, isSafeNumber} from './node_module/type-master/dist/type-master.esm.min.js';
+      import {extendedTypeOf, typeOfNumber, isSafeNumber} from './node_modules/type-master/dist/type-master.esm.min.js';
   </script>
 ```
 
@@ -851,5 +851,47 @@ if you are Targeting ES5 environments via ES6 Polyfills (E.g. via Babel) then Ty
 
 
 This requires the ES6 Polyfills to simulate the actual ES6 type. However, note that in some cases the polyfill duplicates the run-time behaviour of the type but ***can't*** simulate the actual ES6 type. E.g. This applies to *Arrow* and *Async Functions*. In practice If you don't need to detect/inspect these specific types at runtime in your code everything should work fine. E.g. you'll be able to correctly get the type of typed Arrays, or Symbol or Map objcts etc. 
+
+<br>
+
+# **Setting Up the Development Environment**
+
+Type-master has no run-time dependencies. Some packages (e.g., Jest, Karma, Roll-up, etc.) are needed for development, but these are installed locally only inside the project folders. Assuming you have installed Node.js v7.6 or higher, you should just need to:
+
+```dos   
+> cd YourFolderName
+> REM note the full stop '.' at the end so git clones into the current folder
+> git clone https://github.com/TheMetaGuy/Type-Master.git .
+> npm install 
+> npm run build
+```
+
+Tests are in a separate **'tests'** folder with its own package.json and test-scripts.
+
+Note that there is a **separate npm install** step for the tests sub-folder. You may see some reported package vulnerabilities ( due to the jest-coverage-badges package of June 2023) but as these packages are just being used for tests they should not be an issue. 
+
+Batch files are used to copy files from the dist build folder and kick off the appropiate npm script as required;  
+
+```dos
+> cd tests
+> REM Don't miss this separate npm install step
+> npm install   
+```
+
+To run the Jest-based Node and Browser emulation tests as defined in (\test-scripts*.tests.js), while still in the tests sub-directory, run:
+```dos
+> runNodeTests.bat
+```
+
+To use Karma to run the above Jest-based tests in the actual Chrome and Firefox browsers (in headless mode) – note that it uses whatever versions of those browsers are currently installed:
+```dos
+> runBrowserTests.bat
+```
+
+To run the special hand-crafted Iframe, Worker thread, and DOM elements tests, which automatically open up and run in the current default system browser:
+
+```dos
+> runSpecialBrowserTest.bat 
+```
 
 
