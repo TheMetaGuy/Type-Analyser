@@ -12,7 +12,8 @@ export default {
     {
       file: 'dist/type-master.esm.min.js', 
       format: 'esm',
-      plugins: [terser()]
+      plugins: [terser()],
+      sourcemap: true
     },    
     {
       file: 'dist/type-master.iife.js',
@@ -23,7 +24,8 @@ export default {
       file: 'dist/type-master.iife.min.js',
       format: 'iife',
       name: 'typeMaster',
-      plugins: [terser()]
+      plugins: [terser()],
+      sourcemap: true
     },    
     {
       file: 'dist/type-master.cjs',
@@ -32,7 +34,8 @@ export default {
     {
       file: 'dist/type-master.cjs.min',
       format: 'cjs',
-      plugins: [terser()]
+      plugins: [terser()],
+      sourcemap: true
     }
   ],
   plugins: [
