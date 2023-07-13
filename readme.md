@@ -9,16 +9,15 @@
 
 ## **What is Type-Master?**
 -----
-Type-Master is a simple yet innovative library designed to provide precise and in-depth type information for any JavaScript object. It's capable of analyzing primitive, built-in types, ES6/ES2020 types, and even your custom classes. 
+A simple library designed to provide precise and in-depth type information for any JavaScript object. It's capable of analyzing primitive, built-in types, ES6/ES2020 types and your own custom classes. it provides a set of functions that fix and go beyond the native `typeof`, `instanceof`, and `isNaN` operators. 
 
-It offers a set of functions that go beyond the native `typeof`, `instanceof`, and `isNaN` operators, addressing their limitations and delivering enhanced run-time and debug-time functionality that every JavaScript developer needs.  
 <br>
 
 ## **Why Use Type-Master?**
 ---------
-Understanding the types you're working with in JavaScript is crucial for maintaining robust, bug-free code. Yet, JavaScript's native tools for identifying types can be limited and sometimes misleading; there are numerous edge cases where these built-in operators fail to provide correct or usable information. Type-Master addresses these shortcomings by:
+JavaScript's native tools for identifying types can be limited and sometimes misleading; there are numerous cases where these built-in operators fail to provide correct or usable information. Type-Master addresses these shortcomings by:
 
-- Accurately identifying the **actual** type of any JavaScript object via a simple-to-use **`extendedTypeOf( )`** function. This function works consistently across Iframes, Worker threads, and with browser DOM objects.  
+- Accurately identifying the **actual** type of any JavaScript object via a simple-to-use **`extendedTypeOf( )`** function which effectively fixes and extends the native **`typeof( )`** . This function works consistently across Iframes, Worker threads, and with browser DOM objects.  
 
 - Testing if a number is safe to use in calculations, a common source of bugs when dealing with JavaScript's different number types, via **`isSafeNumber( )`**.
 
@@ -26,7 +25,7 @@ Understanding the types you're working with in JavaScript is crucial for maintai
 
 - Offering detailed information about the object, including its prototype chain, via **`getTypeDetails( )`** function.
 
-- Checking if an object is JSON serializable, a common requirement in modern JavaScript programming, via **`isJSONSerializable()`**.
+- Checking if an object is correctly JSON serializable, via **`isJSONSerializable()`**.
 
 - Checking for circular references, an essential tool for debugging complex object structures, via **`hasCircularReference()`**.
 
@@ -48,12 +47,12 @@ Additionally, Type-Master:
 
 ## **Usage**
 
-Here are descriptions and some examples of how you might use Type-Master. This library allows you to correctly identify the type of an object and know the allowed operations on it across a wide range of examples.
+Here are descriptions along with some examples of Type-Master usage. 
 
 
 ## **`extendedTypeOf( object )`**
 ---
-Accurately identifies the type of all Javascript objects not just the primitive types and it's much more useful than the built-in Javascript 'typeof' operator. It provides the same core functionality but also has the following advantages. It; 
+Accurately identifies the type of all Javascript objects not just the primitive types so it's much more useful than the built-in Javascript 'typeof' operator. It provides the same core functionality but also has the following advantages. It; 
 
 - returns the correct type for null, Array, **all** ES6 / ES2020 types and custom types ( E.g. your classes ). 
 
