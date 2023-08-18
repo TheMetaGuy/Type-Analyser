@@ -116,5 +116,11 @@ function hasCircularRef(obj, visitedObjects) {
     return false;
 }
 
+function hasCircularReference() {
+  console.warn('Warning: hasCircularReference is deprecated. Please use hasCircularRef.');
+  return hasCircularRef.apply(this, arguments);
+}
+
 export { isJSONSerializable };
 export { hasCircularRef };
+export { hasCircularReference };

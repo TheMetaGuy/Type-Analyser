@@ -1,5 +1,17 @@
 import { isSafeNum } from '../testIndex.js';
 
+// basic check of deprecated version of isSafeNum
+import { isSafeNumber } from '../testIndex.js';
+it('test safe integers for safe use as a number', () => {
+  var maxInt = 9007199254740991;  // from mozilla docs. Number.MAX_SAFE_INTEGER is not supported on very old browsers  
+  expect(isSafeNumber(1)).toBe(true);
+  expect(isSafeNumber(maxInt)).toBe(true);
+  expect(isSafeNumber(-maxInt)).toBe(true);
+  expect(isSafeNumber(0)).toBe(true);
+});
+// ----------- end of deprecated tests -----------
+
+
 it('test safe integers for safe use as a number', () => {
   var maxInt = 9007199254740991;  // from mozilla docs. Number.MAX_SAFE_INTEGER is not supported on very old browsers  
   expect(isSafeNum(1)).toBe(true);

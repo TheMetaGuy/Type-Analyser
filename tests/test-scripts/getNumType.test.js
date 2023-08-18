@@ -1,5 +1,13 @@
 import { getNumType } from '../testIndex.js';
 
+// basic check of deprecated version of getNumType
+import { typeOfNumber } from '../testIndex.js';
+it('get number type of NaN', () => {
+  expect(typeOfNumber(NaN)).toBe('NaN');
+  expect(typeOfNumber('not a number')).toBe('NaN');
+});
+// ----------- end of deprecated tests -----------
+
 it('get number type of NaN', () => {
   expect(getNumType(NaN)).toBe('NaN');
   expect(getNumType('not a number')).toBe('NaN');
@@ -97,3 +105,4 @@ it('get number type of array', () => {
 it('get number type of a Number Object', () => {
   expect(getNumType( new Number(999))).toBe('numberObject');   // Note - not a number primitive
 }); 
+

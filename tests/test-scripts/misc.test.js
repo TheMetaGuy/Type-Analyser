@@ -1,4 +1,14 @@
-import { hasCircularRef, isJSONSerializable, getTypeOf } from '../testIndex.js';
+import { hasCircularRef, isJSONSerializable } from '../testIndex.js';
+import { hasCircularReference } from '../testIndex.js';
+
+// basic check of deprecated version of hasCircularRef
+it('return true for object with circular reference', () => {
+    let obj = {};
+    obj.item = { location : "nowhere", prize: obj };
+    expect(hasCircularReference(obj)).toBe(true);
+});
+// ----------- end of deprecated tests -----------
+
 
 it('should return true for null', () => {
     expect(isJSONSerializable(null)).toBe(true);

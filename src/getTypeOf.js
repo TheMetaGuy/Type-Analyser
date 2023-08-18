@@ -211,5 +211,11 @@ function getPrototypeChain(obj) {
     return chain;
 }
 
+function enhancedTypeOf() {
+    console.warn('Warning: enhancedTypeOf is deprecated. Please use getTypeOf.');
+    return getTypeOf.apply(this, arguments);
+  }
+
 export { getTypeDetails };
 export { getTypeOf };
+export { enhancedTypeOf };

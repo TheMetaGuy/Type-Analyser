@@ -110,6 +110,18 @@ function isSafeNum (obj, acceptStringNumbers) {
     }
 }
 
+function isSafeNumber() {
+    console.warn('Warning: isSafeNumber is deprecated. Please use isSafeNum.');
+    return isSafeNum.apply(this, arguments);
+}
+
+function typeOfNumber() {
+    console.warn('Warning: typeOfNumber is deprecated. Please use getNumType.');
+    return getNumType.apply(this, arguments);
+}
 
 export { getNumType };
 export { isSafeNum };
+
+export { isSafeNumber };
+export { typeOfNumber };
