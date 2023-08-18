@@ -49,7 +49,7 @@
  *          'Date', 'Error', 'RegExp', 'URL' etc.
  */
 
-function extendedTypeOf(obj) {
+function getTypeOf(obj) {
     var typeStr = typeof(obj);
     var basicType = typeStr;
 
@@ -99,7 +99,7 @@ function extendedTypeOf(obj) {
  * useful information about all types including ES6 / EES2020 and customs types ( E.g. Your classes ). 
  * 
  * For the returned 'type' field, the same special cases involving the use of `toString( )` override and `[Symbol.toStringTag]`
- * apply as per the **`extendedTypeOf`** function above and the same rationale applies. The goal is for the 'type' field
+ * apply as per the **`getTypeOf`** function above and the same rationale applies. The goal is for the 'type' field
  * to reveal the intrinsic underlying 'type' of an object. For built-in types  and custom objects, using `[Symbol.toStringTag]`
  * doesn't alter that by design here. However, we consider actual `Object` types an exception and return the 
  * `[Symbol.toStringTag]` value. This is because JavaScript's  type system returns 'object' for all Objects, making it 
@@ -212,4 +212,4 @@ function getPrototypeChain(obj) {
 }
 
 export { getTypeDetails };
-export { extendedTypeOf };
+export { getTypeOf };

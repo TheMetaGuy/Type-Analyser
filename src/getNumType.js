@@ -34,7 +34,7 @@
  * @returns - a string representing the sub-type of the number passed in. The possible values are:
  *            'bigint', 'NaN' , 'infinity', '-infinity', 'safeInteger', 'unsafeNumber' 'safeFloat' and 'numberObject'
  */
-function typeOfNumber (obj, acceptStringNumbers) {
+function getNumType (obj, acceptStringNumbers) {
 
     acceptStringNumbers = acceptStringNumbers === undefined ? true : acceptStringNumbers;
 
@@ -98,11 +98,11 @@ function typeOfNumber (obj, acceptStringNumbers) {
  * 
  * @returns - true if the number passed in is safe to use in a calculation, false otherwise.
  */
-function isSafeNumber (obj, acceptStringNumbers) {
+function isSafeNum (obj, acceptStringNumbers) {
 
     acceptStringNumbers = acceptStringNumbers === undefined ? true : acceptStringNumbers;
     
-    var typeStr = typeOfNumber(obj, acceptStringNumbers);
+    var typeStr = getNumType(obj, acceptStringNumbers);
     if ( typeStr === 'safeInteger' || typeStr === 'safeFloat' ) {
         return true;
     } else {
@@ -111,5 +111,5 @@ function isSafeNumber (obj, acceptStringNumbers) {
 }
 
 
-export { typeOfNumber };
-export { isSafeNumber };
+export { getNumType };
+export { isSafeNum };

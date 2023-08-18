@@ -5,7 +5,7 @@
  * Copyright(c) 2023 Owen Cullum <dev@metagu.com>
  *******************************************************************************************************/
 
-import { extendedTypeOf } from "./extendedTypeOf.js";
+import { getTypeOf } from "./getTypeOf.js";
 /**
  * Checks if an object is JSON serializable. This is a recursive function that will check all properties of an object.
  * 
@@ -45,7 +45,7 @@ function isJSONSerializable(obj, acceptFormatLoss, visitedObjects) {
         validJSONTypes.push(...lossyValidJSONTypes);
     }
 
-    var type = extendedTypeOf(obj);
+    var type = getTypeOf(obj);
 
     if (validJSONTypes.includes( type )) return true;
 
@@ -93,7 +93,7 @@ function isJSONSerializable(obj, acceptFormatLoss, visitedObjects) {
  * 
  * @returns true if the object has a circular reference, false otherwise.
  */
-function hasCircularReference(obj, visitedObjects) {
+function hasCircularRef(obj, visitedObjects) {
 
    visitedObjects = visitedObjects === undefined ? new WeakSet() : visitedObjects;
 
@@ -108,7 +108,7 @@ function hasCircularReference(obj, visitedObjects) {
     visitedObjects.add(obj);
 
     for (var key in obj) {
-        if (hasCircularReference(obj[key], visitedObjects)) {
+        if (hasCircularRef(obj[key], visitedObjects)) {
             return true;
         }
     }
@@ -117,4 +117,4 @@ function hasCircularReference(obj, visitedObjects) {
 }
 
 export { isJSONSerializable };
-export { hasCircularReference };
+export { hasCircularRef };

@@ -9,36 +9,31 @@
 
 ## **What is Type-Master?**
 -----
-A simple library designed to provide precise and in-depth type information for any JavaScript object. It's capable of analyzing primitive, built-in types, ES6/ES2020 types and your own custom classes. it provides a set of functions that fix and go beyond the native `typeof`, `instanceof`, and `isNaN` operators. 
+A simple library designed to provide precise and in-depth type information for any JavaScript/Typescript object including the cases where the built-in javascript operators fail and uniquely compared to other packages provides additional functionality. 
 
+It works with ES6 types, even in non-ES6 environments. Type-Analyzer is zero-dependency and has been extensively tested across different browsers and runtime environments. 
 <br>
 
 ## **Why Use Type-Master?**
 ---------
-JavaScript's native tools for identifying types can be limited and sometimes misleading; there are numerous cases where these built-in operators fail to provide correct or usable information. Type-Master addresses these shortcomings by:
+This package analyzes all types including your own custom classes. it provides a set of functions that fix and go beyond the native `typeof`, `instanceof`, and `isNaN` operators. Additionally it works correctly in all environments unlike the native operators.
 
-- Accurately identifying the **actual** type of any JavaScript object via a simple-to-use **`extendedTypeOf( )`** function which effectively fixes and extends the native **`typeof( )`** . This function works consistently across Iframes, Worker threads, and with browser DOM objects.  
+Features :
 
-- Testing if a number is safe to use in calculations, a common source of bugs when dealing with JavaScript's different number types, via **`isSafeNumber( )`**.
+| function | description |
+| ----------- | ------------------------- |
+| `getTypeOf`  | Accurately identifies the actual type of any JavaScript object |
+| `isSafeNum` | Tests if a number is safe to use in calculations |
+| `getNumType` | Provides information on the specific subtype of a number |
+| `getTypeDetails` | Offers detailed information about the object, including its prototype chain |
+| `isJSONSerializable` | Checks if an object is correctly JSON serializable |
+| `hasCircularRef` | Checks for circular references |
 
-- Providing information on the specific sub-type of a number via **`typeOfNumber( )`** - (E.g. 'NaN', 'infinity', 'safeInteger', 'safeFloat' and 'unsafeNumber' etc).
-
-- Offering detailed information about the object, including its prototype chain, via **`getTypeDetails( )`** function.
-
-- Checking if an object is correctly JSON serializable, via **`isJSONSerializable()`**.
-
-- Checking for circular references, an essential tool for debugging complex object structures, via **`hasCircularReference()`**.
 
 <br>  
 
 Additionally, Type-Master:
   
-- Has zero external dependencies.
-
-- Works with most ES6 types, even in non-ES6 environments via Polyfills (E.g., when bundling via Babel). See the 'Compatibility' section below for more details.
-
-- Has been extensively tested across different browsers and runtime environments (Node, Iframes, Worker threads, etc. - see the 'tests' folder in the GitHub project for details).
-
 - Provides ESM, CSJ, and IIFE module variants for various use cases (refer to the *installation* section below).
 
 - Is lightweight, at just 15KB unminified and 3KB minified. 
@@ -50,15 +45,15 @@ Additionally, Type-Master:
 Here are descriptions along with some examples of Type-Master usage. 
 
 
-## **`extendedTypeOf( object )`**
+## **`getTypeOf( object )`**
 ---
-Accurately identifies the type of all Javascript objects not just the primitive types so it's much more useful than the built-in Javascript 'typeof' operator. It provides the same core functionality but also has the following advantages. It; 
+Accurately identifies the type of all Javascript objects. It provides the same core functionality as the built-in Javascript 'typeof' operator but also has the following advantages. It; 
 
 - returns the correct type for null, Array, **all** ES6 / ES2020 types and custom types ( E.g. your classes ). 
 
 - works correctly with types correctly simulated via Polyfills (E.g. Symbol via Babel ) 
 
-- Distinquishes between different types of functions( regular, async, generator, arrow ) 
+- uniquely distinquishes between different types of functions( regular, async, generator, arrow ) 
 
 - correctly identifies types retieved from Iframes and Worker threads where passing of those types is supported.
 
@@ -72,7 +67,7 @@ This function returns a `string` representing the type of the object passed in. 
 
 All other built-in types will be recognised and returned in CamelCase format as per the Javascript standard: E.g. 'Array', 'Date', 'Error', 'RegExp', 'URL' etc. Here are some typical return values: 
 
-| Type | `extendedTypeOf` Output |
+| Type | `getTypeOf` Output |
 | ----------- | ------------------------- |
 | `Number` | 'number' |
 | `BigInt` | 'bigint' |
@@ -109,44 +104,44 @@ All other built-in types will be recognised and returned in CamelCase format as 
 ### **Examples**
 
 **Working with `null` and `object`**  
-Using `typeof`, you might try to access a property or method of an object which is actually `null`, leading to a TypeError.  Using `ExtendedTypeOf` avoids this.
+Using `typeof`, you might try to access a property or method of an object which is actually `null`, leading to a TypeError.  Using `getTypeOf` avoids this.
 
 ```javascript
-const tm = require('type-master' ); 
+const tm = require('Type-Master' ); 
 
 let x = null;
 if (typeof x === "object") {        // typeof always returns 'object' for null
     x.property = "value";           // TypeError: Cannot set property 'property' of null
 }
-if (tm.extendedTypeOf(x) === "null") {
+if (ta.getTypeOf(x) === "null") {
     console.log( "x is null, can't access properties or methods");  // Safe operation
 }
 
 let y = {};
-if (tm.extendedTypeOf(y) === "object") {
+if (ta.getTypeOf(y) === "object") {
     console.log( "y is an object, we can access it's properties or methods");  // Safe operation
     y.property = "value";
 }
 ```
-Note that while `instanceof` can be used as an alternative to `typeof` in some cases, it won't work reliably across iframes or Worker threads. Moreover, `instanceof` can yield false positives if there's a matching type in the object's prototype chain. Using `ExtendedTypeOf` will avoid these issues.  
+Note that while `instanceof` can be used as an alternative to `typeof` in some cases, it won't work reliably across iframes or Worker threads. Moreover, `instanceof` can yield false positives if there's a matching type in the object's prototype chain. Using `getTypeOf` will avoid these issues.  
 <br>
 
 **Identifying `arrays`**  
 
-Arrays have unique methods that objects don't have. Trying to use these methods on an object will cause a TypeError. Using `Array.isArray` does not work in all environments (E.g. IFrames or Worker threads). Using `extendedTypeOf` all arrays including ES6 typed arrays can also be identified in all environments.
+Arrays have unique methods that objects don't have. Trying to use these methods on an object will cause a TypeError. Using `Array.isArray` does not work in all environments (E.g. IFrames or Worker threads). Using `getTypeOf` all arrays including ES6 typed arrays can also be identified in all environments.
 
 ```javascript
 console.log( typeof someArrayInstance );                 // => 'object' not 'Array' - typeof considers Arrays as objects  
 
 // This works across iframes and worker threads unlike Array.isArray( )
-if (tm.extendedTypeOf( someArrayInstance ) === "Array") {  
+if (ta.getTypeOf( someArrayInstance ) === "Array") {  
     someArrayInstance.push(4); // Safe operation,
 }
 
 // All typed arrays can be recognised.  E.g. 
-console.log( tm.extendedTypeOf(new Uint8Array) );       // => 'Uint8Array'
-console.log( tm.extendedTypeOf(new Float32Array) );     // => 'Float32Array'
-console.log( tm.extendedTypeOf(new BigInt64Array) );    // => 'BigInt64Array'
+console.log( tm.getTypeOf(new Uint8Array) );       // => 'Uint8Array'
+console.log( tm.getTypeOf(new Float32Array) );     // => 'Float32Array'
+console.log( tm.getTypeOf(new BigInt64Array) );    // => 'BigInt64Array'
 ```
 **Detecting safe use of function types**  
 There are sometimes cases where checking of function type should be done in order to avoid subtle run-time errors
@@ -154,14 +149,14 @@ There are sometimes cases where checking of function type should be done in orde
 ```javascript
 function myFunction() {}
 // check if it's safe to use call() or Apply( ) 
-if (tm.extendedTypeOf(someFunction) === 'ArrowFunction') {
+if (ta.getTypeOf(someFunction) === 'ArrowFunction') {
     throw new TypeError('Arrow functions cannot be invoked with new context using call() or apply().');
 } else {
     someFunction.call( thisContext );
 }
 
 // check if it's safe to iterate 
-if (tm.extendedTypeOf(someFunction) === 'GeneratorFunction') {
+if (ta.getTypeOf(someFunction) === 'GeneratorFunction') {
     const generator = someFunction();
     for (let value of generator) {
         console.log(value);
@@ -171,13 +166,13 @@ if (tm.extendedTypeOf(someFunction) === 'GeneratorFunction') {
 }
 
 // check for safe use of a promise or something which returns a promise
-if (tm.extendedTypeOf(someFunction) === 'Promise') {
+if (ta.getTypeOf(someFunction) === 'Promise') {
     someFunction
         .then(result => console.log(result))
         .catch(error => console.error(error));
 } else {
     let returnedPromise = someFunction();
-    if (tm.extendedTypeOf(returnedPromise) === 'Promise') {
+    if (ta.getTypeOf(returnedPromise) === 'Promise') {
         returnedPromise()
             .then(result => console.log(result))
             .catch(error => console.error(error));
@@ -195,11 +190,11 @@ async function fetchData(url) {
   const response = await fetch(url);
   const data = await response.json();
 
-  if (tm.extendedTypeOf(data) === 'Array') {
+  if (ta.getTypeOf(data) === 'Array') {
     data.forEach(item => {
       console.log(item);
     });
-  } else if (tm.extendedTypeOf(data) === 'Object') {
+  } else if (ta.getTypeOf(data) === 'Object') {
     Object.keys(data).forEach(key => {
       console.log(`${key}: ${data[key]}`);
     });
@@ -209,12 +204,12 @@ async function fetchData(url) {
 }
 ```
 **Building a Middleware for a Web Server:**  
-When you're building middleware for a web server, you may receive data in the request body in different formats depending on the client's request. extendedTypeOf can also be useful here. In this example, expressApp is an instance of an Express.js application; 
+When you're building middleware for a web server, you may receive data in the request body in different formats depending on the client's request. getTypeOf can also be useful here. In this example, expressApp is an instance of an Express.js application; 
 ```Javascript
 expressApp.use((req, res, next) => {
-  if (tm.extendedTypeOf(req.body) === 'Array') {
+  if (ta.getTypeOf(req.body) === 'Array') {
     // Do something with the array
-  } else if (tm.extendedTypeOf(req.body) === 'Object') {
+  } else if (ta.getTypeOf(req.body) === 'Object') {
     // Do something with the object
   } else {
     // Unexpected type - handle error
@@ -228,9 +223,9 @@ const iframe = document.createElement("iframe");
 iframe.src = "https://example.com/iframe.html";
 iframe.onload = () => {
   const obj = iframe.contentWindow.obj;
-  if (tm.extendedTypeOf(obj) === "MyCustomType") {
+  if (ta.getTypeOf(obj) === "MyCustomType") {
     // do something with the obj
-    // This would not cause an error because extendedTypeOf obj is "MyCustomType"
+    // This would not cause an error because getTypeOf obj is "MyCustomType"
     // using the builtin typeof wound cause an error because typeof obj is "object"
   }
 };
@@ -242,13 +237,13 @@ You may want to perform operations specific to Date or RegExp but `typeof` treat
 ```javascript
 let z = new Date();
 console.log( typeof(z)  );                          // => 'object' not Date
-if (tm.extendedTypeOf(z) === "Date") {
+if (ta.getTypeOf(z) === "Date") {
     console.log( z.getFullYear());                  // '2023' - Safe operation, outputs the year of date
 }
 
 let regex = new RegExp("\\d+");
 console.log( typeof(regex) );                       // => 'object' not RegExp
-if (tm.extendedTypeOf(regex) === "RegExp") {
+if (ta.getTypeOf(regex) === "RegExp") {
     console.log( regex.test("123"));                // 'true' - Safe operation, tests if string contains a number
 }
 ```
@@ -258,20 +253,20 @@ Map and Set have unique methods. Attempting these on a generic object will lead 
 
 ```javascript
 let map = new Map();
-if (tm.extendedTypeOf(map) === "Map") {
+if (ta.getTypeOf(map) === "Map") {
     map.set("key", "value");  // Safe operation, adds a key-value pair to the map
 }
 
 let set = new Set();
-if (tm.extendedTypeOf(set) === "Set") {
+if (ta.getTypeOf(set) === "Set") {
     set.add("value");  // Safe operation, adds a value to the set
 }
 
 // All known ES6 types can be detected. E.g. 
 const buffer = new ArrayBuffer(16);
-console.log( tm.extendedTypeOf(new DataView(buffer)));          // => 'DataView'
-console.log( tm.extendedTypeOf(buffer));                        // => 'ArrayBuffer'
-console.log( tm.extendedTypeOf(new SharedArrayBuffer(16)));     // => 'SharedArrayBuffer'
+console.log( tm.getTypeOf(new DataView(buffer)));          // => 'DataView'
+console.log( tm.getTypeOf(buffer));                        // => 'ArrayBuffer'
+console.log( tm.getTypeOf(new SharedArrayBuffer(16)));     // => 'SharedArrayBuffer'
 ```
 
 **Working with custom class instances**
@@ -286,7 +281,7 @@ class MyClass {
 };
 let instance = new MyClass();
 
-if (tm.extendedTypeOf(instance) === "MyClass") {
+if (ta.getTypeOf(instance) === "MyClass") {
     instance.printHello();  // Safe operation in all environments, prints "Hello, World!"
 }
 ```
@@ -300,7 +295,7 @@ let theObj = {
 }
 // Setting [Symbol.toStringTag] allows the detected 'type' of custom objects to be defined
 // so that objects can be distinquished from each other
-console.log( tm.extendedTypeOf(theObj));                               // => 'MyCustomTag'
+console.log( tm.getTypeOf(theObj));                               // => 'MyCustomTag'
 
 let myObj = {
     name: 'John',
@@ -309,7 +304,7 @@ let myObj = {
         return 'MagicObj';
     }
 }
-console.log( tm.extendedTypeOf(myObj));                                // => 'unknown' - by deisgn see below
+console.log( tm.getTypeOf(myObj));                                // => 'unknown' - by deisgn see below
 
 class MyClass {
 constructor() {
@@ -320,16 +315,16 @@ get [Symbol.toStringTag]() {
     return 'Not_MyClass';
 }   
 let myClassInstance = new MyClass();
-console.log( tm.extendedTypeOf(myClassInstance) );                    // => 'MyClass'  - by design see below
+console.log( tm.getTypeOf(myClassInstance) );                    // => 'MyClass'  - by design see below
 console.log( tm.myClassInstance[Symbol.toStringTag] );                // => 'Not_MyClass" - default javascript behavior still OK
 
 ```
 
 #### ***Special Cases: toString( ) Override and [Symbol.toStringTag]***
 
-`extendedTypeOf` handles several special cases where the returned 'type' might not align with your expectations:
+`getTypeOf` handles several special cases where the returned 'type' might not align with your expectations:
 
-- *Objects with toString() Overridden:** The built-in `toString()` method, which all objects have, is essential to determining an object's type. If this is overridden by custom code, the ability to correctly determine the object's type is compromised therefore `extendedTypeOf` returns `unknown` in these cases. You can still use `toString()` to retrieve the value set by the custom code.
+- *Objects with toString() Overridden:** The built-in `toString()` method, which all objects have, is essential to determining an object's type. If this is overridden by custom code, the ability to correctly determine the object's type is compromised therefore `getTypeOf` returns `unknown` in these cases. You can still use `toString()` to retrieve the value set by the custom code.
   
 - *Custom Classes with [Symbol.toStringTag]:** If custom classes have `[Symbol.toStringTag]` set, Type-Master will return the class name rather than the toStringTag value. This design is intentional. If you want to retrieve the custom tag, `[Symbol.toStringTag]` will still return whatever value was set.
 
@@ -343,7 +338,7 @@ Note that `[Symbol.toStringTag]` and `toString()` values are always accessible t
 
 <br> 
 
-## **`typeOfNumber( object , acceptStringNumbers = true )`**
+## **`getNumType( object , acceptStringNums = true )`**
 ----
 Returns information about the 'sub-type' of number passed in. Unlike the built-in javascript isNaN( ) function, this returns useful information about the 'type' of number passed in. E.g. it will return 'infinity' for Infinity or it will return 'unsafeNumber' for a number that is too large to be a safe integer. It will return 'NaN' for BigInt and Symbol types unlike the built-in isNaN( ) function which throws a type error for these types. 
 
@@ -355,9 +350,9 @@ Also note
 ***Parameters***    
 `object` - The object to check to determine if it is a safe number
 
-`acceptStringNumbers` - Optional. If true (the default value), then if a string is passed in, it will be converted to a number and the that will tested. Strings are not coerceced to numbers if they do not represent a valid number. E.g '34.345abchs' will not be converted to a number and will return 'NaN'. But '34.345' will be converted to a number and will return 'safeFloat'. Strings representing Hex numbers also work - E.g. 0xFF. 
+`acceptStringNums` - Optional. If true (the default value), then if a string is passed in, it will be converted to a number and the that will tested. Strings are not coerceced to numbers if they do not represent a valid number. E.g '34.345abchs' will not be converted to a number and will return 'NaN'. But '34.345' will be converted to a number and will return 'safeFloat'. Strings representing Hex numbers also work - E.g. 0xFF. 
 
-*(Note - the built in javascript parseFloat() function can be used before calling this function to force coercing. E.g. it will convert '34.345abchs' to 34.345).  if acceptStringNumbers is false then when a string is passed in, it will never be converted to a number and 'NaN' will be returned.*
+*(Note - the built in javascript parseFloat() function can be used before calling this function to force coercing. E.g. it will convert '34.345abchs' to 34.345).  if acceptStringNums is false then when a string is passed in, it will never be converted to a number and 'NaN' will be returned.*
 
  ***Returns***  
  A string representing the sub-type of the number passed in. The possible values are:
@@ -368,69 +363,69 @@ Also note
 ### ***Examples***
 ```javascript
 // for Clarity assume ESM import 
-import { typeOfNumber } from './node_module/type-master/dist/type-master.esm.min.js';
+import { getNumType } from './node_module/Type-Master/dist/Type-Master.esm.min.js';
 
 // non number types  
-console.log( tm.typeOfNumber(NaN) );               // => 'NaN' 
-console.log( tm.typeOfNumber('not a number') );    // => 'NaN'
-console.log( tm.typeOfNumber(true) );              // => 'NaN'
-console.log( tm.typeOfNumber(null) );              // => 'NaN'
-console.log( tm.typeOfNumber({}) );                // => 'NaN'
-console.log( tm.typeOfNumber(Symbol('hello')) );   // => 'NaN'
-console.log( tm.typeOfNumber(undefined) );         // => 'NaN'
-console.log( tm.typeOfNumber(function() {}) );     // => 'NaN'
-console.log( tm.typeOfNumber([]) );                // => 'NaN'
+console.log( tm.getNumType(NaN) );               // => 'NaN' 
+console.log( tm.getNumType('not a number') );    // => 'NaN'
+console.log( tm.getNumType(true) );              // => 'NaN'
+console.log( tm.getNumType(null) );              // => 'NaN'
+console.log( tm.getNumType({}) );                // => 'NaN'
+console.log( tm.getNumType(Symbol('hello')) );   // => 'NaN'
+console.log( tm.getNumType(undefined) );         // => 'NaN'
+console.log( tm.getNumType(function() {}) );     // => 'NaN'
+console.log( tm.getNumType([]) );                // => 'NaN'
 
 // Infinity 
-console.log( tm.typeOfNumber(1/0) );               // => 'infinity'
-console.log( tm.typeOfNumber(-1/0) );              // => '-infinity'
+console.log( tm.getNumType(1/0) );               // => 'infinity'
+console.log( tm.getNumType(-1/0) );              // => '-infinity'
 
 // safe integers 
 var maxInt = Number.MAX_SAFE_INTEGER; 
-console.log( tm.typeOfNumber(10) );                // => 'safeInteger'
-console.log( tm.typeOfNumber(maxInt) );            // => 'safeInteger'
-console.log( tm.typeOfNumber(-maxInt) );           // => 'safeInteger'
+console.log( tm.getNumType(10) );                // => 'safeInteger'
+console.log( tm.getNumType(maxInt) );            // => 'safeInteger'
+console.log( tm.getNumType(-maxInt) );           // => 'safeInteger'
 
 // unsafe numbers to use in calculations
 var maxInt = Number.MAX_SAFE_INTEGER; 
-console.log( tm.typeOfNumber(maxInt + 1) );            // => 'unsafeNumber'
-console.log( tm.typeOfNumber(-maxInt - 1) );           // => 'unsafeNumber'
-console.log( tm.typeOfNumber(Number.MAX_VALUE) );      // => 'unsafeNumber'
-console.log( tm.typeOfNumber(90071992547409975.33) );  // => 'unsafeNumber'
+console.log( tm.getNumType(maxInt + 1) );            // => 'unsafeNumber'
+console.log( tm.getNumType(-maxInt - 1) );           // => 'unsafeNumber'
+console.log( tm.getNumType(Number.MAX_VALUE) );      // => 'unsafeNumber'
+console.log( tm.getNumType(90071992547409975.33) );  // => 'unsafeNumber'
 
 // safe floating point numbers' 
-console.log( tm.typeOfNumber(1.1) );                   // => 'safeFloat'
-console.log( tm.typeOfNumber(900719925474099.75) );    // => 'safeFloat'
+console.log( tm.getNumType(1.1) );                   // => 'safeFloat'
+console.log( tm.getNumType(900719925474099.75) );    // => 'safeFloat'
 
 // bigint' 
-console.log( tm.typeOfNumber(BigInt(123)) );       // => 'bigint'
+console.log( tm.getNumType(BigInt(123)) );       // => 'bigint'
 
 // bigint literal' 
-console.log( tm.typeOfNumber( 123n ) );            // => 'bigint'
+console.log( tm.getNumType( 123n ) );            // => 'bigint'
 
 // numbers in string format 
-console.log( tm.typeOfNumber('123') );             // => 'safeInteger'
-console.log( tm.typeOfNumber('1.11') );            // => 'safeFloat'
-console.log( tm.typeOfNumber('-1.11') );           // => 'safeFloat'
-console.log( tm.typeOfNumber('0xFF') );            // => 'safeInteger'
+console.log( tm.getNumType('123') );             // => 'safeInteger'
+console.log( tm.getNumType('1.11') );            // => 'safeFloat'
+console.log( tm.getNumType('-1.11') );           // => 'safeFloat'
+console.log( tm.getNumType('0xFF') );            // => 'safeInteger'
 
 // invalid numbers in string format
-console.log( tm.typeOfNumber('123xyz') );          // => 'NaN'
-console.log( tm.typeOfNumber('xyz') );             // => 'NaN'
-console.log( tm.typeOfNumber('123pqr', false) );   // => 'NaN'
-console.log( tm.typeOfNumber('zyx',false) );       // => 'NaN'
+console.log( tm.getNumType('123xyz') );          // => 'NaN'
+console.log( tm.getNumType('xyz') );             // => 'NaN'
+console.log( tm.getNumType('123pqr', false) );   // => 'NaN'
+console.log( tm.getNumType('zyx',false) );       // => 'NaN'
 
 // numbers in string format with 'acceptStringNumber' param set to false' 
-console.log( tm.typeOfNumber('123', false) );      // => 'NaN'
-console.log( tm.typeOfNumber('123.99', false) );   // => 'NaN'
+console.log( tm.getNumType('123', false) );      // => 'NaN'
+console.log( tm.getNumType('123.99', false) );   // => 'NaN'
 
-console.log( tm.typeOfNumber( new Number(999)));   // => 'numberObject'  - not a number primitive
+console.log( tm.getNumType( new Number(999)));   // => 'numberObject'  - not a number primitive
 ```
 
 
 <br> 
 
-## **`isSafeNumber( object , acceptStringNumbers = true )`**
+## **`isSafeNum( object , acceptStringNums = true )`**
 ---
 Tests to see if the number passed in is safe to use in a calculation. This is useful because Javascript has a number of different types of numbers and some of them are not safe to use in calculations. E.g. BigInts are not safe to use in calculations with regular numbers. Also, numbers that are too large to be safe integers are not safe to use in calculations. 
 
@@ -442,9 +437,9 @@ Note;
 **Parameters**  
 ***object*** - The object to check to determine if it is a safe number
  
-***acceptStringNumbers*** -  Optional. If true (the default value), then if a string is passed in, it will be converted to a number and it's type will tested for safe use. Strings are not coerceced to numbers if they do not represent a valid number. E.g '34.345abchs' will not be converted to a number and will return false. But '34.345' will be converted to a number and will return true. String representing Hex numbers also work - E.g. 0xFF. 
+***acceptStringNums*** -  Optional. If true (the default value), then if a string is passed in, it will be converted to a number and it's type will tested for safe use. Strings are not coerceced to numbers if they do not represent a valid number. E.g '34.345abchs' will not be converted to a number and will return false. But '34.345' will be converted to a number and will return true. String representing Hex numbers also work - E.g. 0xFF. 
 
-*(Note - the built in javascript parseFloat() function can be used before calling this function to force coercing. E.g. it will convert '34.345abchs' to 34.345). if acceptStringNumbers is false then when a string is passed in, it will never be converted to a number and false will be returned*
+*(Note - the built in javascript parseFloat() function can be used before calling this function to force coercing. E.g. it will convert '34.345abchs' to 34.345). if acceptStringNums is false then when a string is passed in, it will never be converted to a number and false will be returned*
  
  **Returns**  
  `true` if the number passed in is safe to use in a calculation, `false` otherwise.
@@ -453,56 +448,56 @@ Note;
 
 ### **Examples**  
 ```javascript
-const tm = require('type-master' );
+const tm = require('Type-Master' );
 
 //safe integers
-console.log( tm.isSafeNumber(1) );                         // => true 
-console.log( tm.isSafeNumber(Number.MAX_SAFE_INTEGER) );   // => true 
-console.log( tm.isSafeNumber(-Number.MAX_SAFE_INTEGER) );  // => true 
-console.log( tm.isSafeNumber(0) ); // => true 
+console.log( tm.isSafeNum(1) );                         // => true 
+console.log( tm.isSafeNum(Number.MAX_SAFE_INTEGER) );   // => true 
+console.log( tm.isSafeNum(-Number.MAX_SAFE_INTEGER) );  // => true 
+console.log( tm.isSafeNum(0) ); // => true 
 
 // unsafe integers
-console.log( tm.isSafeNumber(Number.MAX_SAFE_INTEGER + 1) ); // => false 
-console.log( tm.isSafeNumber(-Number.MAX_SAFE_INTEGER -1) ); // => false 
-console.log( tm.isSafeNumber(Number.MAX_VALUE) );            // => false  -  Number.MAX_VALUE is not a safe integer !
+console.log( tm.isSafeNum(Number.MAX_SAFE_INTEGER + 1) ); // => false 
+console.log( tm.isSafeNum(-Number.MAX_SAFE_INTEGER -1) ); // => false 
+console.log( tm.isSafeNum(Number.MAX_VALUE) );            // => false  -  Number.MAX_VALUE is not a safe integer !
 
 // Infinity is never safe
-console.log( tm.isSafeNumber(1/0) );                       // => false 
-console.log( tm.isSafeNumber(-1/0) );                      // => false 
+console.log( tm.isSafeNum(1/0) );                       // => false 
+console.log( tm.isSafeNum(-1/0) );                      // => false 
 
-// valid numeric strings are safe by default (acceptStringNumbers=true) 
-console.log( tm.isSafeNumber('1') );                       // => true 
-console.log( tm.isSafeNumber('1.1') );                     // => true 
-console.log( tm.isSafeNumber('-1') );                      // => true 
-console.log( tm.isSafeNumber('0xFF') );                    // => true 
+// valid numeric strings are safe by default (acceptStringNums=true) 
+console.log( tm.isSafeNum('1') );                       // => true 
+console.log( tm.isSafeNum('1.1') );                     // => true 
+console.log( tm.isSafeNum('-1') );                      // => true 
+console.log( tm.isSafeNum('0xFF') );                    // => true 
 
 // invalid numeric strings are never safe 
-console.log( tm.isSafeNumber('34.345abchs', true) );       // => false 
-console.log( tm.isSafeNumber('34.345abchs', false) );      // => false 
+console.log( tm.isSafeNum('34.345abchs', true) );       // => false 
+console.log( tm.isSafeNum('34.345abchs', false) );      // => false 
 
-// don't allow valid numeric strings to return true  - via acceptStringNumbers = false
-console.log( tm.isSafeNumber('123', false) );              // => false 
+// don't allow valid numeric strings to return true  - via acceptStringNums = false
+console.log( tm.isSafeNum('123', false) );              // => false 
 
 // BigInt and BigInt literals are unsafe for use as a number 
-console.log( tm.isSafeNumber(1n) );                        // => false 
-console.log( tm.isSafeNumber(BigInt(1)) );                 // => false 
+console.log( tm.isSafeNum(1n) );                        // => false 
+console.log( tm.isSafeNum(BigInt(1)) );                 // => false 
 
 // unsafe floats 
-console.log( tm.isSafeNumber("999999999999999999999999.99", true) );   // => false 
-console.log( tm.isSafeNumber("999999999999999999999999.99", false) );  // => false 
+console.log( tm.isSafeNum("999999999999999999999999.99", true) );   // => false 
+console.log( tm.isSafeNum("999999999999999999999999.99", false) );  // => false 
 
 // The Symbol type is not for safe 
-console.log( tm.isSafeNumber(Symbol("test")) );        // => false 
+console.log( tm.isSafeNum(Symbol("test")) );        // => false 
 
 // Objects, Arrays and many built-in Javascript types (E.g. Map, Sets etc) aren't safe to use in calculations 
-console.log( tm.isSafeNumber(NaN) );                   // => false 
-console.log( tm.isSafeNumber( {} ) );                  // => false 
-console.log( tm.isSafeNumber( new Date()) );           // => false 
-console.log( tm.isSafeNumber( []) );                   // => false 
-console.log( tm.isSafeNumber( [1]) );                  // => false 
+console.log( tm.isSafeNum(NaN) );                   // => false 
+console.log( tm.isSafeNum( {} ) );                  // => false 
+console.log( tm.isSafeNum( new Date()) );           // => false 
+console.log( tm.isSafeNum( []) );                   // => false 
+console.log( tm.isSafeNum( [1]) );                  // => false 
 
 // Number Objects (as opposed to number primitives) aren't safe in all cases either E.g. 'new Number(99) !== 99'  !!!  
-console.log( tm.isSafeNumber( new Number(99) ) )       // => false
+console.log( tm.isSafeNum( new Number(99) ) )       // => false
 
 ```
 
@@ -512,7 +507,7 @@ console.log( tm.isSafeNumber( new Number(99) ) )       // => false
 ---
 Performs type introspection and returns detailed type information about the object passed in. This function returns useful information about all types including ES6 / EES2020 and customs types ( E.g. Your classes )
 
-*For the  returned 'type' field, the same special cases involving the use of `toString( )` override and `[Symbol.toStringTag]` apply as per the **`extendedTypeOf`** function above and the same rationale applies. The goal is for the 'type' field to reveal the intrinsic underlying 'type' of an object. For built-in types and custom objects, using `[Symbol.toStringTag]` doesn't alter that by design here. However, we consider actual `Object` types an exception and return the `[Symbol.toStringTag]` value. This is because JavaScript's type system returns 'object' for all Objects, making it impossible to distinguish one type of custom Object from another without using `[Symbol.toStringTag]`.*
+*For the  returned 'type' field, the same special cases involving the use of `toString( )` override and `[Symbol.toStringTag]` apply as per the **`getTypeOf`** function above and the same rationale applies. The goal is for the 'type' field to reveal the intrinsic underlying 'type' of an object. For built-in types and custom objects, using `[Symbol.toStringTag]` doesn't alter that by design here. However, we consider actual `Object` types an exception and return the `[Symbol.toStringTag]` value. This is because JavaScript's type system returns 'object' for all Objects, making it impossible to distinguish one type of custom Object from another without using `[Symbol.toStringTag]`.*
 
 **Parameters**  
 ***object*** - The object to get type information about
@@ -537,7 +532,7 @@ Performs type introspection and returns detailed type information about the obje
 
 **type details of some built-in javascript types** 
 ```javascript
-const tm = require('type-master' );
+const tm = require('Type-Master' );
 
 const stringDetails = tm.getTypeDetails('test');
 console.log( stringDetails.Type );                              // => 'string'
@@ -679,7 +674,7 @@ true if the object is JSON serializable WITHOUT a loss of data, false otherwise.
 ### **Examples** 
 
 ```javascript
-const tm = require('type-master' );
+const tm = require('Type-Master' );
 
 console.log( tm.isJSONSerializable({ a: 1, b: 2 }));            // => true
 console.log( tm.isJSONSerializable(new Map()));                 // => false
@@ -724,7 +719,7 @@ console.log( tm.isJSONSerializable(obj,true) );                 // =>  true
 ```
 <br> 
 
-## **`hasCircularReference( object, visitedObjects )`**
+## **`hasCircularRef( object, visitedObjects )`**
 ---
 Checks if an object has a circular reference. This is a recursive function that will check all properties of an object. It works for ALL types of objects including custom and ES6 classes and is particularily useful for debugging. 
 
@@ -748,10 +743,10 @@ However, note:
 ```javascript
 let obj1 = {};
 obj1.self = obj1;
-console.log( tm.hasCircularReference(obj1));         // => true
+console.log( tm.hasCircularRef(obj1));         // => true
 
 let obj2 = { a: 1, b: 2, c: { name: 'test' } };
-console.log( tm.hasCircularReference(obj2));         // => false
+console.log( tm.hasCircularRef(obj2));         // => false
 ```
 
 <br>
@@ -762,13 +757,13 @@ console.log( tm.hasCircularReference(obj2));         // => false
 Installing Type-Master in a Node.js project is easy with npm. Simply use the following command:
 
 ```bash 
-  npm install type-master
+  npm install Type-Master
 ```
 
 Then, in your JavaScript file, you can require the module as follows:
 
 ```javascript
-  const tm = require('type-master' );
+  const tm = require('Type-Master' );
 ```
 
 ## **Browsers**
@@ -779,7 +774,7 @@ For browser environments, you can import Type-Master via either CommonJS (CJS), 
 If you're using a bundler like Browserify or Webpack, you can use the same `require` syntax as in Node.js:
 
 ```javascript
-  const tm = require('type-master' );
+  const tm = require('Type-Master' );
 ```
 
 #### ***ECMAScript Modules (ESM)***
@@ -788,21 +783,21 @@ In modern browsers that support ECMAScript Modules, you can import Type-Master d
 
 ```html
   <script type="module">
-      import * as tm from './node_modules/type-master/dist/type-master.esm.min.js';
+      import * as tm from './node_modules/Type-Master/dist/Type-Master.esm.min.js';
       // OR if you just need the essentials 
-      import {extendedTypeOf, typeOfNumber, isSafeNumber} from './node_modules/type-master/dist/type-master.esm.min.js';
+      import {getTypeOf, getNumType, isSafeNum} from './node_modules/Type-Master/dist/Type-Master.esm.min.js';
   </script>
 ```
 
 ### ***Unbundled (IIFE) Global straight into your script*** 
 If you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE version of Type-Master which exposes a global `typeMaster` object which will work on all browsers as is.
 ```html
-  <script src="./node_modules/type-master/dist/type-master.iife.min.js"></script>
+  <script src="./node_modules/Type-Master/dist/Type-Master.iife.min.js"></script>
   <script>
       var tm = typeMaster;  // the IIFE global is called 'typeMaster'
 
       // your code 
-      if ( tm.extendedTypeOf(obj) === 'null' ) {
+      if ( tm.getTypeOf(obj) === 'null' ) {
           yourObjectResetcode( obj);      
       } else {
           obj = yourObjectCreationCode( );
@@ -816,15 +811,15 @@ You can also load Type-Master directly from a CDN like **jsDelivr** or **unpkg**
 ```html
 <!-- Using ECMAScript Modules (ESM) -->
 <script type="module">
-  import * as tm from 'https://cdn.jsdelivr.net/npm/type-master@1.3.0/dist/type-master.esm.min.js';
+  import * as tm from 'https://cdn.jsdelivr.net/npm/Type-Master@1.3.0/dist/Type-Master.esm.min.js';
 </script>
 
 <!-- Or using IIFE -->
-<script src="https://cdn.jsdelivr.net/npm/type-master@1.3.0/dist/type-master.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/Type-Master@1.3.0/dist/Type-Master.iife.min.js"></script>
 <script>
   // Use a global object
   var tm = typeMaster;
-  console.log(tm.extendedTypeOf([])); // outputs: 'Array'
+  console.log(ta.getTypeOf([])); // outputs: 'Array'
 </script>
 
 ```
@@ -857,7 +852,7 @@ This requires the ES6 Polyfills to simulate the actual ES6 type. However, note t
 
 # **Setting Up the Development Environment**
 
-Type-master has no run-time dependencies. Some packages (e.g., Jest, Karma, Roll-up, etc.) are needed for development, but these are installed locally only inside the project folders. Assuming you have installed Node.js v7.6 or higher, you should just need to:
+Type-Master has no run-time dependencies. Some packages (e.g., Jest, Karma, Roll-up, etc.) are needed for development, but these are installed locally only inside the project folders. Assuming you have installed Node.js v7.6 or higher, you should just need to:
 
 ```dos   
 > cd YourFolderName

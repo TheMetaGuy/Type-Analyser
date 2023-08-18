@@ -42,7 +42,7 @@
     "is-safe-number",
     "safe-number",
     "number-type",
-    "typeOfNumber"
+    "getNumType"
   ],
   "repository": {
     "type": "git",

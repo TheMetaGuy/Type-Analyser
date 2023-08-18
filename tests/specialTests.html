@@ -52,10 +52,10 @@
 
                 var theObject = event.data.theData;
                 var sentType = event.data.sentType;
-                var typeOfMyObject = typeMaster.extendedTypeOf(theObject);
+                var typeOfMyObject = typeMaster.getTypeOf(theObject);
                 var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
 
-                Log_I_Results(result + ': Iframe test of extendedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
+                Log_I_Results(result + ': Iframe test of getTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
             });
 
             // ====================================== Worker Thread tests =========================================
@@ -77,7 +77,7 @@
                 worker.postMessage({canvas: offScreenCanvas}, [offScreenCanvas]);
 
                 Log_W_Results('Main test page now sending object request messages to worker');
-                Log_W_Results('the worker object type is : ' + typeMaster.extendedTypeOf(worker) + '\n' );
+                Log_W_Results('the worker object type is : ' + typeMaster.getTypeOf(worker) + '\n' );
 
                 worker.postMessage('send back null object');
                 worker.postMessage('send back undefined object');
@@ -99,10 +99,10 @@
                 worker.onmessage = function(event) {
                     var theObject = event.data.theData;
                     var sentType = event.data.sentType;
-                    var typeOfMyObject = typeMaster.extendedTypeOf(theObject);
+                    var typeOfMyObject = typeMaster.getTypeOf(theObject);
                     var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
 
-                    Log_W_Results(result + ': Worker test of extendedTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
+                    Log_W_Results(result + ': Worker test of getTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
                 }
             }
 
@@ -144,119 +144,119 @@
             var result;
             Log_H_Results('Main test page now testing the detected type of DOM elements\n ' );
 
-            result = (typeMaster.extendedTypeOf(window) === 'Window') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'window is of type             - ' + typeMaster.extendedTypeOf(window));
+            result = (typeMaster.getTypeOf(window) === 'Window') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'window is of type             - ' + typeMaster.getTypeOf(window));
 
-            result = (typeMaster.extendedTypeOf(document) === 'HTMLDocument') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'document is of type           - ' + typeMaster.extendedTypeOf(document));
+            result = (typeMaster.getTypeOf(document) === 'HTMLDocument') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'document is of type           - ' + typeMaster.getTypeOf(document));
 
-            result = (typeMaster.extendedTypeOf(documentFragment) === 'DocumentFragment') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'documentFragment is of type   - ' + typeMaster.extendedTypeOf(documentFragment));
+            result = (typeMaster.getTypeOf(documentFragment) === 'DocumentFragment') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'documentFragment is of type   - ' + typeMaster.getTypeOf(documentFragment));
 
-            result = (typeMaster.extendedTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<meta> is of  type            - ' + typeMaster.extendedTypeOf(meta));
+            result = (typeMaster.getTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<meta> is of  type            - ' + typeMaster.getTypeOf(meta));
 
-            result = (typeMaster.extendedTypeOf(head) === 'HTMLHeadElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<head> is of  type            - ' + typeMaster.extendedTypeOf(head));
+            result = (typeMaster.getTypeOf(head) === 'HTMLHeadElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<head> is of  type            - ' + typeMaster.getTypeOf(head));
 
-            result = (typeMaster.extendedTypeOf(body) === 'HTMLBodyElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<body> is of  type            - ' + typeMaster.extendedTypeOf(body));
+            result = (typeMaster.getTypeOf(body) === 'HTMLBodyElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<body> is of  type            - ' + typeMaster.getTypeOf(body));
             
-            result = (typeMaster.extendedTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';                
-            Log_H_Results(result + '<html> is of  type            - ' + typeMaster.extendedTypeOf(html));
+            result = (typeMaster.getTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';                
+            Log_H_Results(result + '<html> is of  type            - ' + typeMaster.getTypeOf(html));
 
-            result = (typeMaster.extendedTypeOf(div) === 'HTMLDivElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<div> is of  type             - ' + typeMaster.extendedTypeOf(div));
+            result = (typeMaster.getTypeOf(div) === 'HTMLDivElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<div> is of  type             - ' + typeMaster.getTypeOf(div));
             
-            result = (typeMaster.extendedTypeOf(p) === 'HTMLParagraphElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<p> is of  type               - ' + typeMaster.extendedTypeOf(p));
+            result = (typeMaster.getTypeOf(p) === 'HTMLParagraphElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<p> is of  type               - ' + typeMaster.getTypeOf(p));
 
-            result = (typeMaster.extendedTypeOf(span) === 'HTMLSpanElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<span> is of  type            - ' + typeMaster.extendedTypeOf(span));
+            result = (typeMaster.getTypeOf(span) === 'HTMLSpanElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<span> is of  type            - ' + typeMaster.getTypeOf(span));
 
-            result = (typeMaster.extendedTypeOf(a) === 'HTMLAnchorElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<a> is of  type               - ' + typeMaster.extendedTypeOf(a));
+            result = (typeMaster.getTypeOf(a) === 'HTMLAnchorElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<a> is of  type               - ' + typeMaster.getTypeOf(a));
 
-            result = (typeMaster.extendedTypeOf(img) === 'HTMLImageElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<img> is of  type             - ' + typeMaster.extendedTypeOf(img));
+            result = (typeMaster.getTypeOf(img) === 'HTMLImageElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<img> is of  type             - ' + typeMaster.getTypeOf(img));
 
-            result = (typeMaster.extendedTypeOf(canvas) === 'HTMLCanvasElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<canvas> is of  type          - ' + typeMaster.extendedTypeOf(canvas));
+            result = (typeMaster.getTypeOf(canvas) === 'HTMLCanvasElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<canvas> is of  type          - ' + typeMaster.getTypeOf(canvas));
 
-            result = (typeMaster.extendedTypeOf(video) === 'HTMLVideoElement') ? 'PASS: ' : 'FAIL: ';     
-            Log_H_Results(result + '<video> is of  type           - ' + typeMaster.extendedTypeOf(video));
+            result = (typeMaster.getTypeOf(video) === 'HTMLVideoElement') ? 'PASS: ' : 'FAIL: ';     
+            Log_H_Results(result + '<video> is of  type           - ' + typeMaster.getTypeOf(video));
 
-            result = (typeMaster.extendedTypeOf(audio) === 'HTMLAudioElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<audio> is of  type           - ' + typeMaster.extendedTypeOf(audio));
+            result = (typeMaster.getTypeOf(audio) === 'HTMLAudioElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<audio> is of  type           - ' + typeMaster.getTypeOf(audio));
 
-            result = (typeMaster.extendedTypeOf(source) === 'HTMLSourceElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<source> is of  type          - ' + typeMaster.extendedTypeOf(source));
+            result = (typeMaster.getTypeOf(source) === 'HTMLSourceElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<source> is of  type          - ' + typeMaster.getTypeOf(source));
 
-            result = (typeMaster.extendedTypeOf(track) === 'HTMLTrackElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<track> is of  type           - ' + typeMaster.extendedTypeOf(track));
+            result = (typeMaster.getTypeOf(track) === 'HTMLTrackElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<track> is of  type           - ' + typeMaster.getTypeOf(track));
 
-            result = (typeMaster.extendedTypeOf(table) === 'HTMLTableElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<table> is of  type           - ' + typeMaster.extendedTypeOf(table));
+            result = (typeMaster.getTypeOf(table) === 'HTMLTableElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<table> is of  type           - ' + typeMaster.getTypeOf(table));
 
-            result = (typeMaster.extendedTypeOf(iframe) === 'HTMLIFrameElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<iframe> is of  type          - ' + typeMaster.extendedTypeOf(iframe));
+            result = (typeMaster.getTypeOf(iframe) === 'HTMLIFrameElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<iframe> is of  type          - ' + typeMaster.getTypeOf(iframe));
 
-            result = (typeMaster.extendedTypeOf(button) === 'HTMLButtonElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<button> is of  type          - ' + typeMaster.extendedTypeOf(button));
+            result = (typeMaster.getTypeOf(button) === 'HTMLButtonElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<button> is of  type          - ' + typeMaster.getTypeOf(button));
 
-            result = (typeMaster.extendedTypeOf(textNode) === 'Text') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + 'textNode is of  type          - ' + typeMaster.extendedTypeOf(textNode));
+            result = (typeMaster.getTypeOf(textNode) === 'Text') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + 'textNode is of  type          - ' + typeMaster.getTypeOf(textNode));
 
-            result = (typeMaster.extendedTypeOf(script) === 'HTMLScriptElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<script> is of  type          - ' + typeMaster.extendedTypeOf(script));
+            result = (typeMaster.getTypeOf(script) === 'HTMLScriptElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<script> is of  type          - ' + typeMaster.getTypeOf(script));
 
-            result = (typeMaster.extendedTypeOf(style) === 'HTMLStyleElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<style> is of  type           - ' + typeMaster.extendedTypeOf(style));
+            result = (typeMaster.getTypeOf(style) === 'HTMLStyleElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<style> is of  type           - ' + typeMaster.getTypeOf(style));
 
-            result = (typeMaster.extendedTypeOf(link) === 'HTMLLinkElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<link> is of  type            - ' + typeMaster.extendedTypeOf(link));
+            result = (typeMaster.getTypeOf(link) === 'HTMLLinkElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<link> is of  type            - ' + typeMaster.getTypeOf(link));
 
-            result = (typeMaster.extendedTypeOf(ulist) === 'HTMLUListElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<ul> is of  type              - ' + typeMaster.extendedTypeOf(ulist));
+            result = (typeMaster.getTypeOf(ulist) === 'HTMLUListElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<ul> is of  type              - ' + typeMaster.getTypeOf(ulist));
 
-            result = (typeMaster.extendedTypeOf(olist) === 'HTMLOListElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<ol> is of  type              - ' + typeMaster.extendedTypeOf(olist));
+            result = (typeMaster.getTypeOf(olist) === 'HTMLOListElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<ol> is of  type              - ' + typeMaster.getTypeOf(olist));
 
-            result = (typeMaster.extendedTypeOf(list) === 'HTMLLIElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<li> is of  type              - ' + typeMaster.extendedTypeOf(list));
+            result = (typeMaster.getTypeOf(list) === 'HTMLLIElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<li> is of  type              - ' + typeMaster.getTypeOf(list));
 
-            result = (typeMaster.extendedTypeOf(input) === 'HTMLInputElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<input> is of  type           - ' + typeMaster.extendedTypeOf(input));    
+            result = (typeMaster.getTypeOf(input) === 'HTMLInputElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<input> is of  type           - ' + typeMaster.getTypeOf(input));    
 
             var promise = new Promise(function(resolve, reject) {
                 resolve('hello world');
             });
-            reuslt = (typeMaster.extendedTypeOf(promise) === 'Promise') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'promise is of  type           - ' + typeMaster.extendedTypeOf(promise));
+            reuslt = (typeMaster.getTypeOf(promise) === 'Promise') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'promise is of  type           - ' + typeMaster.getTypeOf(promise));
 
             var dataview = new DataView(new ArrayBuffer(1));
-            reuslt = (typeMaster.extendedTypeOf(dataview) === 'DataView') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'dataview is of  type          - ' + typeMaster.extendedTypeOf(dataview));
+            reuslt = (typeMaster.getTypeOf(dataview) === 'DataView') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'dataview is of  type          - ' + typeMaster.getTypeOf(dataview));
 
             var iterator = document.createNodeIterator(document.body, NodeFilter.SHOW_ELEMENT);
-            result = (typeMaster.extendedTypeOf(iterator) === 'NodeIterator') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'iterator is of  type          - ' + typeMaster.extendedTypeOf(iterator));
+            result = (typeMaster.getTypeOf(iterator) === 'NodeIterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'iterator is of  type          - ' + typeMaster.getTypeOf(iterator));
 
             var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
-            result = (typeMaster.extendedTypeOf(treeWalker) === 'TreeWalker') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'treeWalker is of  type        - ' + typeMaster.extendedTypeOf(treeWalker));
+            result = (typeMaster.getTypeOf(treeWalker) === 'TreeWalker') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'treeWalker is of  type        - ' + typeMaster.getTypeOf(treeWalker));
 
             var arrayIterator = [1,2].values();
-            result = (typeMaster.extendedTypeOf(arrayIterator) === 'Array Iterator') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'arrayIterator is of  type     - ' + typeMaster.extendedTypeOf(arrayIterator));
+            result = (typeMaster.getTypeOf(arrayIterator) === 'Array Iterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'arrayIterator is of  type     - ' + typeMaster.getTypeOf(arrayIterator));
 
             var stringIterator = 'abc'[Symbol.iterator]();
-            result = (typeMaster.extendedTypeOf(stringIterator) === 'String Iterator') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'stringIterator is of  type    - ' + typeMaster.extendedTypeOf(stringIterator));
+            result = (typeMaster.getTypeOf(stringIterator) === 'String Iterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'stringIterator is of  type    - ' + typeMaster.getTypeOf(stringIterator));
 
             var mapIterator = (new Map()).values();
-            result = (typeMaster.extendedTypeOf(mapIterator) === 'Map Iterator') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'mapIterator is of  type       - ' + typeMaster.extendedTypeOf(mapIterator));
+            result = (typeMaster.getTypeOf(mapIterator) === 'Map Iterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'mapIterator is of  type       - ' + typeMaster.getTypeOf(mapIterator));
         };
     </script>
 </head>
