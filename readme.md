@@ -9,7 +9,7 @@
 
 ## **What is TypeAnalyser?**
 -----
-A simple library designed to provide precise and in-depth type information for any JavaScript/Typescript object including the cases where the built-in javascript operators fail and uniquely compared to other packages provides additional functionality. 
+A simple library designed to provide precise and in-depth type information for any JavaScript/Typescript object including the cases where the built-in javascript operators fail. Uniquely compared to other packages, it also provides additional type detection functionality. 
 
 It works with ES6 types, even in non-ES6 environments. TypeAnalyzer is zero-dependency and has been extensively tested across different browsers and runtime environments. 
 <br>
