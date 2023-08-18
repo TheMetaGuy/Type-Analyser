@@ -1,10 +1,10 @@
-importScripts("./dist-copy/type-master.iife.min.js");
+importScripts("./dist-copy/type-analyser.iife.min.js");
 var theCanvas = null;
 self.onmessage = function(event) {
     var theObject = null; 
     var response = {sentType: "notSet", theData: theObject};
     
-    if ( typeMaster.getTypeOf(event.data) === 'object') {
+    if ( typeAnalyser.getTypeOf(event.data) === 'object') {
         theCanvas = event.data.canvas;
     }
 

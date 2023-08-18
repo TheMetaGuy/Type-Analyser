@@ -1,20 +1,20 @@
-# **Type-Master**
+# **TypeAnalyser**
 
-![Functions](https://raw.githubusercontent.com/TheMetaGuy/Type-Master/master/tests/coverage/badge-functions.svg)
-![Branches](https://raw.githubusercontent.com/TheMetaGuy/Type-Master/master/tests/coverage/badge-branches.svg)
-![GitHub](https://img.shields.io/github/license/TheMetaGuy/Type-Master)
-![npm](https://img.shields.io/npm/v/type-master)
-![npm bundle size](https://img.shields.io/bundlephobia/min/type-master)
+![Functions](https://raw.githubusercontent.com/TheMetaGuy/TypeAnalyser/master/tests/coverage/badge-functions.svg)
+![Branches](https://raw.githubusercontent.com/TheMetaGuy/TypeAnalyser/master/tests/coverage/badge-branches.svg)
+![GitHub](https://img.shields.io/github/license/TheMetaGuy/TypeAnalyser)
+![npm](https://img.shields.io/npm/v/typeanalyser)
+![npm bundle size](https://img.shields.io/bundlephobia/min/typeanalyser)
 
 
-## **What is Type-Master?**
+## **What is TypeAnalyser?**
 -----
 A simple library designed to provide precise and in-depth type information for any JavaScript/Typescript object including the cases where the built-in javascript operators fail and uniquely compared to other packages provides additional functionality. 
 
-It works with ES6 types, even in non-ES6 environments. Type-Analyzer is zero-dependency and has been extensively tested across different browsers and runtime environments. 
+It works with ES6 types, even in non-ES6 environments. TypeAnalyzer is zero-dependency and has been extensively tested across different browsers and runtime environments. 
 <br>
 
-## **Why Use Type-Master?**
+## **Why Use TypeAnalyser?**
 ---------
 This package analyzes all types including your own custom classes. it provides a set of functions that fix and go beyond the native `typeof`, `instanceof`, and `isNaN` operators. Additionally it works correctly in all environments unlike the native operators.
 
@@ -32,7 +32,7 @@ Features :
 
 <br>  
 
-Additionally, Type-Master:
+Additionally, TypeAnalyser:
   
 - Provides ESM, CSJ, and IIFE module variants for various use cases (refer to the *installation* section below).
 
@@ -42,7 +42,7 @@ Additionally, Type-Master:
 
 ## **Usage**
 
-Here are descriptions along with some examples of Type-Master usage. 
+Here are descriptions along with some examples of TypeAnalyser usage. 
 
 
 ## **`getTypeOf( object )`**
@@ -107,7 +107,7 @@ All other built-in types will be recognised and returned in CamelCase format as 
 Using `typeof`, you might try to access a property or method of an object which is actually `null`, leading to a TypeError.  Using `getTypeOf` avoids this.
 
 ```javascript
-const tm = require('Type-Master' ); 
+const ta = require('TypeAnalyser' ); 
 
 let x = null;
 if (typeof x === "object") {        // typeof always returns 'object' for null
@@ -139,9 +139,9 @@ if (ta.getTypeOf( someArrayInstance ) === "Array") {
 }
 
 // All typed arrays can be recognised.  E.g. 
-console.log( tm.getTypeOf(new Uint8Array) );       // => 'Uint8Array'
-console.log( tm.getTypeOf(new Float32Array) );     // => 'Float32Array'
-console.log( tm.getTypeOf(new BigInt64Array) );    // => 'BigInt64Array'
+console.log( ta.getTypeOf(new Uint8Array) );       // => 'Uint8Array'
+console.log( ta.getTypeOf(new Float32Array) );     // => 'Float32Array'
+console.log( ta.getTypeOf(new BigInt64Array) );    // => 'BigInt64Array'
 ```
 **Detecting safe use of function types**  
 There are sometimes cases where checking of function type should be done in order to avoid subtle run-time errors
@@ -264,9 +264,9 @@ if (ta.getTypeOf(set) === "Set") {
 
 // All known ES6 types can be detected. E.g. 
 const buffer = new ArrayBuffer(16);
-console.log( tm.getTypeOf(new DataView(buffer)));          // => 'DataView'
-console.log( tm.getTypeOf(buffer));                        // => 'ArrayBuffer'
-console.log( tm.getTypeOf(new SharedArrayBuffer(16)));     // => 'SharedArrayBuffer'
+console.log( ta.getTypeOf(new DataView(buffer)));          // => 'DataView'
+console.log( ta.getTypeOf(buffer));                        // => 'ArrayBuffer'
+console.log( ta.getTypeOf(new SharedArrayBuffer(16)));     // => 'SharedArrayBuffer'
 ```
 
 **Working with custom class instances**
@@ -295,7 +295,7 @@ let theObj = {
 }
 // Setting [Symbol.toStringTag] allows the detected 'type' of custom objects to be defined
 // so that objects can be distinquished from each other
-console.log( tm.getTypeOf(theObj));                               // => 'MyCustomTag'
+console.log( ta.getTypeOf(theObj));                               // => 'MyCustomTag'
 
 let myObj = {
     name: 'John',
@@ -304,7 +304,7 @@ let myObj = {
         return 'MagicObj';
     }
 }
-console.log( tm.getTypeOf(myObj));                                // => 'unknown' - by deisgn see below
+console.log( ta.getTypeOf(myObj));                                // => 'unknown' - by deisgn see below
 
 class MyClass {
 constructor() {
@@ -315,8 +315,8 @@ get [Symbol.toStringTag]() {
     return 'Not_MyClass';
 }   
 let myClassInstance = new MyClass();
-console.log( tm.getTypeOf(myClassInstance) );                    // => 'MyClass'  - by design see below
-console.log( tm.myClassInstance[Symbol.toStringTag] );                // => 'Not_MyClass" - default javascript behavior still OK
+console.log( ta.getTypeOf(myClassInstance) );                    // => 'MyClass'  - by design see below
+console.log( ta.myClassInstance[Symbol.toStringTag] );                // => 'Not_MyClass" - default javascript behavior still OK
 
 ```
 
@@ -326,15 +326,15 @@ console.log( tm.myClassInstance[Symbol.toStringTag] );                // => 'Not
 
 - *Objects with toString() Overridden:** The built-in `toString()` method, which all objects have, is essential to determining an object's type. If this is overridden by custom code, the ability to correctly determine the object's type is compromised therefore `getTypeOf` returns `unknown` in these cases. You can still use `toString()` to retrieve the value set by the custom code.
   
-- *Custom Classes with [Symbol.toStringTag]:** If custom classes have `[Symbol.toStringTag]` set, Type-Master will return the class name rather than the toStringTag value. This design is intentional. If you want to retrieve the custom tag, `[Symbol.toStringTag]` will still return whatever value was set.
+- *Custom Classes with [Symbol.toStringTag]:** If custom classes have `[Symbol.toStringTag]` set, TypeAnalyser will return the class name rather than the toStringTag value. This design is intentional. If you want to retrieve the custom tag, `[Symbol.toStringTag]` will still return whatever value was set.
 
 - *Object Types with [Symbol.toStringTag]:** Actual `Object` types with `[Symbol.toStringTag]` set will have that value returned for the type of the object  
 
 
 **Rationale**  
-The goal of Type-Master is to reveal the intrinsic underlying 'type' of an object. For built-in types and custom objects, using `[Symbol.toStringTag]` doesn't alter that. However, we consider actual `Object` types an exception and return the `[Symbol.toStringTag]` value. This is because JavaScript's type system returns 'object' for all Objects, making it impossible to distinguish one type of custom Object from another without using `[Symbol.toStringTag]`. 
+The goal of TypeAnalyser is to reveal the intrinsic underlying 'type' of an object. For built-in types and custom objects, using `[Symbol.toStringTag]` doesn't alter that. However, we consider actual `Object` types an exception and return the `[Symbol.toStringTag]` value. This is because JavaScript's type system returns 'object' for all Objects, making it impossible to distinguish one type of custom Object from another without using `[Symbol.toStringTag]`. 
 
-Note that `[Symbol.toStringTag]` and `toString()` values are always accessible to you. Type-Master simply provides you with additional type information you wouldn't otherwise have.
+Note that `[Symbol.toStringTag]` and `toString()` values are always accessible to you. TypeAnalyser simply provides you with additional type information you wouldn't otherwise have.
 
 <br> 
 
@@ -363,63 +363,63 @@ Also note
 ### ***Examples***
 ```javascript
 // for Clarity assume ESM import 
-import { getNumType } from './node_module/Type-Master/dist/Type-Master.esm.min.js';
+import { getNumType } from './node_module/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
 
 // non number types  
-console.log( tm.getNumType(NaN) );               // => 'NaN' 
-console.log( tm.getNumType('not a number') );    // => 'NaN'
-console.log( tm.getNumType(true) );              // => 'NaN'
-console.log( tm.getNumType(null) );              // => 'NaN'
-console.log( tm.getNumType({}) );                // => 'NaN'
-console.log( tm.getNumType(Symbol('hello')) );   // => 'NaN'
-console.log( tm.getNumType(undefined) );         // => 'NaN'
-console.log( tm.getNumType(function() {}) );     // => 'NaN'
-console.log( tm.getNumType([]) );                // => 'NaN'
+console.log( ta.getNumType(NaN) );               // => 'NaN' 
+console.log( ta.getNumType('not a number') );    // => 'NaN'
+console.log( ta.getNumType(true) );              // => 'NaN'
+console.log( ta.getNumType(null) );              // => 'NaN'
+console.log( ta.getNumType({}) );                // => 'NaN'
+console.log( ta.getNumType(Symbol('hello')) );   // => 'NaN'
+console.log( ta.getNumType(undefined) );         // => 'NaN'
+console.log( ta.getNumType(function() {}) );     // => 'NaN'
+console.log( ta.getNumType([]) );                // => 'NaN'
 
 // Infinity 
-console.log( tm.getNumType(1/0) );               // => 'infinity'
-console.log( tm.getNumType(-1/0) );              // => '-infinity'
+console.log( ta.getNumType(1/0) );               // => 'infinity'
+console.log( ta.getNumType(-1/0) );              // => '-infinity'
 
 // safe integers 
 var maxInt = Number.MAX_SAFE_INTEGER; 
-console.log( tm.getNumType(10) );                // => 'safeInteger'
-console.log( tm.getNumType(maxInt) );            // => 'safeInteger'
-console.log( tm.getNumType(-maxInt) );           // => 'safeInteger'
+console.log( ta.getNumType(10) );                // => 'safeInteger'
+console.log( ta.getNumType(maxInt) );            // => 'safeInteger'
+console.log( ta.getNumType(-maxInt) );           // => 'safeInteger'
 
 // unsafe numbers to use in calculations
 var maxInt = Number.MAX_SAFE_INTEGER; 
-console.log( tm.getNumType(maxInt + 1) );            // => 'unsafeNumber'
-console.log( tm.getNumType(-maxInt - 1) );           // => 'unsafeNumber'
-console.log( tm.getNumType(Number.MAX_VALUE) );      // => 'unsafeNumber'
-console.log( tm.getNumType(90071992547409975.33) );  // => 'unsafeNumber'
+console.log( ta.getNumType(maxInt + 1) );            // => 'unsafeNumber'
+console.log( ta.getNumType(-maxInt - 1) );           // => 'unsafeNumber'
+console.log( ta.getNumType(Number.MAX_VALUE) );      // => 'unsafeNumber'
+console.log( ta.getNumType(90071992547409975.33) );  // => 'unsafeNumber'
 
 // safe floating point numbers' 
-console.log( tm.getNumType(1.1) );                   // => 'safeFloat'
-console.log( tm.getNumType(900719925474099.75) );    // => 'safeFloat'
+console.log( ta.getNumType(1.1) );                   // => 'safeFloat'
+console.log( ta.getNumType(900719925474099.75) );    // => 'safeFloat'
 
 // bigint' 
-console.log( tm.getNumType(BigInt(123)) );       // => 'bigint'
+console.log( ta.getNumType(BigInt(123)) );       // => 'bigint'
 
 // bigint literal' 
-console.log( tm.getNumType( 123n ) );            // => 'bigint'
+console.log( ta.getNumType( 123n ) );            // => 'bigint'
 
 // numbers in string format 
-console.log( tm.getNumType('123') );             // => 'safeInteger'
-console.log( tm.getNumType('1.11') );            // => 'safeFloat'
-console.log( tm.getNumType('-1.11') );           // => 'safeFloat'
-console.log( tm.getNumType('0xFF') );            // => 'safeInteger'
+console.log( ta.getNumType('123') );             // => 'safeInteger'
+console.log( ta.getNumType('1.11') );            // => 'safeFloat'
+console.log( ta.getNumType('-1.11') );           // => 'safeFloat'
+console.log( ta.getNumType('0xFF') );            // => 'safeInteger'
 
 // invalid numbers in string format
-console.log( tm.getNumType('123xyz') );          // => 'NaN'
-console.log( tm.getNumType('xyz') );             // => 'NaN'
-console.log( tm.getNumType('123pqr', false) );   // => 'NaN'
-console.log( tm.getNumType('zyx',false) );       // => 'NaN'
+console.log( ta.getNumType('123xyz') );          // => 'NaN'
+console.log( ta.getNumType('xyz') );             // => 'NaN'
+console.log( ta.getNumType('123pqr', false) );   // => 'NaN'
+console.log( ta.getNumType('zyx',false) );       // => 'NaN'
 
 // numbers in string format with 'acceptStringNumber' param set to false' 
-console.log( tm.getNumType('123', false) );      // => 'NaN'
-console.log( tm.getNumType('123.99', false) );   // => 'NaN'
+console.log( ta.getNumType('123', false) );      // => 'NaN'
+console.log( ta.getNumType('123.99', false) );   // => 'NaN'
 
-console.log( tm.getNumType( new Number(999)));   // => 'numberObject'  - not a number primitive
+console.log( ta.getNumType( new Number(999)));   // => 'numberObject'  - not a number primitive
 ```
 
 
@@ -448,56 +448,56 @@ Note;
 
 ### **Examples**  
 ```javascript
-const tm = require('Type-Master' );
+const ta = require('TypeAnalyser' );
 
 //safe integers
-console.log( tm.isSafeNum(1) );                         // => true 
-console.log( tm.isSafeNum(Number.MAX_SAFE_INTEGER) );   // => true 
-console.log( tm.isSafeNum(-Number.MAX_SAFE_INTEGER) );  // => true 
-console.log( tm.isSafeNum(0) ); // => true 
+console.log( ta.isSafeNum(1) );                         // => true 
+console.log( ta.isSafeNum(Number.MAX_SAFE_INTEGER) );   // => true 
+console.log( ta.isSafeNum(-Number.MAX_SAFE_INTEGER) );  // => true 
+console.log( ta.isSafeNum(0) ); // => true 
 
 // unsafe integers
-console.log( tm.isSafeNum(Number.MAX_SAFE_INTEGER + 1) ); // => false 
-console.log( tm.isSafeNum(-Number.MAX_SAFE_INTEGER -1) ); // => false 
-console.log( tm.isSafeNum(Number.MAX_VALUE) );            // => false  -  Number.MAX_VALUE is not a safe integer !
+console.log( ta.isSafeNum(Number.MAX_SAFE_INTEGER + 1) ); // => false 
+console.log( ta.isSafeNum(-Number.MAX_SAFE_INTEGER -1) ); // => false 
+console.log( ta.isSafeNum(Number.MAX_VALUE) );            // => false  -  Number.MAX_VALUE is not a safe integer !
 
 // Infinity is never safe
-console.log( tm.isSafeNum(1/0) );                       // => false 
-console.log( tm.isSafeNum(-1/0) );                      // => false 
+console.log( ta.isSafeNum(1/0) );                       // => false 
+console.log( ta.isSafeNum(-1/0) );                      // => false 
 
 // valid numeric strings are safe by default (acceptStringNums=true) 
-console.log( tm.isSafeNum('1') );                       // => true 
-console.log( tm.isSafeNum('1.1') );                     // => true 
-console.log( tm.isSafeNum('-1') );                      // => true 
-console.log( tm.isSafeNum('0xFF') );                    // => true 
+console.log( ta.isSafeNum('1') );                       // => true 
+console.log( ta.isSafeNum('1.1') );                     // => true 
+console.log( ta.isSafeNum('-1') );                      // => true 
+console.log( ta.isSafeNum('0xFF') );                    // => true 
 
 // invalid numeric strings are never safe 
-console.log( tm.isSafeNum('34.345abchs', true) );       // => false 
-console.log( tm.isSafeNum('34.345abchs', false) );      // => false 
+console.log( ta.isSafeNum('34.345abchs', true) );       // => false 
+console.log( ta.isSafeNum('34.345abchs', false) );      // => false 
 
 // don't allow valid numeric strings to return true  - via acceptStringNums = false
-console.log( tm.isSafeNum('123', false) );              // => false 
+console.log( ta.isSafeNum('123', false) );              // => false 
 
 // BigInt and BigInt literals are unsafe for use as a number 
-console.log( tm.isSafeNum(1n) );                        // => false 
-console.log( tm.isSafeNum(BigInt(1)) );                 // => false 
+console.log( ta.isSafeNum(1n) );                        // => false 
+console.log( ta.isSafeNum(BigInt(1)) );                 // => false 
 
 // unsafe floats 
-console.log( tm.isSafeNum("999999999999999999999999.99", true) );   // => false 
-console.log( tm.isSafeNum("999999999999999999999999.99", false) );  // => false 
+console.log( ta.isSafeNum("999999999999999999999999.99", true) );   // => false 
+console.log( ta.isSafeNum("999999999999999999999999.99", false) );  // => false 
 
 // The Symbol type is not for safe 
-console.log( tm.isSafeNum(Symbol("test")) );        // => false 
+console.log( ta.isSafeNum(Symbol("test")) );        // => false 
 
 // Objects, Arrays and many built-in Javascript types (E.g. Map, Sets etc) aren't safe to use in calculations 
-console.log( tm.isSafeNum(NaN) );                   // => false 
-console.log( tm.isSafeNum( {} ) );                  // => false 
-console.log( tm.isSafeNum( new Date()) );           // => false 
-console.log( tm.isSafeNum( []) );                   // => false 
-console.log( tm.isSafeNum( [1]) );                  // => false 
+console.log( ta.isSafeNum(NaN) );                   // => false 
+console.log( ta.isSafeNum( {} ) );                  // => false 
+console.log( ta.isSafeNum( new Date()) );           // => false 
+console.log( ta.isSafeNum( []) );                   // => false 
+console.log( ta.isSafeNum( [1]) );                  // => false 
 
 // Number Objects (as opposed to number primitives) aren't safe in all cases either E.g. 'new Number(99) !== 99'  !!!  
-console.log( tm.isSafeNum( new Number(99) ) )       // => false
+console.log( ta.isSafeNum( new Number(99) ) )       // => false
 
 ```
 
@@ -532,30 +532,30 @@ Performs type introspection and returns detailed type information about the obje
 
 **type details of some built-in javascript types** 
 ```javascript
-const tm = require('Type-Master' );
+const ta = require('TypeAnalyser' );
 
-const stringDetails = tm.getTypeDetails('test');
+const stringDetails = ta.getTypeDetails('test');
 console.log( stringDetails.Type );                              // => 'string'
 console.log( stringDetails.hasCustomConstructor );              // => false
 console.log( stringDetails.ReferenceVariable );                 // => ''
 console.log( stringDetails.prototypeChainString );              // => 'String -> Object'
 console.log( stringDetails.prototypeChain );                    // => ['String', 'Object']
 
-const arrayDetails = tm.getTypeDetails( [] );
+const arrayDetails = ta.getTypeDetails( [] );
 console.log( arrayDetails.Type );                               // => 'Array'
 console.log( arrayDetails.hasCustomConstructor );               // => true
 console.log( arrayDetails.ReferenceVariable );                  // => ''
 console.log( arrayDetails.prototypeChainString );               // => 'Array -> Object'
 console.log( arrayDetails.prototypeChain );                     // => ['Array', 'Object']
 
-const nullDetails = tm.getTypeDetails(null);
+const nullDetails = ta.getTypeDetails(null);
 console.log( nullDetails.Type );                                // => 'null'
 console.log( nullDetails.hasCustomConstructor );                // => false
 console.log( nullDetails.ReferenceVariable );                   // => ''
 console.log( nullDetails.prototypeChainString );                // => ""
 console.log( nullDetails.prototypeChain );                      // => null
 
-const symbolDetails = tm.getTypeDetails( Symbol("test") );
+const symbolDetails = ta.getTypeDetails( Symbol("test") );
 console.log( symbolDetails.Type );                              // => 'symbol'
 console.log( symbolDetails.hasCustomConstructor );              // => false
 console.log( symbolDetails.ReferenceVariable );                 // => ''
@@ -563,7 +563,7 @@ console.log( symbolDetails.prototypeChainString );              // => 'Symbol ->
 console.log( symbolDetails.prototypeChain );                    // => ['Symbol', 'Object']
 
 // check type details of Regular Expression
-const regExDetails = tm.getTypeDetails(/hello/);
+const regExDetails = ta.getTypeDetails(/hello/);
 console.log( regExDetails.Type );                               // => 'RegExp'
 console.log( regExDetails.hasCustomConstructor );               // => true
 console.log( regExDetails.ReferenceVariable );                  // => ''
@@ -571,7 +571,7 @@ console.log( regExDetails.prototypeChainString );               // => 'RegExp ->
 console.log( regExDetails.prototypeChain );                     // => ['RegExp', 'Object']
 
 // check type details of Date 
-const dateDetails = tm.getTypeDetails(new Date());
+const dateDetails = ta.getTypeDetails(new Date());
 console.log( dateDetails.Type );                                 // => 'Date'
 console.log( dateDetails.hasCustomConstructor );                 // => true
 console.log( dateDetails.ReferenceVariable );                    // => ''
@@ -579,7 +579,7 @@ console.log( dateDetails.prototypeChainString );                 // => 'Date -> 
 console.log( dateDetails.prototypeChain );                       // => ['Date', 'Object']
 
 let thePromise = new Promise(() => {});
-const promiseDetails = tm.getTypeDetails( thePromise );
+const promiseDetails = ta.getTypeDetails( thePromise );
 console.log( promiseDetails.Type );                              // => 'Promise'
 console.log( promiseDetails.hasCustomConstructor );              // => true
 console.log( promiseDetails.ReferenceVariable );                 // => ''
@@ -591,7 +591,7 @@ console.log( promiseDetails.prototypeChain );                    // => ['Promise
 ```javascript
 class Parent {};
 class Child extends Parent {};
-const childDetails = tm.getTypeDetails(new Child());
+const childDetails = ta.getTypeDetails(new Child());
 
 console.log( childDetails.Type );                               // => 'Child'
 console.log( childDetails.hasCustomConstructor );               // => true
@@ -600,7 +600,7 @@ console.log( childDetails.prototypeChainString );               // => 'Child -> 
 console.log( childDetails.prototypeChain );                     // => ['Child', 'Parent', 'Object']
 
 // with shortened output prototype chain 
-const childDetailsShort = tm.getTypeDetails(new Child(), false);
+const childDetailsShort = ta.getTypeDetails(new Child(), false);
 console.log( childDetailsShort.Type );                          // => 'Child'
 console.log( childDetailsShort.hasCustomConstructor );          // => true
 console.log( childDetailsShort.ReferenceVariable );             // => ''
@@ -611,7 +611,7 @@ console.log( childDetailsShort.prototypeChain );                // => ['Child', 
 **type details of some function types** 
 ```javascript
 const myArrowFunction = () => {};
-const arrowFunctionDetails = tm.getTypeDetails(myArrowFunction); 
+const arrowFunctionDetails = ta.getTypeDetails(myArrowFunction); 
 console.log( arrowFunctionDetails.Type );                       // => 'ArrowFunction'
 console.log( arrowFunctionDetails.hasCustomConstructor );       // => false
 console.log( arrowFunctionDetails.ReferenceVariable );          // => 'myArrowFunction'
@@ -621,14 +621,14 @@ console.log( arrowFunctionDetails.prototypeChain );             // => ['Function
 // can get details even if reference to function reference used 
 let myFunc = function() {};
 let otherFuncRef = myFunc;
-const functionDetails = tm.getTypeDetails( otherFuncRef );
+const functionDetails = ta.getTypeDetails( otherFuncRef );
 console.log( functionDetails.Type );                            // => 'function'
 console.log( functionDetails.hasCustomConstructor );            // => false
 console.log( functionDetails.ReferenceVariable );               // => 'myFunc'
 console.log( functionDetails.prototypeChainString );            // => 'Function -> Object'
 console.log( functionDetails.prototypeChain );                  // => ['Function', 'Object']
 
-const anonFunctionDetails = tm.getTypeDetails( function() {} );
+const anonFunctionDetails = ta.getTypeDetails( function() {} );
 console.log( anonFunctionDetails.Type );                         // => 'function'
 console.log( anonFunctionDetails.hasCustomConstructor );         // => false
 console.log( anonFunctionDetails.ReferenceVariable );            // => ''
@@ -637,7 +637,7 @@ console.log( anonFunctionDetails.prototypeChain );               // => ['Functio
 
 // Generator Function
 function* genFunc() {};
-const generatorDetails = tm.getTypeDetails(genFunc);
+const generatorDetails = ta.getTypeDetails(genFunc);
 console.log( generatorDetails.Type );                            // => 'GeneratorFunction'
 console.log( generatorDetails.hasCustomConstructor );            // => false
 console.log( generatorDetails.ReferenceVariable );               // => 'genFunc'
@@ -674,27 +674,27 @@ true if the object is JSON serializable WITHOUT a loss of data, false otherwise.
 ### **Examples** 
 
 ```javascript
-const tm = require('Type-Master' );
+const ta = require('TypeAnalyser' );
 
-console.log( tm.isJSONSerializable({ a: 1, b: 2 }));            // => true
-console.log( tm.isJSONSerializable(new Map()));                 // => false
+console.log( ta.isJSONSerializable({ a: 1, b: 2 }));            // => true
+console.log( ta.isJSONSerializable(new Map()));                 // => false
 
 // objects with non enumerable properties can still be serialized
 let obj = { a: 1 };
 Object.defineProperty( obj, 'b', { value: 2, 
                                    enumerable: false });
-console.log( tm.isJSONSerializable(obj) );                      // =>  true
+console.log( ta.isJSONSerializable(obj) );                      // =>  true
 
 // Arrays with non integer properties can't be serialized without loss of information
 let arr =[1, 2, 3, 4];
 arr.foo = "bar"; 
-console.log( tm.isJSONSerializable(arr) );                      // =>  false);
+console.log( ta.isJSONSerializable(arr) );                      // =>  false);
 ```
 
 **functions or objects with functions can't be JSON serialized** 
 ```javascript
-console.log( tm.isJSONSerializable( () => {} );                 // => false
-console.log( tm.isJSONSerializable( () => {}, true );           // => false  - still false because data is lost
+console.log( ta.isJSONSerializable( () => {} );                 // => false
+console.log( ta.isJSONSerializable( () => {}, true );           // => false  - still false because data is lost
 
 // nested function 
 const objFn = {
@@ -702,20 +702,20 @@ const objFn = {
         level2: { func: function() {}, },
     },
 };
-console.log( tm.isJSONSerializable( objFn ));                   // => false
+console.log( ta.isJSONSerializable( objFn ));                   // => false
 ```
 
 **Some objects can be JSON serialized but with loss of format**
 ```javascript
 let today = new Date();
-console.log( tm.isJSONSerializable( today, true ));             // => true - no data lost but format is changed into string
+console.log( ta.isJSONSerializable( today, true ));             // => true - no data lost but format is changed into string
                                                             
 let obj = { key: new URL('http://example.com') };
-console.log( tm.isJSONSerializable( obj, true )));              // => true - value converted into a string 
+console.log( ta.isJSONSerializable( obj, true )));              // => true - value converted into a string 
 
 let obj = { key: new Float64Array([1.1, 2.2, 3.3, 4.4]) };
-console.log( tm.isJSONSerializable(obj) );                      // =>  false
-console.log( tm.isJSONSerializable(obj,true) );                 // =>  true  
+console.log( ta.isJSONSerializable(obj) );                      // =>  false
+console.log( ta.isJSONSerializable(obj,true) );                 // =>  true  
 ```
 <br> 
 
@@ -743,10 +743,10 @@ However, note:
 ```javascript
 let obj1 = {};
 obj1.self = obj1;
-console.log( tm.hasCircularRef(obj1));         // => true
+console.log( ta.hasCircularRef(obj1));         // => true
 
 let obj2 = { a: 1, b: 2, c: { name: 'test' } };
-console.log( tm.hasCircularRef(obj2));         // => false
+console.log( ta.hasCircularRef(obj2));         // => false
 ```
 
 <br>
@@ -754,50 +754,50 @@ console.log( tm.hasCircularRef(obj2));         // => false
 # **Installation**  
 
 ## **Node.js**
-Installing Type-Master in a Node.js project is easy with npm. Simply use the following command:
+Installing TypeAnalyser in a Node.js project is easy with npm. Simply use the following command:
 
 ```bash 
-  npm install Type-Master
+  npm install TypeAnalyser
 ```
 
 Then, in your JavaScript file, you can require the module as follows:
 
 ```javascript
-  const tm = require('Type-Master' );
+  const ta = require('TypeAnalyser' );
 ```
 
 ## **Browsers**
-For browser environments, you can import Type-Master via either CommonJS (CJS), ECMAScript Modules (ESM) or a simple  IIFE style global module. You can use the minified or non-minified versions when debugging you app. 
+For browser environments, you can import TypeAnalyser via either CommonJS (CJS), ECMAScript Modules (ESM) or a simple  IIFE style global module. You can use the minified or non-minified versions when debugging you app. 
 
 #### ***CommonJS (CJS)***
 
 If you're using a bundler like Browserify or Webpack, you can use the same `require` syntax as in Node.js:
 
 ```javascript
-  const tm = require('Type-Master' );
+  const ta = require('TypeAnalyser' );
 ```
 
 #### ***ECMAScript Modules (ESM)***
 
-In modern browsers that support ECMAScript Modules, you can import Type-Master directly in your HTML file. E.g;  
+In modern browsers that support ECMAScript Modules, you can import TypeAnalyser directly in your HTML file. E.g;  
 
 ```html
   <script type="module">
-      import * as tm from './node_modules/Type-Master/dist/Type-Master.esm.min.js';
+      import * as tm from './node_modules/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
       // OR if you just need the essentials 
-      import {getTypeOf, getNumType, isSafeNum} from './node_modules/Type-Master/dist/Type-Master.esm.min.js';
+      import {getTypeOf, getNumType, isSafeNum} from './node_modules/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
   </script>
 ```
 
 ### ***Unbundled (IIFE) Global straight into your script*** 
-If you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE version of Type-Master which exposes a global `typeMaster` object which will work on all browsers as is.
+If you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE version of TypeAnalyser which exposes a global `typeAnalyser` object which will work on all browsers as is.
 ```html
-  <script src="./node_modules/Type-Master/dist/Type-Master.iife.min.js"></script>
+  <script src="./node_modules/TypeAnalyser/dist/TypeAnalyser.iife.min.js"></script>
   <script>
-      var tm = typeMaster;  // the IIFE global is called 'typeMaster'
+      var ta = typeAnalyser;  // the IIFE global is called 'typeAnalyser'
 
       // your code 
-      if ( tm.getTypeOf(obj) === 'null' ) {
+      if ( ta.getTypeOf(obj) === 'null' ) {
           yourObjectResetcode( obj);      
       } else {
           obj = yourObjectCreationCode( );
@@ -806,19 +806,19 @@ If you are not using a bundler and your app is going to run on ES5 browsers with
 ```
 
 ### ***CDN*** 
-You can also load Type-Master directly from a CDN like **jsDelivr** or **unpkg** if you're not using npm or just want to quickly test something out.
+You can also load TypeAnalyser directly from a CDN like **jsDelivr** or **unpkg** if you're not using npm or just want to quickly test something out.
 
 ```html
 <!-- Using ECMAScript Modules (ESM) -->
 <script type="module">
-  import * as tm from 'https://cdn.jsdelivr.net/npm/Type-Master@1.3.0/dist/Type-Master.esm.min.js';
+  import * as tm from 'https://cdn.jsdelivr.net/npm/TypeAnalyser@1.3.0/dist/TypeAnalyser.esm.min.js';
 </script>
 
 <!-- Or using IIFE -->
-<script src="https://cdn.jsdelivr.net/npm/Type-Master@1.3.0/dist/Type-Master.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/TypeAnalyser@1.3.0/dist/TypeAnalyser.iife.min.js"></script>
 <script>
   // Use a global object
-  var tm = typeMaster;
+  var ta = typeAnalyser;
   console.log(ta.getTypeOf([])); // outputs: 'Array'
 </script>
 
@@ -839,7 +839,7 @@ For full compatibility with ES6 types, use the following Node or browser version
 <br>
 
 ### **ES6 Targets via ES5 with Polyfills** 
-if you are Targeting ES5 environments via ES6 Polyfills (E.g. via Babel) then Type-Master will work correctly with the following Node / Browser versions or newer: 
+if you are Targeting ES5 environments via ES6 Polyfills (E.g. via Babel) then TypeAnalyser will work correctly with the following Node / Browser versions or newer: 
 
 | Node | Chrome | FireFox | Safari | Edge | Opera | IOS | Samsung Browser | Chrome Android | WebView Android |
 | :---: | :---: |  :---:  | :---:  |:---: |:---:  |:--- | :---:           | :---:          |:---:            | 
@@ -852,12 +852,12 @@ This requires the ES6 Polyfills to simulate the actual ES6 type. However, note t
 
 # **Setting Up the Development Environment**
 
-Type-Master has no run-time dependencies. Some packages (e.g., Jest, Karma, Roll-up, etc.) are needed for development, but these are installed locally only inside the project folders. Assuming you have installed Node.js v7.6 or higher, you should just need to:
+TypeAnalyser has no run-time dependencies. Some packages (e.g., Jest, Karma, Roll-up, etc.) are needed for development, but these are installed locally only inside the project folders. Assuming you have installed Node.js v7.6 or higher, you should just need to:
 
 ```dos   
 > cd YourFolderName
 > REM note the full stop '.' at the end so git clones into the current folder
-> git clone https://github.com/TheMetaGuy/Type-Master.git .
+> git clone https://github.com/TheMetaGuy/TypeAnalyser.git .
 > npm install 
 > npm run build
 ```

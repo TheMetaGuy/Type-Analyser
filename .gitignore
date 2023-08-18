@@ -1,8 +1,8 @@
 node_modules/
 lib/
 temp/
-tests/dist-copy/type-master.cjs.js
+tests/dist-copy/type-analyser.cjs.js
 dist/
-tests/dist-copy/type-master.cjs.min.js
+tests/dist-copy/type-analyser.cjs.min.js
 tests/dist-copy/
 tests/src-copy/

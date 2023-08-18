@@ -2,7 +2,7 @@ module.exports = function (config) {
 	config.set({
 		frameworks: ["jasmine"], 
 		files: [
-			"../tests/dist-copy/type-master.iife.min.js",
+			"../tests/dist-copy/type-analyser.iife.min.js",
 			"./test-scripts/*.test.js"
 		],
 		preprocessors: {
@@ -20,7 +20,7 @@ module.exports = function (config) {
 			],
 			output: {
 			  format: 'iife',        // Helps Karma to work with the bundle
-			  name: 'typeMaster',    // Assuming the global name of your library
+			  name: 'typeAnalyser',  // Assuming the global name of the library
 			  sourcemap: 'inline'    // Sensible for testing
 			},
 		},

@@ -1,5 +1,5 @@
 /*******************************************************************************************************
- * Type-Master
+ * Type-Analyser
  * MIT License
  * For full license details see the LICENSE file in the repo root or https://opensource.org/licenses/MIT
  * Copyright(c) 2023 Owen Cullum <dev@metagu.com>

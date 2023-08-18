@@ -9,7 +9,7 @@
     </style> 
     <!-- get rid of the favicon 404 error -->
     <link rel="shortcut icon" href="#">   
-    <script src="./dist-copy/type-master.iife.min.js"></script>
+    <script src="./dist-copy/type-analyser.iife.min.js"></script>
     <script>
         window.onload = function() {
 
@@ -52,7 +52,7 @@
 
                 var theObject = event.data.theData;
                 var sentType = event.data.sentType;
-                var typeOfMyObject = typeMaster.getTypeOf(theObject);
+                var typeOfMyObject = typeAnalyser.getTypeOf(theObject);
                 var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
 
                 Log_I_Results(result + ': Iframe test of getTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
@@ -77,7 +77,7 @@
                 worker.postMessage({canvas: offScreenCanvas}, [offScreenCanvas]);
 
                 Log_W_Results('Main test page now sending object request messages to worker');
-                Log_W_Results('the worker object type is : ' + typeMaster.getTypeOf(worker) + '\n' );
+                Log_W_Results('the worker object type is : ' + typeAnalyser.getTypeOf(worker) + '\n' );
 
                 worker.postMessage('send back null object');
                 worker.postMessage('send back undefined object');
@@ -99,7 +99,7 @@
                 worker.onmessage = function(event) {
                     var theObject = event.data.theData;
                     var sentType = event.data.sentType;
-                    var typeOfMyObject = typeMaster.getTypeOf(theObject);
+                    var typeOfMyObject = typeAnalyser.getTypeOf(theObject);
                     var result = (typeOfMyObject === sentType) ? 'PASS' : 'FAIL';
 
                     Log_W_Results(result + ': Worker test of getTypeOf('+sentType+') gives ' + typeOfMyObject + ' with data = ' + theObject);
@@ -144,126 +144,126 @@
             var result;
             Log_H_Results('Main test page now testing the detected type of DOM elements\n ' );
 
-            result = (typeMaster.getTypeOf(window) === 'Window') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'window is of type             - ' + typeMaster.getTypeOf(window));
+            result = (typeAnalyser.getTypeOf(window) === 'Window') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'window is of type             - ' + typeAnalyser.getTypeOf(window));
 
-            result = (typeMaster.getTypeOf(document) === 'HTMLDocument') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'document is of type           - ' + typeMaster.getTypeOf(document));
+            result = (typeAnalyser.getTypeOf(document) === 'HTMLDocument') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'document is of type           - ' + typeAnalyser.getTypeOf(document));
 
-            result = (typeMaster.getTypeOf(documentFragment) === 'DocumentFragment') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'documentFragment is of type   - ' + typeMaster.getTypeOf(documentFragment));
+            result = (typeAnalyser.getTypeOf(documentFragment) === 'DocumentFragment') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'documentFragment is of type   - ' + typeAnalyser.getTypeOf(documentFragment));
 
-            result = (typeMaster.getTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<meta> is of  type            - ' + typeMaster.getTypeOf(meta));
+            result = (typeAnalyser.getTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<meta> is of  type            - ' + typeAnalyser.getTypeOf(meta));
 
-            result = (typeMaster.getTypeOf(head) === 'HTMLHeadElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<head> is of  type            - ' + typeMaster.getTypeOf(head));
+            result = (typeAnalyser.getTypeOf(head) === 'HTMLHeadElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<head> is of  type            - ' + typeAnalyser.getTypeOf(head));
 
-            result = (typeMaster.getTypeOf(body) === 'HTMLBodyElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<body> is of  type            - ' + typeMaster.getTypeOf(body));
+            result = (typeAnalyser.getTypeOf(body) === 'HTMLBodyElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<body> is of  type            - ' + typeAnalyser.getTypeOf(body));
             
-            result = (typeMaster.getTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';                
-            Log_H_Results(result + '<html> is of  type            - ' + typeMaster.getTypeOf(html));
+            result = (typeAnalyser.getTypeOf(html) === 'HTMLHtmlElement') ? 'PASS: ' : 'FAIL: ';                
+            Log_H_Results(result + '<html> is of  type            - ' + typeAnalyser.getTypeOf(html));
 
-            result = (typeMaster.getTypeOf(div) === 'HTMLDivElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<div> is of  type             - ' + typeMaster.getTypeOf(div));
+            result = (typeAnalyser.getTypeOf(div) === 'HTMLDivElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<div> is of  type             - ' + typeAnalyser.getTypeOf(div));
             
-            result = (typeMaster.getTypeOf(p) === 'HTMLParagraphElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<p> is of  type               - ' + typeMaster.getTypeOf(p));
+            result = (typeAnalyser.getTypeOf(p) === 'HTMLParagraphElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<p> is of  type               - ' + typeAnalyser.getTypeOf(p));
 
-            result = (typeMaster.getTypeOf(span) === 'HTMLSpanElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<span> is of  type            - ' + typeMaster.getTypeOf(span));
+            result = (typeAnalyser.getTypeOf(span) === 'HTMLSpanElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<span> is of  type            - ' + typeAnalyser.getTypeOf(span));
 
-            result = (typeMaster.getTypeOf(a) === 'HTMLAnchorElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<a> is of  type               - ' + typeMaster.getTypeOf(a));
+            result = (typeAnalyser.getTypeOf(a) === 'HTMLAnchorElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<a> is of  type               - ' + typeAnalyser.getTypeOf(a));
 
-            result = (typeMaster.getTypeOf(img) === 'HTMLImageElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<img> is of  type             - ' + typeMaster.getTypeOf(img));
+            result = (typeAnalyser.getTypeOf(img) === 'HTMLImageElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<img> is of  type             - ' + typeAnalyser.getTypeOf(img));
 
-            result = (typeMaster.getTypeOf(canvas) === 'HTMLCanvasElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<canvas> is of  type          - ' + typeMaster.getTypeOf(canvas));
+            result = (typeAnalyser.getTypeOf(canvas) === 'HTMLCanvasElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<canvas> is of  type          - ' + typeAnalyser.getTypeOf(canvas));
 
-            result = (typeMaster.getTypeOf(video) === 'HTMLVideoElement') ? 'PASS: ' : 'FAIL: ';     
-            Log_H_Results(result + '<video> is of  type           - ' + typeMaster.getTypeOf(video));
+            result = (typeAnalyser.getTypeOf(video) === 'HTMLVideoElement') ? 'PASS: ' : 'FAIL: ';     
+            Log_H_Results(result + '<video> is of  type           - ' + typeAnalyser.getTypeOf(video));
 
-            result = (typeMaster.getTypeOf(audio) === 'HTMLAudioElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<audio> is of  type           - ' + typeMaster.getTypeOf(audio));
+            result = (typeAnalyser.getTypeOf(audio) === 'HTMLAudioElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<audio> is of  type           - ' + typeAnalyser.getTypeOf(audio));
 
-            result = (typeMaster.getTypeOf(source) === 'HTMLSourceElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<source> is of  type          - ' + typeMaster.getTypeOf(source));
+            result = (typeAnalyser.getTypeOf(source) === 'HTMLSourceElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<source> is of  type          - ' + typeAnalyser.getTypeOf(source));
 
-            result = (typeMaster.getTypeOf(track) === 'HTMLTrackElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<track> is of  type           - ' + typeMaster.getTypeOf(track));
+            result = (typeAnalyser.getTypeOf(track) === 'HTMLTrackElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<track> is of  type           - ' + typeAnalyser.getTypeOf(track));
 
-            result = (typeMaster.getTypeOf(table) === 'HTMLTableElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<table> is of  type           - ' + typeMaster.getTypeOf(table));
+            result = (typeAnalyser.getTypeOf(table) === 'HTMLTableElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<table> is of  type           - ' + typeAnalyser.getTypeOf(table));
 
-            result = (typeMaster.getTypeOf(iframe) === 'HTMLIFrameElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<iframe> is of  type          - ' + typeMaster.getTypeOf(iframe));
+            result = (typeAnalyser.getTypeOf(iframe) === 'HTMLIFrameElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<iframe> is of  type          - ' + typeAnalyser.getTypeOf(iframe));
 
-            result = (typeMaster.getTypeOf(button) === 'HTMLButtonElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<button> is of  type          - ' + typeMaster.getTypeOf(button));
+            result = (typeAnalyser.getTypeOf(button) === 'HTMLButtonElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<button> is of  type          - ' + typeAnalyser.getTypeOf(button));
 
-            result = (typeMaster.getTypeOf(textNode) === 'Text') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + 'textNode is of  type          - ' + typeMaster.getTypeOf(textNode));
+            result = (typeAnalyser.getTypeOf(textNode) === 'Text') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + 'textNode is of  type          - ' + typeAnalyser.getTypeOf(textNode));
 
-            result = (typeMaster.getTypeOf(script) === 'HTMLScriptElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<script> is of  type          - ' + typeMaster.getTypeOf(script));
+            result = (typeAnalyser.getTypeOf(script) === 'HTMLScriptElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<script> is of  type          - ' + typeAnalyser.getTypeOf(script));
 
-            result = (typeMaster.getTypeOf(style) === 'HTMLStyleElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<style> is of  type           - ' + typeMaster.getTypeOf(style));
+            result = (typeAnalyser.getTypeOf(style) === 'HTMLStyleElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<style> is of  type           - ' + typeAnalyser.getTypeOf(style));
 
-            result = (typeMaster.getTypeOf(link) === 'HTMLLinkElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<link> is of  type            - ' + typeMaster.getTypeOf(link));
+            result = (typeAnalyser.getTypeOf(link) === 'HTMLLinkElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<link> is of  type            - ' + typeAnalyser.getTypeOf(link));
 
-            result = (typeMaster.getTypeOf(ulist) === 'HTMLUListElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<ul> is of  type              - ' + typeMaster.getTypeOf(ulist));
+            result = (typeAnalyser.getTypeOf(ulist) === 'HTMLUListElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<ul> is of  type              - ' + typeAnalyser.getTypeOf(ulist));
 
-            result = (typeMaster.getTypeOf(olist) === 'HTMLOListElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<ol> is of  type              - ' + typeMaster.getTypeOf(olist));
+            result = (typeAnalyser.getTypeOf(olist) === 'HTMLOListElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<ol> is of  type              - ' + typeAnalyser.getTypeOf(olist));
 
-            result = (typeMaster.getTypeOf(list) === 'HTMLLIElement') ? 'PASS: ' : 'FAIL: ';    
-            Log_H_Results(result + '<li> is of  type              - ' + typeMaster.getTypeOf(list));
+            result = (typeAnalyser.getTypeOf(list) === 'HTMLLIElement') ? 'PASS: ' : 'FAIL: ';    
+            Log_H_Results(result + '<li> is of  type              - ' + typeAnalyser.getTypeOf(list));
 
-            result = (typeMaster.getTypeOf(input) === 'HTMLInputElement') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + '<input> is of  type           - ' + typeMaster.getTypeOf(input));    
+            result = (typeAnalyser.getTypeOf(input) === 'HTMLInputElement') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + '<input> is of  type           - ' + typeAnalyser.getTypeOf(input));    
 
             var promise = new Promise(function(resolve, reject) {
                 resolve('hello world');
             });
-            reuslt = (typeMaster.getTypeOf(promise) === 'Promise') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'promise is of  type           - ' + typeMaster.getTypeOf(promise));
+            reuslt = (typeAnalyser.getTypeOf(promise) === 'Promise') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'promise is of  type           - ' + typeAnalyser.getTypeOf(promise));
 
             var dataview = new DataView(new ArrayBuffer(1));
-            reuslt = (typeMaster.getTypeOf(dataview) === 'DataView') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'dataview is of  type          - ' + typeMaster.getTypeOf(dataview));
+            reuslt = (typeAnalyser.getTypeOf(dataview) === 'DataView') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'dataview is of  type          - ' + typeAnalyser.getTypeOf(dataview));
 
             var iterator = document.createNodeIterator(document.body, NodeFilter.SHOW_ELEMENT);
-            result = (typeMaster.getTypeOf(iterator) === 'NodeIterator') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'iterator is of  type          - ' + typeMaster.getTypeOf(iterator));
+            result = (typeAnalyser.getTypeOf(iterator) === 'NodeIterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'iterator is of  type          - ' + typeAnalyser.getTypeOf(iterator));
 
             var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
-            result = (typeMaster.getTypeOf(treeWalker) === 'TreeWalker') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'treeWalker is of  type        - ' + typeMaster.getTypeOf(treeWalker));
+            result = (typeAnalyser.getTypeOf(treeWalker) === 'TreeWalker') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'treeWalker is of  type        - ' + typeAnalyser.getTypeOf(treeWalker));
 
             var arrayIterator = [1,2].values();
-            result = (typeMaster.getTypeOf(arrayIterator) === 'Array Iterator') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'arrayIterator is of  type     - ' + typeMaster.getTypeOf(arrayIterator));
+            result = (typeAnalyser.getTypeOf(arrayIterator) === 'Array Iterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'arrayIterator is of  type     - ' + typeAnalyser.getTypeOf(arrayIterator));
 
             var stringIterator = 'abc'[Symbol.iterator]();
-            result = (typeMaster.getTypeOf(stringIterator) === 'String Iterator') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'stringIterator is of  type    - ' + typeMaster.getTypeOf(stringIterator));
+            result = (typeAnalyser.getTypeOf(stringIterator) === 'String Iterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'stringIterator is of  type    - ' + typeAnalyser.getTypeOf(stringIterator));
 
             var mapIterator = (new Map()).values();
-            result = (typeMaster.getTypeOf(mapIterator) === 'Map Iterator') ? 'PASS: ' : 'FAIL: ';
-            Log_H_Results(result + 'mapIterator is of  type       - ' + typeMaster.getTypeOf(mapIterator));
+            result = (typeAnalyser.getTypeOf(mapIterator) === 'Map Iterator') ? 'PASS: ' : 'FAIL: ';
+            Log_H_Results(result + 'mapIterator is of  type       - ' + typeAnalyser.getTypeOf(mapIterator));
         };
     </script>
 </head>
 <body>
-    <h3>TypeMaster Iframe Tests</h3>
+    <h3>TypeAnalyser Iframe Tests</h3>
     <textarea id="log_I" rows="16" cols="180"></textarea>
-    <h3>TypeMaster Worker Tests</h3>
+    <h3>TypeAnalyser Worker Tests</h3>
     <textarea id="log_W" rows="20" cols="180"></textarea>
     <!-- we don't need so actually display anything on the canvas -->
     <canvas id="myCanvas" width="1" height="1" style="border:1px solid #d3d3d3;">

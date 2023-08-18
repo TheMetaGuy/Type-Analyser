@@ -1,7 +1,7 @@
 {
-    "name": "type-master-tests",
+    "name": "typeanalyser-tests",
     "version": "1.0.0",
-    "description": "Test suite for type-master",
+    "description": "Test suite for typeanalyser",
     "private": true,
     "scripts": {
         "test": "jest",
