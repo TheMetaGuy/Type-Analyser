@@ -46,7 +46,7 @@
     "is-safe-number",
     "safe-number",
     "number-type",
-    "getNumType",
+    "getNumTypeOf",
     "isSafeNum"
   ],
   "repository": {

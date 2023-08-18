@@ -1,5 +1,16 @@
 import { isSafeNum } from '../testIndex.js';
 
+// Mock console.warn to avoid noisy warning spam during tests
+// use built-in typeof operator here to avoid ReferenceError when window has not been declared (i.e. in nodejs)
+var realGlobal = ( typeof window !== 'undefined') ? window : global;
+realGlobal.console = {
+    warn: function() {},
+    log: console.log,
+    error: console.error,
+    info: console.info,
+    debug: console.debug,
+};
+
 // basic check of deprecated version of isSafeNum
 import { isSafeNumber } from '../testIndex.js';
 it('test safe integers for safe use as a number', () => {

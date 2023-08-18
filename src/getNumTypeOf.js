@@ -34,7 +34,7 @@
  * @returns - a string representing the sub-type of the number passed in. The possible values are:
  *            'bigint', 'NaN' , 'infinity', '-infinity', 'safeInteger', 'unsafeNumber' 'safeFloat' and 'numberObject'
  */
-function getNumType (obj, acceptStringNumbers) {
+function getNumTypeOf (obj, acceptStringNumbers) {
 
     acceptStringNumbers = acceptStringNumbers === undefined ? true : acceptStringNumbers;
 
@@ -102,7 +102,7 @@ function isSafeNum (obj, acceptStringNumbers) {
 
     acceptStringNumbers = acceptStringNumbers === undefined ? true : acceptStringNumbers;
     
-    var typeStr = getNumType(obj, acceptStringNumbers);
+    var typeStr = getNumTypeOf(obj, acceptStringNumbers);
     if ( typeStr === 'safeInteger' || typeStr === 'safeFloat' ) {
         return true;
     } else {
@@ -116,11 +116,11 @@ function isSafeNumber() {
 }
 
 function typeOfNumber() {
-    console.warn('Warning: typeOfNumber is deprecated. Please use getNumType.');
-    return getNumType.apply(this, arguments);
+    console.warn('Warning: typeOfNumber is deprecated. Please use getNumTypeOf.');
+    return getNumTypeOf.apply(this, arguments);
 }
 
-export { getNumType };
+export { getNumTypeOf };
 export { isSafeNum };
 
 export { isSafeNumber };

@@ -24,7 +24,7 @@ Features :
 | ----------- | ------------------------- |
 | `getTypeOf`  | Accurately identifies the actual type of any JavaScript object |
 | `isSafeNum` | Tests if a number is safe to use in calculations |
-| `getNumType` | Provides information on the specific subtype of a number |
+| `getNumTypeOf` | Provides information on the specific subtype of a number |
 | `getTypeDetails` | Offers detailed information about the object, including its prototype chain |
 | `isJSONSerializable` | Checks if an object is correctly JSON serializable |
 | `hasCircularRef` | Checks for circular references |
@@ -338,7 +338,7 @@ Note that `[Symbol.toStringTag]` and `toString()` values are always accessible t
 
 <br> 
 
-## **`getNumType( object , acceptStringNums = true )`**
+## **`getNumTypeOf( object , acceptStringNums = true )`**
 ----
 Returns information about the 'sub-type' of number passed in. Unlike the built-in javascript isNaN( ) function, this returns useful information about the 'type' of number passed in. E.g. it will return 'infinity' for Infinity or it will return 'unsafeNumber' for a number that is too large to be a safe integer. It will return 'NaN' for BigInt and Symbol types unlike the built-in isNaN( ) function which throws a type error for these types. 
 
@@ -363,63 +363,63 @@ Also note
 ### ***Examples***
 ```javascript
 // for Clarity assume ESM import 
-import { getNumType } from './node_module/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
+import { getNumTypeOf } from './node_module/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
 
 // non number types  
-console.log( ta.getNumType(NaN) );               // => 'NaN' 
-console.log( ta.getNumType('not a number') );    // => 'NaN'
-console.log( ta.getNumType(true) );              // => 'NaN'
-console.log( ta.getNumType(null) );              // => 'NaN'
-console.log( ta.getNumType({}) );                // => 'NaN'
-console.log( ta.getNumType(Symbol('hello')) );   // => 'NaN'
-console.log( ta.getNumType(undefined) );         // => 'NaN'
-console.log( ta.getNumType(function() {}) );     // => 'NaN'
-console.log( ta.getNumType([]) );                // => 'NaN'
+console.log( ta.getNumTypeOf(NaN) );               // => 'NaN' 
+console.log( ta.getNumTypeOf('not a number') );    // => 'NaN'
+console.log( ta.getNumTypeOf(true) );              // => 'NaN'
+console.log( ta.getNumTypeOf(null) );              // => 'NaN'
+console.log( ta.getNumTypeOf({}) );                // => 'NaN'
+console.log( ta.getNumTypeOf(Symbol('hello')) );   // => 'NaN'
+console.log( ta.getNumTypeOf(undefined) );         // => 'NaN'
+console.log( ta.getNumTypeOf(function() {}) );     // => 'NaN'
+console.log( ta.getNumTypeOf([]) );                // => 'NaN'
 
 // Infinity 
-console.log( ta.getNumType(1/0) );               // => 'infinity'
-console.log( ta.getNumType(-1/0) );              // => '-infinity'
+console.log( ta.getNumTypeOf(1/0) );               // => 'infinity'
+console.log( ta.getNumTypeOf(-1/0) );              // => '-infinity'
 
 // safe integers 
 var maxInt = Number.MAX_SAFE_INTEGER; 
-console.log( ta.getNumType(10) );                // => 'safeInteger'
-console.log( ta.getNumType(maxInt) );            // => 'safeInteger'
-console.log( ta.getNumType(-maxInt) );           // => 'safeInteger'
+console.log( ta.getNumTypeOf(10) );                // => 'safeInteger'
+console.log( ta.getNumTypeOf(maxInt) );            // => 'safeInteger'
+console.log( ta.getNumTypeOf(-maxInt) );           // => 'safeInteger'
 
 // unsafe numbers to use in calculations
 var maxInt = Number.MAX_SAFE_INTEGER; 
-console.log( ta.getNumType(maxInt + 1) );            // => 'unsafeNumber'
-console.log( ta.getNumType(-maxInt - 1) );           // => 'unsafeNumber'
-console.log( ta.getNumType(Number.MAX_VALUE) );      // => 'unsafeNumber'
-console.log( ta.getNumType(90071992547409975.33) );  // => 'unsafeNumber'
+console.log( ta.getNumTypeOf(maxInt + 1) );            // => 'unsafeNumber'
+console.log( ta.getNumTypeOf(-maxInt - 1) );           // => 'unsafeNumber'
+console.log( ta.getNumTypeOf(Number.MAX_VALUE) );      // => 'unsafeNumber'
+console.log( ta.getNumTypeOf(90071992547409975.33) );  // => 'unsafeNumber'
 
 // safe floating point numbers' 
-console.log( ta.getNumType(1.1) );                   // => 'safeFloat'
-console.log( ta.getNumType(900719925474099.75) );    // => 'safeFloat'
+console.log( ta.getNumTypeOf(1.1) );                   // => 'safeFloat'
+console.log( ta.getNumTypeOf(900719925474099.75) );    // => 'safeFloat'
 
 // bigint' 
-console.log( ta.getNumType(BigInt(123)) );       // => 'bigint'
+console.log( ta.getNumTypeOf(BigInt(123)) );       // => 'bigint'
 
 // bigint literal' 
-console.log( ta.getNumType( 123n ) );            // => 'bigint'
+console.log( ta.getNumTypeOf( 123n ) );            // => 'bigint'
 
 // numbers in string format 
-console.log( ta.getNumType('123') );             // => 'safeInteger'
-console.log( ta.getNumType('1.11') );            // => 'safeFloat'
-console.log( ta.getNumType('-1.11') );           // => 'safeFloat'
-console.log( ta.getNumType('0xFF') );            // => 'safeInteger'
+console.log( ta.getNumTypeOf('123') );             // => 'safeInteger'
+console.log( ta.getNumTypeOf('1.11') );            // => 'safeFloat'
+console.log( ta.getNumTypeOf('-1.11') );           // => 'safeFloat'
+console.log( ta.getNumTypeOf('0xFF') );            // => 'safeInteger'
 
 // invalid numbers in string format
-console.log( ta.getNumType('123xyz') );          // => 'NaN'
-console.log( ta.getNumType('xyz') );             // => 'NaN'
-console.log( ta.getNumType('123pqr', false) );   // => 'NaN'
-console.log( ta.getNumType('zyx',false) );       // => 'NaN'
+console.log( ta.getNumTypeOf('123xyz') );          // => 'NaN'
+console.log( ta.getNumTypeOf('xyz') );             // => 'NaN'
+console.log( ta.getNumTypeOf('123pqr', false) );   // => 'NaN'
+console.log( ta.getNumTypeOf('zyx',false) );       // => 'NaN'
 
 // numbers in string format with 'acceptStringNumber' param set to false' 
-console.log( ta.getNumType('123', false) );      // => 'NaN'
-console.log( ta.getNumType('123.99', false) );   // => 'NaN'
+console.log( ta.getNumTypeOf('123', false) );      // => 'NaN'
+console.log( ta.getNumTypeOf('123.99', false) );   // => 'NaN'
 
-console.log( ta.getNumType( new Number(999)));   // => 'numberObject'  - not a number primitive
+console.log( ta.getNumTypeOf( new Number(999)));   // => 'numberObject'  - not a number primitive
 ```
 
 
@@ -785,7 +785,7 @@ In modern browsers that support ECMAScript Modules, you can import TypeAnalyser 
   <script type="module">
       import * as tm from './node_modules/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
       // OR if you just need the essentials 
-      import {getTypeOf, getNumType, isSafeNum} from './node_modules/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
+      import {getTypeOf, getNumTypeOf, isSafeNum} from './node_modules/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
   </script>
 ```
 

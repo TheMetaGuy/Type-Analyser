@@ -2,6 +2,18 @@ import { getTypeOf } from '../testIndex.js';
 import { isAsyncFunction, isArrowFunction } from '../testUtils.js';
 
 import { enhancedTypeOf } from '../testIndex.js';
+
+// Mock console.warn to avoid noisy warning spam during tests
+// use built-in typeof operator here to avoid ReferenceError when window has not been declared (i.e. in nodejs)
+var realGlobal = ( typeof window !== 'undefined') ? window : global;
+realGlobal.console = {
+    warn: function() {},
+    log: console.log,
+    error: console.error,
+    info: console.info,
+    debug: console.debug,
+};
+
 //  basic check of deprecated version of getTypeOf
 it('get enhancedTypeOf string', () => {
     expect(enhancedTypeOf('123')).toBe('string');
