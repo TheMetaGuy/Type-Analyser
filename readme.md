@@ -1,8 +1,8 @@
 # **TypeAnalyser**
 
-![Functions](https://raw.githubusercontent.com/TheMetaGuy/TypeAnalyser/master/tests/coverage/badge-functions.svg)
-![Branches](https://raw.githubusercontent.com/TheMetaGuy/TypeAnalyser/master/tests/coverage/badge-branches.svg)
-![GitHub](https://img.shields.io/github/license/TheMetaGuy/TypeAnalyser)
+![Functions](https://raw.githubusercontent.com/TheMetaGuy/Type-Analyser/master/tests/coverage/badge-functions.svg)
+![Branches](https://raw.githubusercontent.com/TheMetaGuy/Type-Analyser/master/tests/coverage/badge-branches.svg)
+![GitHub](https://img.shields.io/github/license/TheMetaGuy/Type-Analyser)
 ![npm](https://img.shields.io/npm/v/typeanalyser)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/typeanalyser)
 
