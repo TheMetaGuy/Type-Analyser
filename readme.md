@@ -24,8 +24,7 @@ Features :
 
 | function | description |
 | ----------- | ------------------------- |
-| `getTypeOf`  | Accurately identifies the actual type of **any** JavaScript object and it|
-|              | works Consistently across iFrames, Worker threads and with DOM objects |
+| `getTypeOf`  | Accurately identifies the actual type of **any** JavaScript object and it <br> works consistently across iFrames, Worker threads and with DOM objects |
 | `isSafeNum` | Tests if a number is safe to use in calculations |
 | `getNumTypeOf` | Provides information on the specific subtype of a number |
 | `getTypeDetails` | Offers detailed information about the object, including its prototype chain |
@@ -71,7 +70,7 @@ This function returns a `string` representing the type of the object passed in. 
 
 'string', 'number', 'boolean', 'undefined', 'symbol', 'function', 'object', 'bigint'. 
 
-All other built-in types will be recognised and returned in CamelCase format as per the Javascript standard: E.g. 'Array', 'Date', 'Error', 'RegExp', 'URL' etc. Here are some typical return values: 
+All other built-in types will be recognised and returned in CamelCase format as per the Javascript standard: E.g. 'Array', 'Date', 'Error', 'RegExp', 'URL' etc. Here are **some** typical return values: 
 
 | Type | `getTypeOf` Output |
 | ----------- | ------------------------- |
