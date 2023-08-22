@@ -9,9 +9,11 @@
 
 ## **What is TypeAnalyser?**
 -----
-A simple library designed to provide precise and in-depth type information for any JavaScript/Typescript object including the cases where the built-in javascript operators fail. Uniquely compared to other packages, it also provides additional type detection functionality. 
+A simple library designed to provide precise and in-depth type information for **any** JavaScript/Typescript object including the cases where the built-in javascript operators fail or provide misleading results.   
 
-It works with ES6 types, even in non-ES6 environments. TypeAnalyzer is zero-dependency and has been extensively tested across different browsers and runtime environments. 
+
+Uniquely compared to other packages, it also provides additional type detection functionality such as checking for `number` and `JSON` type safety.  
+
 <br>
 
 ## **Why Use TypeAnalyser?**
@@ -22,21 +24,25 @@ Features :
 
 | function | description |
 | ----------- | ------------------------- |
-| `getTypeOf`  | Accurately identifies the actual type of any JavaScript object |
+| `getTypeOf`  | Accurately identifies the actual type of **any** JavaScript object and it|
+|              | works Consistently across iFrames, Worker threads and with DOM objects |
 | `isSafeNum` | Tests if a number is safe to use in calculations |
 | `getNumTypeOf` | Provides information on the specific subtype of a number |
 | `getTypeDetails` | Offers detailed information about the object, including its prototype chain |
 | `isJSONSerializable` | Checks if an object is correctly JSON serializable |
 | `hasCircularRef` | Checks for circular references |
 
-
 <br>  
 
 Additionally, TypeAnalyser:
-  
+
+- works correctly when using ES6 type polyfills in non-ES6 environments.
+
 - Provides ESM, CSJ, and IIFE module variants for various use cases (refer to the *installation* section below).
 
-- Is lightweight, at just 15KB unminified and 3KB minified. 
+- has zero-dependency and is lightweight, at just 15KB unminified and 3KB minified. 
+
+- has been extensively tested across different browsers and runtime environments ( see test section below )
 
 <br> 
 
@@ -98,7 +104,10 @@ All other built-in types will be recognised and returned in CamelCase format as 
 | `async function` | 'AsyncFunction' |
 | `function*` | 'GeneratorFunction' |
 | `() => {}` | 'ArrowFunction' |
-
+| `window` | 'Window' |
+| `html` | 'HTMLHtmlElement' |
+| `canvas` | 'HTMLCanvasElement' |
+| `button` | 'HTMLButtonElement' |
 <br>
 
 ### **Examples**
@@ -107,7 +116,7 @@ All other built-in types will be recognised and returned in CamelCase format as 
 Using `typeof`, you might try to access a property or method of an object which is actually `null`, leading to a TypeError.  Using `getTypeOf` avoids this.
 
 ```javascript
-const ta = require('TypeAnalyser' ); 
+const ta = require('typeanalyser'); 
 
 let x = null;
 if (typeof x === "object") {        // typeof always returns 'object' for null
@@ -363,7 +372,7 @@ Also note
 ### ***Examples***
 ```javascript
 // for Clarity assume ESM import 
-import { getNumTypeOf } from './node_module/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
+import { getNumTypeOf } from './node_module/TypeAnalyser/dist/type-analyser.esm.min.js';
 
 // non number types  
 console.log( ta.getNumTypeOf(NaN) );               // => 'NaN' 
@@ -448,7 +457,7 @@ Note;
 
 ### **Examples**  
 ```javascript
-const ta = require('TypeAnalyser' );
+const ta = require('typeanalyser');
 
 //safe integers
 console.log( ta.isSafeNum(1) );                         // => true 
@@ -532,7 +541,7 @@ Performs type introspection and returns detailed type information about the obje
 
 **type details of some built-in javascript types** 
 ```javascript
-const ta = require('TypeAnalyser' );
+const ta = require('typeanalyser');
 
 const stringDetails = ta.getTypeDetails('test');
 console.log( stringDetails.Type );                              // => 'string'
@@ -674,7 +683,7 @@ true if the object is JSON serializable WITHOUT a loss of data, false otherwise.
 ### **Examples** 
 
 ```javascript
-const ta = require('TypeAnalyser' );
+const ta = require('typeanalyser');
 
 console.log( ta.isJSONSerializable({ a: 1, b: 2 }));            // => true
 console.log( ta.isJSONSerializable(new Map()));                 // => false
@@ -757,42 +766,44 @@ console.log( ta.hasCircularRef(obj2));         // => false
 Installing TypeAnalyser in a Node.js project is easy with npm. Simply use the following command:
 
 ```bash 
-  npm install TypeAnalyser
+  npm install typeanalyser
 ```
 
 Then, in your JavaScript file, you can require the module as follows:
 
 ```javascript
-  const ta = require('TypeAnalyser' );
+  const ta = require('typeanalyser');
 ```
 
 ## **Browsers**
-For browser environments, you can import TypeAnalyser via either CommonJS (CJS), ECMAScript Modules (ESM) or a simple  IIFE style global module. You can use the minified or non-minified versions when debugging you app. 
+For browser environments, you can import TypeAnalyser via either CommonJS (CJS), ECMAScript Modules (ESM) or a simple IIFE style global module. You can use the minified or non-minified versions when debugging you app. 
 
 #### ***CommonJS (CJS)***
 
 If you're using a bundler like Browserify or Webpack, you can use the same `require` syntax as in Node.js:
 
 ```javascript
-  const ta = require('TypeAnalyser' );
+  const ta = require('typeanalyser');
 ```
 
 #### ***ECMAScript Modules (ESM)***
 
-In modern browsers that support ECMAScript Modules, you can import TypeAnalyser directly in your HTML file. E.g;  
+In modern browsers that support ECMAScript Modules, you can import TypeAnalyser directly in your HTML file but note the use of hypen (-) in the javscript filename'. E.g;  
 
 ```html
   <script type="module">
-      import * as tm from './node_modules/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
+      import * as tm from './node_modules/typeanalyser/dist/type-analyser.esm.min.js';
       // OR if you just need the essentials 
-      import {getTypeOf, getNumTypeOf, isSafeNum} from './node_modules/TypeAnalyser/dist/TypeAnalyser.esm.min.js';
+      import {getTypeOf, getNumTypeOf, isSafeNum} from './node_modules/typeanalyser/dist/type-analyser.esm.min.js';
   </script>
 ```
+*Note the hypen (-) in 'type-analyser'*
 
 ### ***Unbundled (IIFE) Global straight into your script*** 
 If you are not using a bundler and your app is going to run on ES5 browsers without ESM module support you can use the IIFE version of TypeAnalyser which exposes a global `typeAnalyser` object which will work on all browsers as is.
+*Note the hypen (-) in the javascript file name'*
 ```html
-  <script src="./node_modules/TypeAnalyser/dist/TypeAnalyser.iife.min.js"></script>
+  <script src="./node_modules/typeanalyser/dist/type-analyser.iife.min.js"></script>
   <script>
       var ta = typeAnalyser;  // the IIFE global is called 'typeAnalyser'
 
@@ -806,16 +817,16 @@ If you are not using a bundler and your app is going to run on ES5 browsers with
 ```
 
 ### ***CDN*** 
-You can also load TypeAnalyser directly from a CDN like **jsDelivr** or **unpkg** if you're not using npm or just want to quickly test something out.
+You can also load TypeAnalyser directly from a CDN like **jsDelivr** or **unpkg** if you're not using npm or just want to quickly test something out. *Note the hypen (-) in the javascript filename*
 
 ```html
 <!-- Using ECMAScript Modules (ESM) -->
 <script type="module">
-  import * as tm from 'https://cdn.jsdelivr.net/npm/TypeAnalyser@1.3.0/dist/TypeAnalyser.esm.min.js';
+  import * as tm from 'https://cdn.jsdelivr.net/npm/typeanalyser@2.0.0/dist/type-analyser.esm.min.js';
 </script>
 
 <!-- Or using IIFE -->
-<script src="https://cdn.jsdelivr.net/npm/TypeAnalyser@1.3.0/dist/TypeAnalyser.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/typeanalyser@2.0.0/dist/type-analyser.iife.min.js"></script>
 <script>
   // Use a global object
   var ta = typeAnalyser;
