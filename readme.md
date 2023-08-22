@@ -24,7 +24,7 @@ Features :
 
 | function | description |
 | ----------- | ------------------------- |
-| `getTypeOf`  | Accurately identifies the actual type of **any** JavaScript object and it <br> works consistently across iFrames, Worker threads and with DOM objects |
+| `getTypeOf`  | Accurately identifies the actual type of **any** JavaScript object and it works <br> consistently across iFrames, Worker threads and with DOM objects |
 | `isSafeNum` | Tests if a number is safe to use in calculations |
 | `getNumTypeOf` | Provides information on the specific subtype of a number |
 | `getTypeDetails` | Offers detailed information about the object, including its prototype chain |
@@ -41,7 +41,7 @@ Additionally, TypeAnalyser:
 
 - has zero-dependency and is lightweight, at just 15KB unminified and 3KB minified. 
 
-- has been extensively tested across different browsers and runtime environments ( see test section below )
+- has been extensively tested across different browsers and runtime environments ( see *development* section below )
 
 <br> 
 
@@ -862,12 +862,12 @@ This requires the ES6 Polyfills to simulate the actual ES6 type. However, note t
 
 # **Setting Up the Development Environment**
 
-TypeAnalyser has no run-time dependencies. Some packages (e.g., Jest, Karma, Roll-up, etc.) are needed for development, but these are installed locally only inside the project folders. Assuming you have installed Node.js v7.6 or higher, you should just need to:
+The source code including tests are available from the GitHub Repo (https://github.com/TheMetaGuy/Type-Analyser.git). TypeAnalyser has no run-time dependencies. Some packages (e.g., Jest, Karma, Roll-up, etc.) are needed for development, but these are installed locally only inside the project folders. Assuming you have installed Node.js v7.6 or higher, you should just need to:
 
 ```dos   
 > cd YourFolderName
 > REM note the full stop '.' at the end so git clones into the current folder
-> git clone https://github.com/TheMetaGuy/TypeAnalyser.git .
+> git clone https://github.com/TheMetaGuy/Type-Analyser.git .
 > npm install 
 > npm run build
 ```
