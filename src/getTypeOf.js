@@ -50,10 +50,10 @@
  */
 
 function getTypeOf(obj) {
+    if (obj === null) return 'null';
+
     var typeStr = typeof(obj);
     var basicType = typeStr;
-
-    if (obj === null) return 'null';
 
     if (typeStr !== 'object' && typeStr !== 'function' && typeStr !== 'string') {
         return typeStr;
@@ -66,22 +66,19 @@ function getTypeOf(obj) {
 
     // special case to handle old ES5 Symbol Polyfills which should always have a value of Symbol(something)
     if ( typeStr === 'string' ) {
-        if ( obj.valueOf && obj.valueOf().toString().slice(0,6) === 'Symbol') {
-            return 'symbol';
-        }
-        else return typeStr;
+        return (obj.valueOf && obj.valueOf().toString().slice(0,6) === 'Symbol') ? 'symbol' : 'string';
     }
 
     // get a more detailed string representation of the object's type
     // slice(8, -1) removes the constant '[object' and the last ']' parts of the string
     typeStr = Object.prototype.toString.call(obj).slice(8, -1);
-    
+
+    if (!obj.prototype && typeStr === 'Function') { 
+        return 'ArrowFunction';
+    }    
+
     if ( typeStr === 'Object' || typeStr === 'Function' ) {
         typeStr = typeStr.toLowerCase();
-    }
-
-    if (!obj.prototype && typeStr === 'function') { 
-        return 'ArrowFunction';
     }
 
     if ( basicType === 'object' && obj.constructor ) {

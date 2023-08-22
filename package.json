@@ -1,6 +1,6 @@
 {
   "name": "typeanalyser",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "library providing precise and in-depth type information for any JavaScript object, be it a primitive, built-in types, ES6/ES2020 types or custom class.",
   "main": "dist/type-analyser.cjs",
   "module": "dist/type-analyser.esm.js",

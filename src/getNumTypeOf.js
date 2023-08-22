@@ -47,27 +47,18 @@ function getNumTypeOf (obj, acceptStringNumbers) {
         return 'bigint';
     }
     if ( typeStr !== 'number' ) {
-        if ( obj && (Object.getPrototypeOf(obj) === Number.prototype)) {
-            return 'numberObject';        
-        }
-        return 'NaN';
+        return ( obj && (Object.getPrototypeOf(obj) === Number.prototype)) ? 'numberObject' : 'NaN';
     }
     if ( isNaN(obj)  ) {
         return 'NaN';
     } 
     if ( !Number.isFinite(obj) ) {
-        if ( obj < 0 ) { 
-            return '-infinity';
-        }
-        return 'infinity';
+        return ( obj < 0 ) ? '-infinity' : 'infinity'; 
     }
     if ( Number.isSafeInteger(obj) ) {
         return 'safeInteger';
     } else {
-        if (Number.isSafeInteger( Number(obj.toFixed()) ) ) {
-            return "safeFloat"
-        }         
-        return 'unsafeNumber';
+        return ( Number.isSafeInteger( Number(obj.toFixed()) ) )? 'safeFloat' : 'unsafeNumber';
     }
 }
 /**
@@ -99,15 +90,11 @@ function getNumTypeOf (obj, acceptStringNumbers) {
  * @returns - true if the number passed in is safe to use in a calculation, false otherwise.
  */
 function isSafeNum (obj, acceptStringNumbers) {
-
-    acceptStringNumbers = acceptStringNumbers === undefined ? true : acceptStringNumbers;
+    acceptStringNumbers = (acceptStringNumbers === undefined) ? true : acceptStringNumbers;
     
     var typeStr = getNumTypeOf(obj, acceptStringNumbers);
-    if ( typeStr === 'safeInteger' || typeStr === 'safeFloat' ) {
-        return true;
-    } else {
-        return false;
-    }
+
+    return (typeStr === 'safeInteger' || typeStr === 'safeFloat') ? true : false;
 }
 
 function isSafeNumber() {
